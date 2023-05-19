@@ -25,7 +25,7 @@ pyinstaller --noconsole --onefile --icon="log.ico" --add-data="log.ico;." UXXI_T
 
 == PackManageData ==  
 
-# [] bussiness_rules_uxxi
+[] bussiness_rules_uxxi
 
     Aplicar a causuistica a AD (Atividades Dirigidas...subDivisão ed EPD's)
 
@@ -45,7 +45,7 @@ pyinstaller --noconsole --onefile --icon="log.ico" --add-data="log.ico;." UXXI_T
     --> No caso de Disciplina só ter EB fica com o grupo reduzido EPD , so tem EB1 o Grupo será o EDP1
         Irá facilitar no caso de se querer criar mais Grupos.
        
-# Nota em relação a Sobreposição não verificada ---> ver Back Up de UPO Idioma Moderno I: Isto em processo de Geração de Salas --> Muitas turmas associadas.
+* Nota em relação a Sobreposição não verificada ---> ver Back Up de UPO Idioma Moderno I: Isto em processo de Geração de Salas --> Muitas turmas associadas.
 
 Duración en slots: 6 (3:00)
 Carga semanal: EB4
@@ -56,7 +56,7 @@ Semanas: 07/11/2022
 
 Ver dados importados Ultimos de alunos reais na UPO
 
-# Verificar a Agregação de Semanas...o group_entities...poderei alterar com o Codigo de Evento que Fernando vai Enviar
+* Verificar a Agregação de Semanas...o group_entities...poderei alterar com o Codigo de Evento que Fernando vai Enviar
 
 * Algumas das validações a fazer:
 
@@ -64,5 +64,5 @@ Ver dados importados Ultimos de alunos reais na UPO
 - Int (alunos);
 - Formato de Horas;
 
-# Notas em relação a Possibilidade de Criar Nome de Grupo Bullet com Sigla de Titulacion e não com o Nome.
+* Notas em relação a Possibilidade de Criar Nome de Grupo Bullet com Sigla de Titulacion e não com o Nome.
      
