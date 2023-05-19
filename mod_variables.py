@@ -1,116 +1,113 @@
-#General Variables
-from mod_library import *
+v_version = '0.0'
+
+# Folders Names App
+v_folder_data_uxxi = 'DataUXXI'
+v_folder_config_api = 'ConfigAPI'
+
+
+# Folder Name Process
+
+v_main_folder_manage_data = 'ManageData'
+v_process_folder_manage_data = 'UXXI_BC'
+
+
+# Name config
+v_file_name_config = 'config.txt'
+
+# variables_config
+v_header_urls = 'NamesUrl'
+v_url_identiy = 'url_identity'
+v_url_api = 'url_api'
+
+v_header_credentiales = 'ClientCredential'
+v_client_id = 'client_id'
+v_client_secret = 'client_secret'
+
+# Name Sheet - Data UXXI 
+v_sheet_data_uxxi = 'DataUXXI'
+
+# Name File Validations
+v_file_validation_data_uxxi = 'Validation'
+
+# Name Sheets Validations
+v_sheet_null_values = 'NullValues'
+v_sheet_wrong_type = 'WrongType'
+v_sheet_wrong_week = 'WrongWeek'
+
 
 v_academic_term = 1
 #variables DTO Wload
 
-v_version = '0.0'
 
-v_dto_wl_sessiones = 'wlSessions'
-v_dto_wl_sections = 'wlsSections'
-v_dto_prefix_section = 'section_'
-v_dto_mod= 'module'
-v_dto_student_groups = 'studentGroups'
-
-#variables dataFrame Wload after normalize
-
-v_section_name = 'section_name'
-v_section_id_dto = 'section_id'
-v_section_name_session = 'name'
-
-
-#file Sectiones
-
-v_w_load_name  = 'WeekLoadName'
-v_w_load_type  = 'WeekLoadTypology'
-v_w_load_id = 'WeekLoadId'	
-v_w_load_session_id = 'WeekLoadSessionId'
-v_mod_name = 'ModuleName'	
-v_mod_code = 'ModuleCode'
-v_mod_id = 'ModuleId'
-v_mod_typologie = 'TIPO'
-v_plan_code = 'CurricularPlanCode'
-v_plan_id = 'PlanId'
-v_student_group = 'StGroupName'
-v_section = 'NRC'
-v_w_load_section_id = 'WeekLoadSectionId' 
-v_w_load_section_nr_students = 'NumberStudentsSection'
-
-
-#General variables
-v_id = 'id'
-v_name = 'name'
-v_code = 'code'
-v_created = 'createdBy'
-v_last_modified = 'lastModifiedBy'
-v_last_modified_date = 'lastModifiedAt'
-v_created_date = 'createdAt'
-v_state = 'active'
-v_observations = 'observations'
+# - Variables File UXXI -# 
+v_course_code = 'CODIGO_TITULACION'
+v_course_name = 'NOMBRE_TITULACION'
+v_year = 'CURSO'
+v_mod_code = 'CODIGO_ASIGNATURA'
+v_mod_name = 'NOMBRE_ASIGNATURA'
+v_mod_typologie =	'TIPO'
+v_student_group =	'GRUPO'
+v_activity_code =	'CODIGO_ACTIVIDAD'
+v_student_group_code	= 'CODIGO_GRUPO'
+v_week_begin = 'FECHA_INICIO'
+v_week_end = 'FECHA_FIN'
+v_day = 'DIA_SEMANA'
+v_hourBegin_split = 'HORA_INICIO'
+v_minute_begin_split = 'MINUTO_INICIO'
+v_hourEnd_split = 'HORA_FIN'
+v_minute_end_split = 'MINUTO_FIN'
+v_duration = 'HORAS_DURACION'
+v_students_number = 'ALUMNOS'
 
 
 
 
-#Status Update
-v_insert = 'Added'
-v_update = 'Modified'
-v_delete = 'Deleted'
-v_none = 'None'
+v_student_group_name = 'NameGrupo'
+v_student_group_name_to_EB = 'NameGrupoToEB'
+v_hourBegin = 'HoraInicio'
+v_hourEnd = 'HoraFin'
 
+v_id_event = 'ID'
+
+v_id_uxxi = 'CodigoUniversitas'
 v_merge = '_merge'
 
+v_student_group_best = 'GrupoBest'
 
-# Variables File UPDATES
-v_semestre = 'PERIODO'
-v_campus = 'CAMPUS'
-v_ciclo = 'CICLO'
+v_merge = '_merge'
+v_weeks = 'WEEKS_EVENT'
+v_id_student= 'studentGroup_id'
 
-v_course_incription = 'CARRERA'
-v_course_name = 'NOMBRE_CARRERA'
-v_course_code = 'CODIGO_CARRERA'
-v_course_identifier = 'CARRERA_IDENTIFICADOR'
-v_session = 'Repeticion'
-v_group_best = 'GrupoBest'
-v_students = 'CAP_MAX'
-v_year = 'YEAR'
-v_sectionNum_Ty = 'Nr_SECTION_TY'
-v_groupNum_Plane = 'Nr_GROUP_PLANE'
-v_sectionNum_Compatible = 'Nr_SECTION_COMP'
+v_event_Id_BC = 'EventIdBC'
+v_event_type = 'EventType'
+v_section_name = 'SectionName'
 
-v_date_begin = 'INICIO'
-v_date_end = 'FIN'
-v_weeks = 'SEMANAS'
+v_split_weeks = 'Split_Weeks'
+v_merge = '_merge'
 
+v_mod_dominante = 'ASIGNATURA PRINCIPAL'
+v_mod_dominada = 'ASIGNATURA HIJA'
+v_relacion_type = 'TipoRelacionAsignatura'
+v_relacion_check = 'DominanteVsDominada'
+v_value_dominante = 'ValueDominante'
+v_value_grado = 'ValueGrado'
 
-v_mod_typologie_desc = 'DESC_TIPO'
-v_mod_modalidade = 'MODALIDAD_CURSO'
-v_mod_scientific_area = 'AREA_CONOCIMIENTO'
+xml_header_dom = '<?xml version="1.0" encoding="iso-8859-15" standalone="yes"?>\n\
+<ns1:MutualModules xmlns:ns1="urn:spaceMutualModules">\n'
+xml_footer_dom = '</ns1:MutualModules>'
 
-v_slots = 'NUMERO_HORAS'
+v_xml_header_planes = '<?xml version="1.0" encoding="iso-8859-15" standalone="yes"?>\n\
+<ns1:CurriculumProgrammes xmlns:ns1="urn:spaceCurriculumProgrammes"\n>'
 
-v_section_banner = 'SECCION'
-v_section_id = 'LINK_IDENT'
-v_section_liga = 'LIGA'
-v_group_id = 'ID_GRUPO'
-
-v_mod_code_banner = 'CURSO'
-v_mod_name_banner = 'DESC_CURSO'
-v_group_best = 'GrupoBest'
+v_xml_footer_planes = '</ns1:CurriculumProgrammes>'
 
 
-#Values Update Groups
-v_update_flag = 'ToUpdate'
-v_id_data_frame = 'Id_Dataframe'
-v_student_group_add = 'StGroupNameAdd'
-v_student_group_del = 'StGroupNameDel'
+v_titulacion_nombre = 'NombreTitulacion'
+v_titulacion_sigla = 'SiglaTitulacion'
+v_titulacion_codigo = 'CodigoTitulacion'
 
-v_student_group_id_add = 'StGroupIdAdd'
-v_student_group_id_del = 'StGroupIdDel'
+#Use Insercion Plan
+v_plan_code = 'PlanCode'
+v_plan_name = 'PlanName'
 
-# fileStudentGroupID
-v_student_group_name = 'StudentGroupName'
-v_student_group_id = 'StudentGroupId'
-
-#file Update
-
-v_plan_code_udpate = 'PlanCode'
+v_identifier_gg = 'Id_GG'

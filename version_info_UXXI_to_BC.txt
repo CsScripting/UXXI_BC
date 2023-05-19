@@ -31,12 +31,12 @@ StringFileInfo(
     u'040904B0',
     [StringStruct(u'CompanyName', u'Bullet Solutions'),
     StringStruct(u'FileDescription', u'UXXI_To_BC'),
-    StringStruct(u'FileVersion', u'3.1.0'),
+    StringStruct(u'FileVersion', u'0.0.0'),
     StringStruct(u'InternalName', u'UXXI_To_BC'),
     StringStruct(u'LegalCopyright', u'Copyright (c) Bullet Solutions'),
     StringStruct(u'OriginalFilename', u'BcToBtt.exe'),
     StringStruct(u'ProductName', u'BcToBtt'),
-    StringStruct(u'ProductVersion', u'3.1.0.0')])
+    StringStruct(u'ProductVersion', u'0.0.0.0')])
   ]), 
 VarFileInfo([VarStruct(u'Translation', [1033, 1200])])
   ]
