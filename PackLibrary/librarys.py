@@ -6,6 +6,12 @@ from tkinter import messagebox
 import configparser as cp
 
 
+import requests
+import json
+from requests_oauthlib import OAuth2Session
+import oauthlib
+
+
 from numpy import where, arange
 import openpyxl
 from threading import Thread

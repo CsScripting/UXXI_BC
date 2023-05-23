@@ -7,8 +7,11 @@ v_folder_config_api = 'ConfigAPI'
 
 # Folder Name Process
 
-v_main_folder_manage_data = 'ManageData'
-v_process_folder_manage_data = 'UXXI_BC'
+v_main_folder_process = 'DataProcess'
+v_process_sub_folder = 'Data'
+
+v_process_manage_data = 'ManageData'
+v_process_update_data = 'UpdateData'
 
 
 # Name config
@@ -34,6 +37,17 @@ v_sheet_null_values = 'NullValues'
 v_sheet_wrong_type = 'WrongType'
 v_sheet_wrong_week = 'WrongWeek'
 
+# Name File Curriculum
+v_file_curriculum = 'CURRICULUM'
+
+# Name Sheets Validations
+v_sheet_modules = 'Modules'
+v_sheet_typologies = 'LessonTypologies'
+v_sheet_courses = 'Courses'
+v_sheet_planes = 'CurriculumProgrammes'
+v_sheet_st_group = 'StudentGroups'
+
+
 
 v_academic_term = 1
 #variables DTO Wload
@@ -58,9 +72,6 @@ v_hourEnd_split = 'HORA_FIN'
 v_minute_end_split = 'MINUTO_FIN'
 v_duration = 'HORAS_DURACION'
 v_students_number = 'ALUMNOS'
-
-
-
 
 v_student_group_name = 'NameGrupo'
 v_student_group_name_to_EB = 'NameGrupoToEB'
@@ -111,3 +122,68 @@ v_plan_code = 'PlanCode'
 v_plan_name = 'PlanName'
 
 v_identifier_gg = 'Id_GG'
+
+## - Variables JSON_DTO - ## 
+
+#General variables
+
+v_acronym_dto = 'acronym'
+v_code_dto = 'code'
+v_id_dto = 'id'
+v_name_dto = 'name'
+v_importance_degree_dto = 'degreeImportance'
+v_scientif_area_dto = 'scientificArea'
+
+
+# from typologieDTO
+
+v_description_dto = 'description'
+
+# from planDTO
+
+v_year_dto = 'year'
+v_course_dto = 'course'
+
+# From Student Group DTO
+v_curricular_plan_dto = 'curricularPlan'
+v_students_number_dto = 'numStudents'
+v_daily_limit_dto = 'dayLimit'
+v_consecutive_limit_dto = 'consecutiveLimit'
+
+
+
+
+
+## - Variables DataFrames - ##
+
+v_name_best = 'Name'
+v_acronym_best = 'Acronym'
+v_code_best = 'Code'
+v_academic_area_best = 'AcademicArea'
+v_daily_limit_best = 'DailyLimit'
+v_consecutive_limit_best = 'ConsecutiveLimit'
+
+#To Module File
+v_priority_mod_best = 'LevelPriority' 
+
+#To Typologie File
+v_description_typologie_best = 'Description'
+
+#To Plan File
+v_year_best = 'Year'
+v_course_code_best = 'CourseCode'
+
+#To Student Group File
+v_plan_code_best = 'CurriculumProgrammeCode'
+v_students_number_best = 'StudentsNumber'
+
+
+
+## - Variables Controller - ##
+
+v_course_controller = 'Courses'
+v_plan_controller = 'CurricularPlans'
+v_module_controller = 'Modules'
+v_typologie_controller = 'Typologies'
+v_acad_term_controller = 'AcademicTerm'
+v_st_group_controller = 'StudentGroups'

@@ -72,12 +72,13 @@ def run_thread(name, func):
      
 def on_click_two_threads():
     
+    # update_start_window() Check Where need to Use
     disable_link_edit()
     run_thread('process', exeProc.exe_process_steps)
 
 def update_start_window():
 
-    label1_begin.config(text='XLSX  to  XML BC\n\n-- Calendar Events --\n'+ v_version,)
+    label1_begin.config(text='Events UXXI to BC\n\n-- BEST API --\n'+ v_version,)
     label2_begin.config (text = '')
     label3.config(text = '')
     
@@ -113,7 +114,7 @@ def status_running (name, start_process):
         #Not Fix Window on center...
         main_window.overrideredirect(False)
 
-        label1_begin.config(text='Events BC to BTT\n\n-- AGG XML --\n'+ v_version)
+        label1_begin.config(text='Events UXXI to BC\n\n-- BEST API --\n'+ v_version)
         label2_begin.config (text = 'Running')
         label3 = tk.Label(main_window, text = '....', font =(20)) 
 
@@ -148,7 +149,7 @@ def status_running (name, start_process):
     
     main_window.after(0, update_status_running) 
 
-    valid_process = start_process(settval.gl_name_file_inserted, settval.gl_opcion_manage_data, settval.gl_opcion_import_data)
+    valid_process = start_process(settval.gl_name_file_inserted, settval.gl_opcion_manage_data,settval.gl_opcion_update_data, settval.gl_opcion_import_data)
 
     on_stop()
     # main_window.withdraw()

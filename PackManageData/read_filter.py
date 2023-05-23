@@ -45,7 +45,7 @@ def filter_null_values (df : DataFrame):
 
 def create_insert_validation_file (df : DataFrame, process_folder : str, process_code : str,sheet_name : str, flag_file_created : bool):
 
-    path_more_filename = process_folder + '/' + v_file_validation_data_uxxi + process_code + '.xlsx' 
+    path_more_filename = process_folder + '/' + v_process_manage_data + '/' + v_file_validation_data_uxxi + process_code + '.xlsx' 
     
     if flag_file_created:
          

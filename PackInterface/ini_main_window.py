@@ -29,7 +29,7 @@ def start_main_window ():
      
     objectState.button_start = tk.Button(main_window, text = 'START', background="#d1e0e0", borderwidth=0)
     objectState.button_start['state'] = 'disabled'
-    objectState.label1_begin = tk.Label(main_window, text = 'Events BC to BTT\n\n-- AGG XML --\n'+ v_version)
+    objectState.label1_begin = tk.Label(main_window, text = 'Events UXXI to BC\n\n-- BEST API --\n'+ v_version)
     objectState.label2_begin = tk.Label(main_window, text = '')
     objectState.link = tk.Label(main_window, text="Process Settings",font=('Helvetica', 8, 'underline'), fg="#663300", cursor="hand2")
     objectState.link.bind("<Button-1>", lambda e: iniciateSettings.start_settings_window())

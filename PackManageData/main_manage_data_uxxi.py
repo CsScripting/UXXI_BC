@@ -1,17 +1,22 @@
 
-import PackManageData.folders_process as folderProcess
+import PackManageData.folders_process_manage as folderProcess
 import PackManageData.read_filter as readFilter
 import PackManageData.join_tuples_data as joinData
 import PackManageData.bussiness_rules_uxxi as rulesUxxi
 import PackManageData.bussiness_rules_best as rulesBest
+import PackGeneralProcedures.global_variable_process_procedures as glVarProcess
 from mod_variables import *
+
 
 def manage_data_uxxi_steps(name_file_inserted : str):
 
     flag_file_validation_created = False
     
     # Create Folder Process
-    process_folder, process_code = folderProcess.create_main_folder_process()
+    glVarProcess.gl_process_folder, glVarProcess.gl_process_code = folderProcess.create_main_folder_manage_process()
+
+    process_folder = glVarProcess.gl_process_folder
+    process_code = glVarProcess.gl_process_code
 
     #read and filter data UXXI  
     df_uxxi = readFilter.read_data_file(name_file_inserted)
@@ -55,6 +60,8 @@ def manage_data_uxxi_steps(name_file_inserted : str):
     df_uxxi = rulesBest.add_event_section_name(df_uxxi)
     df_uxxi = rulesBest.add_event_connector(df_uxxi)
     df_uxxi = rulesBest.manage_hours(df_uxxi)
+
+
 
     return()
 

@@ -58,16 +58,24 @@ def start_settings_window():
 
 
     #Config Opcion Manage Data
-    file_student_group = tk.Label(top_WindowGrid, text='Man Data:', font="Segoe 8 italic", foreground="#009999")
-    #Config textInsertion
-    opcion_manage_data = tk.Checkbutton (top_WindowGrid, variable = radio_button_vars[0]) #, command= manage_entry_historic) 
-    
+    manage_data_object = tk.Frame(bottom_WindowGrid)
+    label_manage_data= tk.Label(manage_data_object, text='Man Data:', font="Segoe 8 italic", foreground="#009999")
+    #Config Opcion Manage Data
+    opcion_manage_data = tk.Checkbutton (manage_data_object, variable = radio_button_vars[0])
+    opcion_manage_data.select()
 
-    #(First Opcion: Manage Data):
-    agregate_object_historic = tk.Frame(bottom_WindowGrid)
-    insert_historic = tk.Label(bottom_WindowGrid, text='File Class:', font="Segoe 8 italic", foreground="#009999") 
-    opcion_historic = tk.Checkbutton (agregate_object_historic, variable = radio_button_vars[1]) #, command= manage_entry_historic) 
-    names_inserted_vars[1] = tk.Entry(agregate_object_historic,borderwidth=0,highlightthickness=1,highlightcolor='#ffb84d', width=18,justify='left',font=("Segoe 8"),background="#ffe6cc", disabledbackground="#d1e0e0")
+    #Config Opcion Update Data
+    update_data_object = tk.Frame(bottom_WindowGrid)
+    label_update_data = tk.Label(update_data_object, text='Update Data:', font="Segoe 8 italic", foreground="#009999")
+    #Config Opcion Manage Data
+    opcion_update_data = tk.Checkbutton (update_data_object,variable = radio_button_vars[1])
+    opcion_update_data.select()
+
+    #(Opcion: Import Data):
+    import_data_obejct = tk.Frame(bottom_WindowGrid)
+    label_import = tk.Label(bottom_WindowGrid, text='Import Data:', font="Segoe 8 italic", foreground="#009999") 
+    opcion_import_data = tk.Checkbutton (import_data_obejct, variable = radio_button_vars[2]) #, command= manage_entry_historic) 
+    names_inserted_vars[1] = tk.Entry(import_data_obejct,borderwidth=0,highlightthickness=1,highlightcolor='#ffb84d', width=18,justify='left',font=("Segoe 8"),background="#ffe6cc", disabledbackground="#d1e0e0")
     # disable_entry_event_type()
     names_inserted_vars[1].insert(0, '')
     
@@ -82,18 +90,34 @@ def start_settings_window():
      #Position Objects inside TopGrid 
     fileLabel.grid(row=0, column=0, sticky=tk.W, pady=5,padx=3 )
     names_inserted_vars[0].grid(row=0, column=1, sticky='w')
-    file_student_group.grid(row=1, column=0, sticky=tk.W, pady=5,padx=3 )
-    opcion_manage_data.grid(row=1, column=1, sticky='w')
 
-    insert_historic.grid(row=2, column=0, sticky=tk.W, padx=3)
-    agregate_object_historic.grid (row=2, column=1, sticky=tk.W)
+
+    manage_data_object.grid(row=1, column=0,sticky=tk.W, pady=5,padx=3 )
+    update_data_object.grid(row=1, column=1,sticky=tk.W, pady=5,padx=3 )
+    
+
+    label_import.grid(row=2, column=0, sticky=tk.W, padx=3)
+    import_data_obejct.grid (row=2, column=1, sticky=tk.W)
     aggregate_object_validation.grid(row=3, column=1, sticky=tk.W)
 
+
     #pack Values agregatted inside same column Grid
-    opcion_historic.pack(side=tk.LEFT, padx=6)
+
+    label_manage_data.pack(side=tk.LEFT)
+    opcion_manage_data.pack(side=tk.LEFT)
+    label_update_data.pack(side=tk.LEFT)
+    opcion_update_data.pack(side=tk.LEFT)
+    
+
+
+    #pack Values agregatted inside same column Grid
+    opcion_import_data.pack(side=tk.LEFT, padx=6)
     names_inserted_vars[1].pack(side=tk.LEFT)
-    objectState.link_edit.pack(side=tk.LEFT,  padx= 35)
-    button_validation.pack(side=tk.LEFT, padx=15)
+
+
+
+    objectState.link_edit.pack(side=tk.LEFT,  padx= 7)
+    button_validation.pack(side=tk.LEFT, padx=55)
 
     #Minimize Window
     main_window.wm_state('iconic')

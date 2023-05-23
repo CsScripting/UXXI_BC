@@ -42,6 +42,7 @@ class FileNameErrorExtensionXlsx(Exception):
 class FileConfigNotInserted(Exception):
     pass 
 
+# Algumas das Validações de Config associadas a ConfigParser !!! (não necessitam de estar defenidas)
 
 ### -- Functiones -- ###
 
@@ -52,9 +53,11 @@ def get_inserted_values_settings():
 
     name_file_inserted = names_inserted_vars[0].get()
     opcion_manage_data = radio_button_vars[0].get()
-    opcion_import_data = radio_button_vars[1].get()
+    opcion_update_data = radio_button_vars[1].get()
+    opcion_import_data = radio_button_vars[2].get()
+    
 
-    return (name_file_inserted, opcion_manage_data, opcion_import_data)
+    return (name_file_inserted, opcion_manage_data, opcion_update_data,opcion_import_data)
 
 
 # - Validation Variables Process - # 
@@ -115,7 +118,9 @@ def validation_config_exist_on_folder():
     if not os.path.exists(path_to_file_config):
         raise FileConfigNotInserted
     
-def validation_file_config ():
+def validation_and_file_config_and_get_variables ():
+
+    # If Config file not configurated raise excepciones from Confiparser
 
     #Manage Config File
     conf = cp.RawConfigParser()   
@@ -128,6 +133,8 @@ def validation_file_config ():
     # Credenciais API
     client_id = conf.get(v_header_credentiales, v_client_id)
     client_secret = conf.get(v_header_credentiales, v_client_secret)
+
+    return(url_api, url_identity, client_id, client_secret)
 
 
     
