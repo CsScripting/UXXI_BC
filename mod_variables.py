@@ -38,7 +38,8 @@ v_sheet_wrong_type = 'WrongType'
 v_sheet_wrong_week = 'WrongWeek'
 
 # Name File Curriculum
-v_file_curriculum = 'CURRICULUM'
+v_file_curriculum_best = 'CURRICULUM_BEST'
+v_file_curriculum_uxxi = 'CURRICULUM_UXXI'
 
 # Name Sheets Validations
 v_sheet_modules = 'Modules'

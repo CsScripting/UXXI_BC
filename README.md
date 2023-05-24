@@ -45,6 +45,27 @@ pyinstaller --noconsole --onefile --icon="log.ico" --add-data="log.ico;." UXXI_T
     --> No caso de Disciplina só ter EB fica com o grupo reduzido EPD , so tem EB1 o Grupo será o EDP1
         Irá facilitar no caso de se querer criar mais Grupos.
        
+[] data_uxxi
+
+    * [x] check_planes_uxxi
+      
+      Atenção para se criar nome de planos !!!
+
+      Nome de Plano:
+      DOBLE GRADO EN ADMINISTRACIÓN Y DIRECCIÓN DE EMPRESAS (INGLÉS) Y DERECHO_1_1
+
+      NomeTitulacion_Ano_GrupoGrande
+
+      Para se criar os planos não se terá apenas em consideração os GG --> Isto quando inserir o valor de GG
+      No caso de GP ... 11;12 ...irá se ter em consideração o primeiro valor de GP ---> 12 
+      Se existe um GP 12, logo terá de haver plano ######_Ano_1
+      Por exemplo se tivesse no primeiro ano so GP (11,12,13), para todas as disciplinas tinha de conseguir chegar a Plano ####_1_1
+
+    * [] check_st_groups_uxxi
+
+        - Verificar Nomes de Grupos com as atividades Dirigidas !!!!
+        - Apenas consideradas as EPD's para se criar os Grupos BEST
+
 * Nota em relação a Sobreposição não verificada ---> ver Back Up de UPO Idioma Moderno I: Isto em processo de Geração de Salas --> Muitas turmas associadas.
 
 Duración en slots: 6 (3:00)
@@ -66,3 +87,7 @@ Ver dados importados Ultimos de alunos reais na UPO
 
 * Notas em relação a Possibilidade de Criar Nome de Grupo Bullet com Sigla de Titulacion e não com o Nome.
      
+## Verificar na validação se entidades existem as relações ou não ???
+
+## Verificar as atividades dirigidas, neste momento não esta a considerar
+

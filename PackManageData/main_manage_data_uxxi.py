@@ -5,6 +5,7 @@ import PackManageData.join_tuples_data as joinData
 import PackManageData.bussiness_rules_uxxi as rulesUxxi
 import PackManageData.bussiness_rules_best as rulesBest
 import PackGeneralProcedures.global_variable_process_procedures as glVarProcess
+import PackManageData.data_uxxi as dataUxxi
 from mod_variables import *
 
 
@@ -51,6 +52,16 @@ def manage_data_uxxi_steps(name_file_inserted : str):
     df_check_groups_best_by_section = rulesUxxi.relacion_group_EPD_by_section_to_asign_to_EB (df_check_groups_best_by_section) 
     df_uxxi = rulesUxxi.add_group_section_EPD(df_uxxi)
     df_uxxi = rulesUxxi.add_group_section_EB (df_uxxi, df_check_groups_best_by_section)
+
+    # Extract Curriculum From Schedules
+    df_curriculum_uxxi = df_uxxi.copy()
+    dataUxxi.check_courses_uxxi (df_curriculum_uxxi, process_folder, process_code)
+    dataUxxi.check_planes_uxxi (df_curriculum_uxxi, process_folder, process_code)
+    dataUxxi.check_st_groups_uxxi (df_curriculum_uxxi, process_folder, process_code)
+    dataUxxi.check_modules_uxxi (df_curriculum_uxxi, process_folder, process_code)
+    dataUxxi.check_typologies_uxxi (df_curriculum_uxxi, process_folder, process_code)
+
+
     df_uxxi = rulesUxxi.agg_groups_from_event(df_uxxi)
     df_uxxi = rulesUxxi.select_number_students(df_uxxi)
     

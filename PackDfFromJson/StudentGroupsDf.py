@@ -21,7 +21,7 @@ def st_groups_df_from_json(st_group : list):
         daily_st_group = st_group[i][v_daily_limit_dto]
         consecutive_st_group = st_group[i][v_consecutive_limit_dto]
         
-        plan_code = st_group[i][v_curricular_plan_dto][v_name_dto]
+        plan_code = st_group[i][v_curricular_plan_dto][v_code_dto]
 
 
         df = df.append({v_name_best : name_st_group, 

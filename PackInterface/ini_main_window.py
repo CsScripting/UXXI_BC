@@ -17,7 +17,7 @@ def start_main_window ():
     #Proprieties Window
     main_window.geometry ("230x150")
     main_window.resizable(0, 0)
-    main_window.title('Events XML')
+    main_window.title('Events UXXI')
     main_window.eval('tk::PlaceWindow %s center' % main_window.winfo_toplevel())
     # Window Above another Windows
     main_window.wm_attributes("-topmost", 1)
