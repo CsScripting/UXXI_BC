@@ -149,7 +149,8 @@ def status_running (name, start_process):
     
     main_window.after(0, update_status_running) 
 
-    valid_process = start_process(settval.gl_name_file_inserted, settval.gl_opcion_manage_data,settval.gl_opcion_update_data, settval.gl_opcion_import_data)
+    valid_process = start_process(settval.gl_name_file_inserted, settval.gl_opcion_manage_data,settval.gl_opcion_update_data, 
+                                 settval.gl_opcion_import_data, settval.gl_name_process_to_import)
 
     on_stop()
     # main_window.withdraw()

@@ -16,6 +16,12 @@ from mod_variables import *
 class ValidationFolderDataUxxi(Exception):
     pass
 
+# validation_folder_update_data_to_import()
+class ValidationFolderUpdateData(Exception):
+    def __init__(self, error_value):
+        self.error_value = error_value
+    pass
+
 # check_filling_entry_box()
 class FileNameNotInserted (Exception):
     pass
@@ -55,15 +61,17 @@ def get_inserted_values_settings():
     opcion_manage_data = radio_button_vars[0].get()
     opcion_update_data = radio_button_vars[1].get()
     opcion_import_data = radio_button_vars[2].get()
+    name_process_to_import = names_inserted_vars[1].get()
     
 
-    return (name_file_inserted, opcion_manage_data, opcion_update_data,opcion_import_data)
+    return (name_file_inserted, opcion_manage_data, opcion_update_data,opcion_import_data, name_process_to_import)
 
 
 # - Validation Variables Process - # 
 
 def present_on_ui_opciones_process(opcion_manage_data : int, opcion_import_data : int):
     
+    # if update_data selected select manage_data
     if ((opcion_manage_data == 0) & (opcion_import_data == 0)):
 
         raise OpcionesProcessOnUI
@@ -136,8 +144,26 @@ def validation_and_file_config_and_get_variables ():
 
     return(url_api, url_identity, client_id, client_secret)
 
+    
+# - Validacion Import Data - # 
 
+def validation_process_exist_on_folder (process_name_inserted : str):
+
+    code_process_verify_split  = process_name_inserted.split('_')
+
+    if len (code_process_verify_split) >= 3: 
+    
+        code_process = '_' + process_name_inserted.split('_')[1] + '_' + process_name_inserted.split('_')[2]
     
 
+        file_name_update = v_file_curriculum_import + code_process + '.xlsx'
+
+        path_to_file_config = './' + v_main_folder_process + '/' + process_name_inserted + '/' + v_process_update_data + '/' + \
+                            file_name_update
+        if not os.path.exists(path_to_file_config):
+            raise ValidationFolderUpdateData (process_name_inserted)
+        
+    else:
+        raise ValidationFolderUpdateData (process_name_inserted)
 
 

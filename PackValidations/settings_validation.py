@@ -2,7 +2,7 @@ import PackValidations.settings_validation_functions as settValFunct
 import PackValidations.data_uxxi_validation as dataValFunct
 import PackInterface.states_objects_windows as stateObj
 import PackManageApi.get_token as getToken
-import PackControllerRequest.GeneralRequests as genRequest
+import PackControllerRequest.general_requests as genRequest
 from PackLibrary.librarys import (
     messagebox,
     traceback,
@@ -25,7 +25,7 @@ def validation_settings_steps():
 
     
         # - GET DATA INSERTED UI - #
-        name_file_inserted, opcion_manage_data,opcion_update_data, opcion_import_data = settValFunct.get_inserted_values_settings()
+        name_file_inserted, opcion_manage_data,opcion_update_data, opcion_import_data, name_process_to_import = settValFunct.get_inserted_values_settings()
         
         global gl_name_file_inserted 
         gl_name_file_inserted = name_file_inserted
@@ -35,6 +35,9 @@ def validation_settings_steps():
         gl_opcion_update_data = opcion_update_data
         global gl_opcion_import_data
         gl_opcion_import_data = opcion_import_data
+        global gl_name_process_to_import
+        gl_name_process_to_import = name_process_to_import
+
 
         global check_conexion_type
         check_conexion_type = 'IS'
@@ -50,6 +53,7 @@ def validation_settings_steps():
         if opcion_manage_data == 1:
 
             # Validation Data UXXI (insercion UI)
+            box_to_validate = 'boxManageData'
             # settValFunct.check_filling_entry_box(name_file_inserted)
             # settValFunct.check_extension_file(name_file_inserted)
             # settValFunct.validation_data_uxxi_exist_on_folder(name_file_inserted)
@@ -78,6 +82,14 @@ def validation_settings_steps():
 
             check_conexion_type = 'API'
             genRequest.get_entity_data(url_api, header_request, v_acad_term_controller)
+
+        if (opcion_import_data == 1):
+
+            box_to_validate = 'boxImportData'
+            settValFunct.check_filling_entry_box(name_process_to_import)
+            settValFunct.validation_process_exist_on_folder(name_process_to_import)
+
+
 
         stateObj.enable_button_start()
 
@@ -108,7 +120,13 @@ def validation_settings_steps():
     
     except settValFunct.FileNameNotInserted:
 
-        messagebox.showerror('Validation File', 'Fill box Data UXXI to submit !!')
+        if (box_to_validate == 'boxManageData'):
+
+            messagebox.showerror('Validation File', 'Fill box Data UXXI to submit !!')
+
+        if (box_to_validate == 'boxImportData'):
+
+            messagebox.showerror('Validation File', 'Fill box Import Data to submit !!')
 
     except settValFunct.FileNameErrorExtensionXlsx as e:
 
@@ -199,6 +217,15 @@ def validation_settings_steps():
         if check_conexion_type == 'API':
     
             messagebox.showerror('Error URL API', 'Check if URL ' + url_api + ' is available !!')
+
+    except settValFunct.ValidationFolderUpdateData as e:
+
+        data_process_code = e.error_value
+
+        message_info_config = 'DataProcess = '  + data_process_code 
+                       
+
+        messagebox.showerror('DataProcess', 'Verify if Process Code Exist:\n' + message_info_config)
 
     except:
         

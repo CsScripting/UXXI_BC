@@ -40,6 +40,8 @@ v_sheet_wrong_week = 'WrongWeek'
 # Name File Curriculum
 v_file_curriculum_best = 'CURRICULUM_BEST'
 v_file_curriculum_uxxi = 'CURRICULUM_UXXI'
+v_file_curriculum_import = 'CURRICULUM_NEW'
+
 
 # Name Sheets Validations
 v_sheet_modules = 'Modules'
@@ -134,6 +136,7 @@ v_id_dto = 'id'
 v_name_dto = 'name'
 v_importance_degree_dto = 'degreeImportance'
 v_scientif_area_dto = 'scientificArea'
+v_active_dto = 'active'
 
 
 # from typologieDTO
@@ -178,7 +181,9 @@ v_course_code_best = 'CourseCode'
 v_plan_code_best = 'CurriculumProgrammeCode'
 v_students_number_best = 'StudentsNumber'
 
+#Variable To import File CURRICULUM_NEW
 
+v_data_to_import_new = 'ToImport'
 
 ## - Variables Controller - ##
 
@@ -188,3 +193,27 @@ v_module_controller = 'Modules'
 v_typologie_controller = 'Typologies'
 v_acad_term_controller = 'AcademicTerm'
 v_st_group_controller = 'StudentGroups'
+
+
+## - Variables DataFrames to Compare Data Frames - ##
+
+v_name_best_match = 'Name_best'
+v_acronym_best_match = 'Acronym_best'
+v_code_best_match = 'Code_best'
+v_academic_area_best_match = 'AcademicArea_best'
+v_daily_limit_best_match = 'DailyLimit_best'
+v_consecutive_limit_best_match = 'ConsecutiveLimit_best'
+
+#To Module File
+v_priority_mod_best_match = 'LevelPriority_best' 
+
+#To Typologie File
+v_description_typologie_best_match = 'Description_best'
+
+#To Plan File
+v_year_best_match = 'Year_best'
+v_course_code_best_match = 'CourseCode_best'
+
+#To Student Group File
+v_plan_code_best_match = 'CurriculumProgrammeCode_best'
+v_students_number_best_match = 'StudentsNumber_best'

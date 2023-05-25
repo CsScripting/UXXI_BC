@@ -41,3 +41,18 @@ def read_data_files_update (main_folder_process : str, process_code : str,folder
     df = read_excel (path_file_name, sheet_name, dtype = 'str', keep_default_na=False, na_values=val_null)
 
     return(df)
+
+def read_data_files_import (main_folder_process : str, name_folder_process : str,folder_type_process : str, name_file : str, sheet_name : str):
+
+    # Manage values Blank
+    val_null = ['NULL', 'null', '']
+
+    code_process = '_' + name_folder_process.split('_')[1] + '_' + name_folder_process.split('_')[2]
+    name_file_process = name_file + code_process + '.xlsx'
+
+    path_file_name = './' + main_folder_process + '/' + name_folder_process + '/' + folder_type_process + '/' + name_file_process
+    
+
+    df = read_excel (path_file_name, sheet_name, dtype = 'str', keep_default_na=False, na_values=val_null)
+
+    return(df)
