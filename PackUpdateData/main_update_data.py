@@ -31,38 +31,38 @@ def update_data_steps():
     genFiles.create (df_courses_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,
                      v_file_curriculum_best, v_sheet_courses,v_process_update_data)
     
-    # flag_file_created = True
+    flag_file_created = True
 
 
     # # - Planes - #
-    # planes_db = genRequest.get_entity_data(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_plan_controller)
-    # df_planes_best = planDf.plan_df_from_json(planes_db)
-    # #Insert Planes To Curriculum File
-    # genFiles.create (df_planes_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,
-    #                  v_file_curriculum_best, v_sheet_planes,v_process_update_data, flag_file_created)
+    planes_db = genRequest.get_entity_data(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_plan_controller)
+    df_planes_best = planDf.plan_df_from_json(planes_db)
+    #Insert Planes To Curriculum File
+    genFiles.create (df_planes_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,
+                     v_file_curriculum_best, v_sheet_planes,v_process_update_data, flag_file_created)
     
     # # - StudentGroups - #
-    # student_group_db = genRequest.get_entity_data(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_st_group_controller)
-    # df_st_groups_best = groupDf.st_groups_df_from_json(student_group_db)
-    # #Insert StGroup To Curriculum File
-    # genFiles.create (df_st_group_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,
-    #                  v_file_curriculum_best, v_sheet_st_group,v_process_update_data, flag_file_created)
+    student_group_db = genRequest.get_entity_data(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_st_group_controller)
+    df_st_groups_best = groupDf.st_groups_df_from_json(student_group_db)
+    #Insert StGroup To Curriculum File
+    genFiles.create (df_st_groups_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,
+                     v_file_curriculum_best, v_sheet_st_group,v_process_update_data, flag_file_created)
     
     # # - Modules - #
-    # modules_db = genRequest.get_entity_data(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_module_controller)
-    # df_modules_best = modDf.modules_df_from_json(modules_db)
-    # #Insert Modules To Curriculum File
-    # genFiles.create (df_modules_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,
-    #                  v_file_curriculum_best, v_sheet_modules,v_process_update_data, flag_file_created)
+    modules_db = genRequest.get_entity_data(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_module_controller)
+    df_modules_best = modDf.modules_df_from_json(modules_db)
+    #Insert Modules To Curriculum File
+    genFiles.create (df_modules_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,
+                     v_file_curriculum_best, v_sheet_modules,v_process_update_data, flag_file_created)
     
 
     # # - Typologies Modules - #
 
-    # typologies_db = genRequest.get_entity_data(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_typologie_controller)
-    # df_typologies_best = typeDf.typologies_df_from_json (typologies_db)
-    # #Insert Typologies To Curriculum File
-    # genFiles.create (df_typologies_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,
-    #                  v_file_curriculum_best, v_sheet_typologies,v_process_update_data,flag_file_created)
+    typologies_db = genRequest.get_entity_data(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_typologie_controller)
+    df_typologies_best = typeDf.typologies_df_from_json (typologies_db)
+    #Insert Typologies To Curriculum File
+    genFiles.create (df_typologies_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,
+                     v_file_curriculum_best, v_sheet_typologies,v_process_update_data,flag_file_created)
 
 
     # - Read File CURRICULUM_UXXI - #
@@ -73,35 +73,54 @@ def update_data_steps():
     
 
     # # - Planes - #
-    # df_planes_uxxi = genFiles.read_data_files_update(v_main_folder_process,glVarPro.gl_process_code, v_process_manage_data, 
-    #                                                   v_file_curriculum_uxxi,v_sheet_planes )
+    df_planes_uxxi = genFiles.read_data_files_update(v_main_folder_process,glVarPro.gl_process_code, v_process_manage_data, 
+                                                      v_file_curriculum_uxxi,v_sheet_planes )
     
     # # - StudentGroups - #
-    # df_st_groups_uxxi = genFiles.read_data_files_update(v_main_folder_process,glVarPro.gl_process_code, v_process_manage_data, 
-    #                                                   v_file_curriculum_uxxi,v_sheet_st_group )
+    df_st_groups_uxxi = genFiles.read_data_files_update(v_main_folder_process,glVarPro.gl_process_code, v_process_manage_data, 
+                                                      v_file_curriculum_uxxi,v_sheet_st_group )
     
     # # - Modules - #
-    # df_modules_uxxi = genFiles.read_data_files_update(v_main_folder_process,glVarPro.gl_process_code, v_process_manage_data, 
-    #                                                   v_file_curriculum_uxxi,v_sheet_modules )
+    df_modules_uxxi = genFiles.read_data_files_update(v_main_folder_process,glVarPro.gl_process_code, v_process_manage_data, 
+                                                      v_file_curriculum_uxxi,v_sheet_modules )
     
     # # - Modules Typologies- #
-    # df_typologies_uxxi = genFiles.read_data_files_update(v_main_folder_process,glVarPro.gl_process_code, v_process_manage_data, 
-    #                                                   v_file_curriculum_uxxi,v_sheet_typologies )
+    df_typologies_uxxi = genFiles.read_data_files_update(v_main_folder_process,glVarPro.gl_process_code, v_process_manage_data, 
+                                                      v_file_curriculum_uxxi,v_sheet_typologies )
     
 
     # - Match Data UXXI and DB - #
 
-    #Terá Sempre o ficheiro inserido no caso de não apsesentar novas entidades folha a dizer Sen dados para importar
+    #Always Insertef file Update
 
-    flag_file_to_import_created = False
-
+    
+    #Courses
     df_courses_to_import = matchData.compare_courses_uxxi_db(df_courses_uxxi, df_courses_best)
+    genFiles.create (df_courses_to_import, glVarPro.gl_process_folder,glVarPro.gl_process_code,
+                     v_file_curriculum_to_import, v_sheet_courses,v_process_update_data)
+    
+    flag_file_to_import_created = True
 
-    if not df_courses_to_import.empty:
+    #Planes
+    df_planes_to_import = matchData.compare_planes_uxxi_db(df_planes_uxxi, df_planes_best)
+    genFiles.create (df_planes_to_import, glVarPro.gl_process_folder,glVarPro.gl_process_code,
+                     v_file_curriculum_to_import, v_sheet_planes,v_process_update_data, flag_file_to_import_created)
+    
 
-        genFiles.create (df_courses_to_import, glVarPro.gl_process_folder,glVarPro.gl_process_code,
-                         v_file_curriculum_import, v_sheet_courses,v_process_update_data)
-        
-        flag_file_to_import_created = True
+    #Student Groups
+    df_groups_to_import = matchData.compare_groups_uxxi_db(df_st_groups_uxxi, df_st_groups_best)
+    genFiles.create (df_groups_to_import, glVarPro.gl_process_folder,glVarPro.gl_process_code,
+                     v_file_curriculum_to_import, v_sheet_st_group,v_process_update_data, flag_file_to_import_created)
+    
+
+    #Student Groups
+    df_modules_to_import = matchData.compare_modules_uxxi_db(df_modules_uxxi, df_modules_best)
+    genFiles.create (df_modules_to_import, glVarPro.gl_process_folder,glVarPro.gl_process_code,
+                     v_file_curriculum_to_import, v_sheet_modules,v_process_update_data, flag_file_to_import_created)
+    
+    #Student Groups
+    df_typologies_to_import = matchData.compare_typologies_uxxi_db(df_typologies_uxxi, df_typologies_best)
+    genFiles.create (df_typologies_to_import, glVarPro.gl_process_folder,glVarPro.gl_process_code,
+                     v_file_curriculum_to_import, v_sheet_typologies,v_process_update_data, flag_file_to_import_created)
 
     return()

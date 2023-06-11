@@ -8,7 +8,7 @@ pyinstaller --noconsole --onefile --icon="log.ico" --add-data="log.ico;." UXXI_T
                                          -------------------- // ------------------------ 
 
 
-== PackValidationsFiles ==
+== PackValidation ==
 
 # [x] settings_validation
 
@@ -22,6 +22,18 @@ pyinstaller --noconsole --onefile --icon="log.ico" --add-data="log.ico;." UXXI_T
        [x]  1º - Se pasta de config.txt existe
        [x]  2º - Se config.tx existe na Pasta
        [x]  2º - Se Formato de config.txt está correto
+
+       [] validation_process_exist_on_folder
+          
+          * verificar se existe o ficheiro de importação de eventos em Manage Data, tal como no Update
+          * melhorar a mensagem de erro...explicação de estrutura de pastas !!!
+
+    * validation_process_exist_on_folder --- No caso de Import Data colocar toda a estrutura de ficheiros que deverá existir para as importações:
+
+      --> Apenas necessario aprimorar a mensagem de erro !!!
+
+    * Validate when create imported File if already exist...
+      Utilizador pode efetuar duas vezes a tarefa ...Substutui???
 
 == PackManageData ==  
 
@@ -87,7 +99,32 @@ Ver dados importados Ultimos de alunos reais na UPO
 
 * Notas em relação a Possibilidade de Criar Nome de Grupo Bullet com Sigla de Titulacion e não com o Nome.
      
-## Verificar na validação se entidades existem as relações ou não ???
+== PackUpdateData ==  
 
+[] main_update_data
+
+    * [x] get_entity_data
+
+        Geral para todas as entidades, no caso de base de dados não ter dados retorna lista vazia.
+        Irá na mesma criar o DF (excel com as respetivas entidades), no metodo courses_df_from_json
+
+
+
+[] compare_courses_uxxi_db
+   
+   * Verificar dados que não são coerentes nas associações
+   * Aplicar a todas as entidades.
+
+== PackImportData ==  
+
+[] main_import_data
+
+    * [] genFile.create()
+    
+        Colocar a validação de Fechar Ficheiro
+
+    * [] iteratePost.iterate_df_groups_and_post()
+        
+        Guardar ID's para consultar a quando de Search...pode já ter usado e não necessita de consultar de novo
 ## Verificar as atividades dirigidas, neste momento não esta a considerar
 

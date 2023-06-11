@@ -12,6 +12,7 @@ v_process_sub_folder = 'Data'
 
 v_process_manage_data = 'ManageData'
 v_process_update_data = 'UpdateData'
+v_process_import_data = 'ImportData'
 
 
 # Name config
@@ -40,7 +41,9 @@ v_sheet_wrong_week = 'WrongWeek'
 # Name File Curriculum
 v_file_curriculum_best = 'CURRICULUM_BEST'
 v_file_curriculum_uxxi = 'CURRICULUM_UXXI'
-v_file_curriculum_import = 'CURRICULUM_NEW'
+v_file_curriculum_to_import = 'CURRICULUM_NEW'
+v_file_curriculum_imported = 'CURRICULUM_IMPORTED'
+
 
 
 # Name Sheets Validations
@@ -136,6 +139,7 @@ v_id_dto = 'id'
 v_name_dto = 'name'
 v_importance_degree_dto = 'degreeImportance'
 v_scientif_area_dto = 'scientificArea'
+v_scientif_area_id_dto = 'scientificAreaIdentifier'
 v_active_dto = 'active'
 
 
@@ -147,14 +151,26 @@ v_description_dto = 'description'
 
 v_year_dto = 'year'
 v_course_dto = 'course'
+v_course_id_dto = 'courseIdentifier'
 
 # From Student Group DTO
 v_curricular_plan_dto = 'curricularPlan'
 v_students_number_dto = 'numStudents'
 v_daily_limit_dto = 'dayLimit'
 v_consecutive_limit_dto = 'consecutiveLimit'
+v_curricular_plan_identifier_dto = 'curricularPlanIdentifier' 
 
+# to simple_search
 
+v_filter = 'filters'
+v_type = 'type'
+v_path = 'path'
+v_value_to_find = 'Value' 
+
+# Values to Find Search
+
+v_search_code = 'Code'
+v_search_name = 'Name'
 
 
 
@@ -166,6 +182,14 @@ v_code_best = 'Code'
 v_academic_area_best = 'AcademicArea'
 v_daily_limit_best = 'DailyLimit'
 v_consecutive_limit_best = 'ConsecutiveLimit'
+
+v_daily_limit_default_best = '8'
+v_consecutiv_limit_default_best = '5'
+
+# To file Imported Data
+
+v_code_request = 'StatusCode'
+v_message_request = 'RequestMessage'
 
 #To Module File
 v_priority_mod_best = 'LevelPriority' 
@@ -193,6 +217,7 @@ v_module_controller = 'Modules'
 v_typologie_controller = 'Typologies'
 v_acad_term_controller = 'AcademicTerm'
 v_st_group_controller = 'StudentGroups'
+v_scientific_area_controller = 'ScientificAreas'
 
 
 ## - Variables DataFrames to Compare Data Frames - ##
@@ -203,6 +228,7 @@ v_code_best_match = 'Code_best'
 v_academic_area_best_match = 'AcademicArea_best'
 v_daily_limit_best_match = 'DailyLimit_best'
 v_consecutive_limit_best_match = 'ConsecutiveLimit_best'
+
 
 #To Module File
 v_priority_mod_best_match = 'LevelPriority_best' 

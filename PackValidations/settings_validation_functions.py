@@ -156,7 +156,7 @@ def validation_process_exist_on_folder (process_name_inserted : str):
         code_process = '_' + process_name_inserted.split('_')[1] + '_' + process_name_inserted.split('_')[2]
     
 
-        file_name_update = v_file_curriculum_import + code_process + '.xlsx'
+        file_name_update = v_file_curriculum_to_import + code_process + '.xlsx'
 
         path_to_file_config = './' + v_main_folder_process + '/' + process_name_inserted + '/' + v_process_update_data + '/' + \
                             file_name_update

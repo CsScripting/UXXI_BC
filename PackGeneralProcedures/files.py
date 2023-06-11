@@ -14,7 +14,19 @@ def write_file(df, path_associad, sheet_name_associad):
 
 def create (df : DataFrame, process_folder : str, process_code : str, file_name : str, sheet_name : str, folder : str, flag_file_created : bool = False):
 
-    path_more_filename = process_folder + '/' + folder + '/' + file_name + process_code + '.xlsx' 
+    if folder == v_process_import_data:
+
+        if len (process_code.split('_')) > 2:
+
+            values_process_code = process_code.split('_')
+
+            code = '_' + values_process_code[1] + '_' + values_process_code[2]
+
+        path_more_filename = process_folder + '/' + process_code + '/' + folder + '/' + file_name + code + '.xlsx' 
+    
+    else:
+
+        path_more_filename = process_folder + '/' + folder + '/' + file_name + process_code + '.xlsx' 
     
     if flag_file_created:
          

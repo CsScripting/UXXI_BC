@@ -6,6 +6,7 @@ from mod_variables import *
 
 def courses_df_from_json( course : list):
 
+    # if empty list create a Empty Data Frame
     df = DataFrame(columns = [v_name_best,
                               v_acronym_best,
                               v_code_best])
@@ -15,7 +16,6 @@ def courses_df_from_json( course : list):
         name_course = course[i][v_name_dto]
         acronym_course = course[i][v_acronym_dto]
         code_course = course[i][v_code_dto]
-
 
 
         df = df.append({v_name_best : name_course, 
