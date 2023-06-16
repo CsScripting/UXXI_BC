@@ -27,5 +27,6 @@ ExcelFile,
 DataFrame,
 ExcelWriter,
 to_datetime,
-merge
+merge,
+concat
 )

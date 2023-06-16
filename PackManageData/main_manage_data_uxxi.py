@@ -6,6 +6,7 @@ import PackManageData.bussiness_rules_uxxi as rulesUxxi
 import PackManageData.bussiness_rules_best as rulesBest
 import PackGeneralProcedures.global_variable_process_procedures as glVarProcess
 import PackManageData.data_uxxi as dataUxxi
+import PackGeneralProcedures.files as genFiles
 from mod_variables import *
 
 
@@ -72,7 +73,13 @@ def manage_data_uxxi_steps(name_file_inserted : str):
     df_uxxi = rulesBest.add_event_connector(df_uxxi)
     df_uxxi = rulesBest.manage_hours(df_uxxi)
 
+    df_uxxi = df_uxxi[[v_event_Id_BC, v_mod_name, v_mod_code,v_mod_typologie, v_section_name, v_day,
+                       v_hourBegin, v_hourEnd, v_duration, v_course_name, v_course_code, 
+                       v_year, v_student_group_name,v_students_number,v_id_uxxi,v_weeks, v_event_type ]].copy()
 
+    #Insert File On Folder Manage Data:
+
+    genFiles.create(df_uxxi,process_folder, process_code,v_file_horarios,v_sheet_data_uxxi,v_process_manage_data,)
 
     return()
 

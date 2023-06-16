@@ -1,5 +1,10 @@
 v_version = '0.0'
 
+
+#File Horarios Generated
+
+v_file_horarios = 'HorariosUXXI'
+
 # Folders Names App
 v_folder_data_uxxi = 'DataUXXI'
 v_folder_config_api = 'ConfigAPI'
@@ -64,6 +69,8 @@ v_course_code = 'CODIGO_TITULACION'
 v_course_name = 'NOMBRE_TITULACION'
 v_year = 'CURSO'
 v_mod_code = 'CODIGO_ASIGNATURA'
+v_mod_code_dominant = 'CODIGO_ASIG_DOMINANT'
+v_mod_id_dominant = 'ID_ASIG_DOMINANT'
 v_mod_name = 'NOMBRE_ASIGNATURA'
 v_mod_typologie =	'TIPO'
 v_student_group =	'GRUPO'
@@ -86,7 +93,7 @@ v_hourEnd = 'HoraFin'
 
 v_id_event = 'ID'
 
-v_id_uxxi = 'CodigoUniversitas'
+v_id_uxxi = 'CODIGO_UXXI'
 v_merge = '_merge'
 
 v_student_group_best = 'GrupoBest'
@@ -176,6 +183,8 @@ v_search_name = 'Name'
 
 ## - Variables DataFrames - ##
 
+v_id_best = 'Id'
+
 v_name_best = 'Name'
 v_acronym_best = 'Acronym'
 v_code_best = 'Code'
@@ -243,3 +252,9 @@ v_course_code_best_match = 'CourseCode_best'
 #To Student Group File
 v_plan_code_best_match = 'CurriculumProgrammeCode_best'
 v_students_number_best_match = 'StudentsNumber_best'
+
+
+#Errores match_id_entities_events:
+
+v_error_id = 'ERROR_ID'
+v_error_id_mod = 'ModuleCode'

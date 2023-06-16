@@ -92,7 +92,6 @@ def update_data_steps():
     # - Match Data UXXI and DB - #
 
     #Always Insertef file Update
-
     
     #Courses
     df_courses_to_import = matchData.compare_courses_uxxi_db(df_courses_uxxi, df_courses_best)

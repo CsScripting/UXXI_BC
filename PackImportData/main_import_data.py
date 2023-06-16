@@ -1,6 +1,9 @@
 import PackGeneralProcedures.files as genFiles
 import PackImportData.dataFrame_data_post as iteratePost
 import PackImportData.folders_process_import as folderImport
+import PackImportData.match_id_entities_events as idEntities
+
+
 from mod_variables import *
 
 def import_data_steps(name_folder_process):
@@ -59,7 +62,7 @@ def import_data_steps(name_folder_process):
 
     else: 
 
-        genFiles.create(df_st_groups_imported,v_main_folder_process,name_folder_process,v_file_curriculum_imported,v_sheet_st_group,v_process_import_data )
+        genFiles.create(df_st_groups_to_update,v_main_folder_process,name_folder_process,v_file_curriculum_imported,v_sheet_st_group,v_process_import_data )
         
     
     ## - Modules - ##
@@ -75,8 +78,24 @@ def import_data_steps(name_folder_process):
 
     else: 
 
-        genFiles.create(df_modules_imported,v_main_folder_process,name_folder_process,v_file_curriculum_imported,v_sheet_modules,v_process_import_data )
+        genFiles.create(df_modules_to_update,v_main_folder_process,name_folder_process,v_file_curriculum_imported,v_sheet_modules,v_process_import_data )
 
+
+    #Read Files to Import Data Events
+
+    df_horarios = genFiles.read_data_files_import(v_main_folder_process,name_folder_process, v_process_update_data, 
+                                                  v_file_horarios,v_folder_data_uxxi )
+    
+
+    # Verify Events to Import (Opcion From User)
+
+    df_horarios = idEntities.filter_df_to_import(df_horarios)
+
+    #Collect Id´s Entities to Insert  Events
+
+    # # - Modules - #
+    
+    df_horarios, df_horarios_invalid = idEntities.module (df_horarios)
 
 
     return()
