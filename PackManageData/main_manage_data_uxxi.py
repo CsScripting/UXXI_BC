@@ -32,6 +32,7 @@ def manage_data_uxxi_steps(name_file_inserted : str):
                                                  v_sheet_null_values, flag_file_validation_created)
         flag_file_validation_created = True
 
+    # Por agora não considera as atividades dirigidas...verificar mais tarde !!!
     df_uxxi,df_uxxi_wrong_type  = readFilter.filter_by_activity_type (df_uxxi)
 
     if not df_uxxi_wrong_type.empty:

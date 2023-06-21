@@ -128,3 +128,9 @@ Ver dados importados Ultimos de alunos reais na UPO
         Guardar ID's para consultar a quando de Search...pode já ter usado e não necessita de consultar de novo
 ## Verificar as atividades dirigidas, neste momento não esta a considerar
 
+
+* Validação Importante ... Se as Entidades tem virgulas nos nomes 
+
+* Colocar o Separador como variavel Geral...neste caso seria necessario apenas alterar a variavel !!!!
+
+* Verificar se existem dados tanto no managment como no Import

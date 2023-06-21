@@ -193,13 +193,13 @@ def iterate_df_modules_and_post (df : DataFrame):
                 message_to_present = 'ModuleNotInserted'
 
             df_modules_imported = df_modules_imported.append({v_name_best : name_mod, 
-                                                                  v_code_best : code_mod,
-                                                                  v_acronym_best : acron_mod,
-                                                                  v_priority_mod_best : priority_mod,
-                                                                  v_academic_area_best : area_mod,
-                                                                  v_code_request : response_code,
-                                                                  v_message_request : message_to_present}, 
-                                                                  ignore_index = True)
+                                                              v_code_best : code_mod,
+                                                              v_acronym_best : acron_mod,
+                                                              v_priority_mod_best : priority_mod,
+                                                              v_academic_area_best : area_mod,
+                                                              v_code_request : response_code,
+                                                              v_message_request : message_to_present}, 
+                                                              ignore_index = True)
 
 
     return(df_modules_imported)

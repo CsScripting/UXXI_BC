@@ -85,6 +85,12 @@ def validation_settings_steps():
 
         if (opcion_import_data == 1):
 
+            value_token = getToken.get_token_identity(url_identity, client_id, client_secret,True)
+            header_request = getToken.create_header_request (value_token)
+
+            glRequest.gl_url_api = url_api
+            glRequest.gl_header_request = header_request
+
             box_to_validate = 'boxImportData'
             settValFunct.check_filling_entry_box(name_process_to_import)
             settValFunct.validation_process_exist_on_folder(name_process_to_import)

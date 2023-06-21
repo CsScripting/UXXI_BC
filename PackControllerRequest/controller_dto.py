@@ -1,4 +1,8 @@
 from mod_variables import *
+from PackLibrary.librarys import (	
+    Series
+)
+
 def create_dto_courses (name : str, code : str, acronym : str):
 
     data = {
@@ -77,5 +81,77 @@ def create_dto_simple_search_filter (path_to_find : str, value_to_find : str):
                 }
 
 
+
+        return(data)
+
+def create_dto_event (event_data : Series):
+        
+        #Manage Weeks
+        weeks_event = getattr (event_data, v_id_weeks).split(',')
+        list_weeks =[]
+
+        for i in range (len(weeks_event)):
+
+         list_weeks.append(       { 
+                                        "model": {
+                                                "identifier": weeks_event[i]
+                                                 },
+                                                 "status": 1
+                                  })  
+
+        #Manage students Groups
+        st_groups_event = getattr (event_data, v_student_group_id).split(',')
+        list_groups =[]
+
+        for j in range (len(st_groups_event)):
+
+         list_groups.append(       { 
+                                        "model": {
+                                                "identifier": st_groups_event[j]
+                                                 },
+                                                 "status": 1
+                                  }) 
+
+         #Manage typologies
+        typologie = getattr (event_data, v_mod_id_typologie)
+        list_typologies =[]
+
+        for k in range (len(typologie)):
+
+         list_typologies.append(       { 
+                                        "model": {
+                                                "identifier": typologie[k]
+                                                 },
+                                                 "status": 1
+                                  }) 
+
+         #ManageTeachers   
+         list_teachers =[]  
+
+         #ManageClassrooms  
+         list_classrooms =[]   
+
+        data = {
+                
+                v_name_dto : getattr (event_data,v_event_Id_BC),
+                v_code_dto : getattr (event_data,v_event_Id_BC),
+                v_start_time_event_dto : getattr (event_data,v_hourBegin),
+                v_end_time_event_dto :  getattr (event_data,v_hourEnd),
+                v_day_event_dto : getattr (event_data,v_day),
+                v_section_name_event_dto : getattr (event_data,v_section_name),
+                v_conector_name_event_dto : getattr( event_data, v_id_uxxi),
+                v_event_type_id_event_dto : getattr (event_data,v_id_event_type),
+                v_mod_id_event_dto : getattr (event_data,v_mod_id_dominant),
+                v_acad_year_event_dto :getattr ( event_data,v_id_academic_year),
+                v_students_number_dto : getattr (event_data,v_students_number),
+                v_weeks_event_dto: list_weeks,
+                v_groups_event_dto : list_groups,
+                v_teachers_event_dto : list_teachers,
+                v_classrooms_event_dto : list_classrooms,
+                v_typologies_event_dto : list_typologies,
+
+                v_constrains_event: True
+
+                }
 
         return(data)

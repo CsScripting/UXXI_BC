@@ -28,5 +28,6 @@ DataFrame,
 ExcelWriter,
 to_datetime,
 merge,
-concat
+concat,
+Series
 )

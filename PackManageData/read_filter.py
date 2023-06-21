@@ -59,8 +59,11 @@ def create_insert_validation_file (df : DataFrame, process_folder : str, process
 
 def filter_by_activity_type (df : DataFrame):
      
-    df_right_type = df[(df[v_mod_typologie] == 'EB') | (df[v_mod_typologie] == 'EPD') | (df[v_mod_typologie] == 'AD') ].copy()
-    df_wrong_type = df[(df[v_mod_typologie] != 'EB') & (df[v_mod_typologie] != 'EPD') & (df[v_mod_typologie] != 'AD') ].copy()
+    # df_right_type = df[(df[v_mod_typologie] == 'EB') | (df[v_mod_typologie] == 'EPD') | (df[v_mod_typologie] == 'AD') ].copy()
+    # df_wrong_type = df[(df[v_mod_typologie] != 'EB') & (df[v_mod_typologie] != 'EPD') & (df[v_mod_typologie] != 'AD') ].copy()
+
+    df_right_type = df[(df[v_mod_typologie] == 'EB') | (df[v_mod_typologie] == 'EPD')].copy()
+    df_wrong_type = df[(df[v_mod_typologie] != 'EB') & (df[v_mod_typologie] != 'EPD') ].copy()
 
     return (df_right_type, df_wrong_type)
       

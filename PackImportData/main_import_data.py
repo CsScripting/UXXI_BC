@@ -1,5 +1,6 @@
 import PackGeneralProcedures.files as genFiles
 import PackImportData.dataFrame_data_post as iteratePost
+import PackImportData.dataFrame_event_post as eventPost
 import PackImportData.folders_process_import as folderImport
 import PackImportData.match_id_entities_events as idEntities
 
@@ -30,7 +31,7 @@ def import_data_steps(name_folder_process):
     else:
 
         # Always Inserted ImportData 
-        genFiles.create(df_courses_to_update,v_main_folder_process,name_folder_process,v_file_curriculum_imported,v_sheet_courses,v_process_import_data )
+        genFiles.create(df_courses_to_update,v_main_folder_process,name_folder_process,v_file_curriculum_imported,v_sheet_courses,v_process_import_data)
         file_imported_created = True
 
     ## - Planes - ##
@@ -41,12 +42,12 @@ def import_data_steps(name_folder_process):
 
         df_planes_imported = iteratePost.iterate_df_planes_and_post (df_planes_to_update)
         
-        genFiles.create(df_planes_imported,v_main_folder_process,name_folder_process,v_file_curriculum_imported,v_sheet_planes,v_process_import_data )
+        genFiles.create(df_planes_imported,v_main_folder_process,name_folder_process,v_file_curriculum_imported,v_sheet_planes,v_process_import_data, file_imported_created )
         
 
     else: 
 
-        genFiles.create(df_planes_to_update,v_main_folder_process,name_folder_process,v_file_curriculum_imported,v_sheet_planes,v_process_import_data )
+        genFiles.create(df_planes_to_update,v_main_folder_process,name_folder_process,v_file_curriculum_imported,v_sheet_planes,v_process_import_data, file_imported_created )
         
 
     ## - Student Groups - ##
@@ -57,12 +58,12 @@ def import_data_steps(name_folder_process):
 
         df_st_groups_imported = iteratePost.iterate_df_groups_and_post (df_st_groups_to_update)
         
-        genFiles.create(df_st_groups_imported,v_main_folder_process,name_folder_process,v_file_curriculum_imported,v_sheet_st_group,v_process_import_data )
+        genFiles.create(df_st_groups_imported,v_main_folder_process,name_folder_process,v_file_curriculum_imported,v_sheet_st_group,v_process_import_data, file_imported_created )
         
 
     else: 
 
-        genFiles.create(df_st_groups_to_update,v_main_folder_process,name_folder_process,v_file_curriculum_imported,v_sheet_st_group,v_process_import_data )
+        genFiles.create(df_st_groups_to_update,v_main_folder_process,name_folder_process,v_file_curriculum_imported,v_sheet_st_group,v_process_import_data, file_imported_created )
         
     
     ## - Modules - ##
@@ -73,12 +74,12 @@ def import_data_steps(name_folder_process):
 
         df_modules_imported = iteratePost.iterate_df_modules_and_post (df_modules_to_update)
         
-        genFiles.create(df_modules_imported,v_main_folder_process,name_folder_process,v_file_curriculum_imported,v_sheet_modules,v_process_import_data )
+        genFiles.create(df_modules_imported,v_main_folder_process,name_folder_process,v_file_curriculum_imported,v_sheet_modules,v_process_import_data, file_imported_created )
         
 
     else: 
 
-        genFiles.create(df_modules_to_update,v_main_folder_process,name_folder_process,v_file_curriculum_imported,v_sheet_modules,v_process_import_data )
+        genFiles.create(df_modules_to_update,v_main_folder_process,name_folder_process,v_file_curriculum_imported,v_sheet_modules,v_process_import_data, file_imported_created  )
 
 
     #Read Files to Import Data Events
@@ -86,16 +87,51 @@ def import_data_steps(name_folder_process):
     df_horarios = genFiles.read_data_files_import(v_main_folder_process,name_folder_process, v_process_update_data, 
                                                   v_file_horarios,v_folder_data_uxxi )
     
-
-    # Verify Events to Import (Opcion From User)
+    # Verify Events to Import (Opcion From User) --> Value 1 To Import
 
     df_horarios = idEntities.filter_df_to_import(df_horarios)
 
     #Collect Id´s Entities to Insert  Events
 
-    # # - Modules - #
     
-    df_horarios, df_horarios_invalid = idEntities.module (df_horarios)
+    ## - AcademicTerm - ##
+    df_horarios, df_horarios_invalid = idEntities.academic_year (df_horarios )
+
+    ## - EventType - ##
+    df_horarios, df_horarios_invalid = idEntities.event_type (df_horarios,df_horarios_invalid )
+
+    ## - Modules - ##
+    df_horarios, df_horarios_invalid = idEntities.module (df_horarios, df_horarios_invalid)
+
+    ## - Typologies - ##
+    df_horarios, df_horarios_invalid = idEntities.typologies (df_horarios, df_horarios_invalid)
+
+    # # - StudentGroups - #
+    df_horarios, df_horarios_invalid = idEntities.student_group (df_horarios, df_horarios_invalid)
+
+
+    # # - Weeks - #
+    df_horarios, df_horarios_invalid = idEntities.weeks (df_horarios, df_horarios_invalid)
+
+
+    ## Import Events ##
+
+
+    df_events_imported, df_events_not_imported = eventPost.iterate_df_events_and_post(df_horarios)
+
+    if not df_events_imported.empty:
+
+        genFiles.create(df_events_imported,v_main_folder_process,name_folder_process,v_file_events_imported,v_sheet_events,v_process_import_data )
+
+    if not df_events_not_imported.empty:
+        
+        genFiles.create(df_events_not_imported,v_main_folder_process,name_folder_process,v_file_events_not_imported,v_sheet_events,v_process_import_data)
+
+
+
+
+
+    
 
 
     return()

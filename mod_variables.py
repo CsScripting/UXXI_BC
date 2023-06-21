@@ -48,6 +48,8 @@ v_file_curriculum_best = 'CURRICULUM_BEST'
 v_file_curriculum_uxxi = 'CURRICULUM_UXXI'
 v_file_curriculum_to_import = 'CURRICULUM_NEW'
 v_file_curriculum_imported = 'CURRICULUM_IMPORTED'
+v_file_events_imported = 'EVENTS_IMPORTED'
+v_file_events_not_imported = 'EVENTS_NOT_IMPORTED'
 
 
 
@@ -57,6 +59,10 @@ v_sheet_typologies = 'LessonTypologies'
 v_sheet_courses = 'Courses'
 v_sheet_planes = 'CurriculumProgrammes'
 v_sheet_st_group = 'StudentGroups'
+
+# Name Sheets Events
+v_sheet_events = 'EventImported'
+v_sheet_events_not_imported = 'EventNotImported'
 
 
 
@@ -73,6 +79,9 @@ v_mod_code_dominant = 'CODIGO_ASIG_DOMINANT'
 v_mod_id_dominant = 'ID_ASIG_DOMINANT'
 v_mod_name = 'NOMBRE_ASIGNATURA'
 v_mod_typologie =	'TIPO'
+v_mod_type_dominant = 'TIPO_ASIG_DOMINANT'
+v_mod_id_typologie =	'ID_TIPO'
+
 v_student_group =	'GRUPO'
 v_activity_code =	'CODIGO_ACTIVIDAD'
 v_student_group_code	= 'CODIGO_GRUPO'
@@ -86,7 +95,8 @@ v_minute_end_split = 'MINUTO_FIN'
 v_duration = 'HORAS_DURACION'
 v_students_number = 'ALUMNOS'
 
-v_student_group_name = 'NameGrupo'
+v_student_group_name = 'NAME_GRUPO'
+v_student_group_id = 'ID_GRUPO'
 v_student_group_name_to_EB = 'NameGrupoToEB'
 v_hourBegin = 'HoraInicio'
 v_hourEnd = 'HoraFin'
@@ -100,11 +110,16 @@ v_student_group_best = 'GrupoBest'
 
 v_merge = '_merge'
 v_weeks = 'WEEKS_EVENT'
+v_id_weeks = 'ID_WEEKS_EVENT'
 v_id_student= 'studentGroup_id'
 
 v_event_Id_BC = 'EventIdBC'
 v_event_type = 'EventType'
+v_id_event_type = 'EventTypeId'
 v_section_name = 'SectionName'
+v_academic_year = 'ACADEMIC_YEAR'
+v_id_academic_year = 'ACADEMIC_YEAR_ID'
+
 
 v_split_weeks = 'Split_Weeks'
 v_merge = '_merge'
@@ -179,6 +194,27 @@ v_value_to_find = 'Value'
 v_search_code = 'Code'
 v_search_name = 'Name'
 
+# from weeksDTO
+
+v_start_date_dto = 'startDate'
+
+# from eventDTO
+
+v_start_time_event_dto = 'startTime'
+v_end_time_event_dto = 'endTime'
+v_day_event_dto = 'day'
+v_section_name_event_dto = 'wlsSectionName'
+v_conector_name_event_dto = 'wlsSectionConnector'
+v_event_type_id_event_dto = 'eventTypeId'
+v_mod_id_event_dto = 'moduleId'
+v_acad_year_event_dto = 'academicYearId'
+v_weeks_event_dto = 'weeks'
+v_groups_event_dto = 'studentGroups'
+v_typologies_event_dto = 'typologies'
+v_teachers_event_dto = 'teachers'
+v_classrooms_event_dto = 'classrooms'
+v_constrains_event = 'breakConstraints'
+
 
 
 ## - Variables DataFrames - ##
@@ -227,6 +263,10 @@ v_typologie_controller = 'Typologies'
 v_acad_term_controller = 'AcademicTerm'
 v_st_group_controller = 'StudentGroups'
 v_scientific_area_controller = 'ScientificAreas'
+v_event_type_controller = 'EventTypes'
+v_acad_year_controller = 'AcademicYear'
+v_weeks_controller = 'Weeks'
+v_event_controller = 'EventsAcademic'
 
 
 ## - Variables DataFrames to Compare Data Frames - ##
@@ -257,4 +297,10 @@ v_students_number_best_match = 'StudentsNumber_best'
 #Errores match_id_entities_events:
 
 v_error_id = 'ERROR_ID'
+
 v_error_id_mod = 'ModuleCode'
+v_error_id_group = 'GroupName'
+v_error_id_type = 'TypologieName'
+v_error_id_event_type = 'EventTypeName'
+v_error_id_acad_year = 'AcademicYearName'
+v_error_id_week = 'WeekValue'
