@@ -48,6 +48,7 @@ v_file_curriculum_best = 'CURRICULUM_BEST'
 v_file_curriculum_uxxi = 'CURRICULUM_UXXI'
 v_file_curriculum_to_import = 'CURRICULUM_NEW'
 v_file_curriculum_imported = 'CURRICULUM_IMPORTED'
+v_file_events_best = 'EVENTS_BEST'
 v_file_events_imported = 'EVENTS_IMPORTED'
 v_file_events_not_imported = 'EVENTS_NOT_IMPORTED'
 
@@ -59,15 +60,19 @@ v_sheet_typologies = 'LessonTypologies'
 v_sheet_courses = 'Courses'
 v_sheet_planes = 'CurriculumProgrammes'
 v_sheet_st_group = 'StudentGroups'
+v_sheet_variables_process = 'DatesEvents'
 
 # Name Sheets Events
 v_sheet_events = 'EventImported'
 v_sheet_events_not_imported = 'EventNotImported'
+v_sheet_events_best = 'EventsBEST'
 
+# Variable File Info Events Start Date ; End Date
 
-
-v_academic_term = 1
-#variables DTO Wload
+v_variables_process = 'VariablesProcess'
+v_variables_values = 'Values'
+v_variable_start_day = 'StartDay'
+v_variable_end_day = 'EndDay'
 
 
 # - Variables File UXXI -# 
@@ -94,6 +99,7 @@ v_hourEnd_split = 'HORA_FIN'
 v_minute_end_split = 'MINUTO_FIN'
 v_duration = 'HORAS_DURACION'
 v_students_number = 'ALUMNOS'
+v_classroom_name = 'NOMBRE_AULA'
 
 v_student_group_name = 'NAME_GRUPO'
 v_student_group_id = 'ID_GRUPO'
@@ -110,6 +116,8 @@ v_student_group_best = 'GrupoBest'
 
 v_merge = '_merge'
 v_weeks = 'WEEKS_EVENT'
+v_week_first = 'FIRST_WEEK'
+v_week_last = 'LAST_WEEK'
 v_id_weeks = 'ID_WEEKS_EVENT'
 v_id_student= 'studentGroup_id'
 
@@ -207,14 +215,19 @@ v_section_name_event_dto = 'wlsSectionName'
 v_conector_name_event_dto = 'wlsSectionConnector'
 v_event_type_id_event_dto = 'eventTypeId'
 v_mod_id_event_dto = 'moduleId'
-v_acad_year_event_dto = 'academicYearId'
+v_acad_year_event_dto = 'academicYear'
+v_acad_year_id_event_dto = 'academicYearId'
 v_weeks_event_dto = 'weeks'
 v_groups_event_dto = 'studentGroups'
 v_typologies_event_dto = 'typologies'
 v_teachers_event_dto = 'teachers'
 v_classrooms_event_dto = 'classrooms'
 v_constrains_event = 'breakConstraints'
-
+v_duration_event_dto = 'duration'
+v_event_type_event_dto = 'eventType'
+v_num_students_event_dto = 'numStudents'
+v_classrooms_event_dto = 'classrooms'
+v_module_event_dto = 'module'
 
 
 ## - Variables DataFrames - ##
@@ -266,7 +279,8 @@ v_scientific_area_controller = 'ScientificAreas'
 v_event_type_controller = 'EventTypes'
 v_acad_year_controller = 'AcademicYear'
 v_weeks_controller = 'Weeks'
-v_event_controller = 'EventsAcademic'
+v_event_academic_controller = 'EventsAcademic'
+v_event_controller = 'Events'
 
 
 ## - Variables DataFrames to Compare Data Frames - ##

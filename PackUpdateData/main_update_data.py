@@ -1,10 +1,12 @@
 import PackControllerRequest.general_requests as genRequest
+import PackControllerRequest.event_request as eventRequest
 
 import PackDfFromJson.CoursesDf as courseDf
 import PackDfFromJson.CurricularPlansDf as planDf
 import PackDfFromJson.StudentGroupsDf as groupDf 
 import PackDfFromJson.ModulesDf as modDf
 import PackDfFromJson.TypologiesDf as typeDf
+import PackDfFromJson.EventsDf as eventDf
 
 
 import PackManageApi.glogal_variable_process_request as gl_v_request
@@ -12,14 +14,46 @@ import PackGeneralProcedures.files as genFiles
 import PackGeneralProcedures.global_variable_process_procedures as glVarPro
 import PackUpdateData.folders_process_update as folderUpdate
 import PackUpdateData.match_data_uxxi_api as matchData
+import PackGeneralProcedures.files as genFiles
+
+from PackLibrary.librarys import (	
+  DataFrame
+)
 
 from mod_variables import *
 
-def update_data_steps():
+def update_data_steps(first_week_schedules : str, last_week_schedules : str, df_info_events : DataFrame,
+                       df_events_to_import : DataFrame):
 
 
     # Create Folder Update
     folderUpdate.create_folder_update_process(glVarPro.gl_process_folder)
+
+    genFiles.create(df_events_to_import,glVarPro.gl_process_folder,glVarPro.gl_process_code,v_file_horarios,v_sheet_data_uxxi,v_process_update_data, False)
+
+    
+    ### extract schedules BEST ###
+
+
+    events_best = eventRequest.get_events_all(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_event_controller, first_week_schedules, last_week_schedules)
+
+    df_events_best = eventDf.events_df_from_json(events_best)
+
+    file_events_created = False
+    genFiles.create (df_info_events,glVarPro.gl_process_folder,glVarPro.gl_process_code,
+                     v_file_events_best, v_sheet_variables_process,v_process_update_data)
+    
+    file_events_created = True
+    genFiles.create (df_events_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,
+                     v_file_events_best, v_sheet_events_best,v_process_update_data, file_events_created)
+    
+
+
+    ### -- ###
+
+    
+
+
 
     
     ## - Extract Data from DataBase (API) to Check Data - ##

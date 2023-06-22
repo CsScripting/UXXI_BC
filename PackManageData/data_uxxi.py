@@ -1,5 +1,7 @@
 from PackLibrary.librarys import (	
   DataFrame,
+  to_datetime,
+  datetime
 )
 from mod_variables import *
 import PackGeneralProcedures.files as genFiles
@@ -107,3 +109,41 @@ def check_typologies_uxxi (df : DataFrame, process_folder : str, process_code : 
     genFiles.create  (df,process_folder, process_code, v_file_curriculum_uxxi, v_sheet_typologies, v_process_manage_data, flag_file_created)
 
     return()
+
+
+def check_date_begin_end_schedules (df: DataFrame):
+
+    df = df[[v_weeks]].copy()
+
+    df[v_week_first] = df[v_weeks].str.split(',').str[0]
+    df[v_week_last] = df[v_weeks].str.split(',').str[-1]
+
+    df[v_week_first] = to_datetime(df[v_week_first], dayfirst = True)
+    df[v_week_last] = to_datetime(df[v_week_last], dayfirst = True)
+
+    value_minimum = df[v_week_first].min()
+    value_higer = df[v_week_last].max()
+
+    value_higer = value_higer + datetime.timedelta(days=7) ## When call Events ALL is by day not by Week !!!!
+
+    value_higer = value_higer.strftime("%Y-%m-%d")
+    value_minimum = value_minimum.strftime("%Y-%m-%d")
+
+    return(value_minimum, value_higer)
+
+def create_df_info_date_events (start_day : str, end_day : str):
+
+    df_process = DataFrame(columns = [v_variables_process, v_variables_values])
+
+    #Insert StartDay
+    df_process = df_process.append({v_variables_process : v_variable_start_day, 
+                                    v_variables_values : start_day}, ignore_index = True)
+
+    #Insert EndDay
+    df_process = df_process.append({v_variables_process : v_variable_end_day, 
+                                    v_variables_values : end_day}, ignore_index = True)
+
+
+
+
+    return(df_process)

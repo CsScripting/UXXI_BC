@@ -35,7 +35,7 @@ def iterate_df_events_and_post (df : DataFrame):
 
         data_object = dtObj.create_dto_event(row)
         
-        response_code, message_to_present = genRequest.post_data_to_entity(gl_v_request.gl_url_api, gl_v_request.gl_header_request, v_event_controller, data_object)
+        response_code, message_to_present = genRequest.post_data_to_entity(gl_v_request.gl_url_api, gl_v_request.gl_header_request, v_event_academic_controller, data_object)
 
 
     

@@ -74,13 +74,29 @@ def manage_data_uxxi_steps(name_file_inserted : str):
     df_uxxi = rulesBest.add_event_connector(df_uxxi)
     df_uxxi = rulesBest.manage_hours(df_uxxi)
 
+    #Extrat Date Schedules:
+
+    first_week, last_week = dataUxxi.check_date_begin_end_schedules(df_uxxi)
+
+    #Create DataFrameInfo:
+
+    df_info_events = dataUxxi.create_df_info_date_events(first_week, last_week)
+
+
+
     df_uxxi = df_uxxi[[v_event_Id_BC, v_mod_name, v_mod_code,v_mod_typologie, v_section_name, v_day,
                        v_hourBegin, v_hourEnd, v_duration, v_course_name, v_course_code, 
                        v_year, v_student_group_name,v_students_number,v_id_uxxi,v_weeks, v_event_type ]].copy()
+    
+    df_uxxi [v_academic_year] = ''
+    df_uxxi [v_data_to_import_new] = ''
+
+    
+
 
     #Insert File On Folder Manage Data:
 
-    genFiles.create(df_uxxi,process_folder, process_code,v_file_horarios,v_sheet_data_uxxi,v_process_manage_data,)
+    # genFiles.create(df_uxxi,process_folder, process_code,v_file_horarios,v_sheet_data_uxxi,v_process_manage_data)
 
-    return()
+    return(first_week, last_week, df_info_events, df_uxxi)
 
