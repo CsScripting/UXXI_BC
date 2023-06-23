@@ -78,7 +78,7 @@ def on_click_two_threads():
 
 def update_start_window():
 
-    label1_begin.config(text='Events UXXI to BC\n\n-- BEST API --\n'+ v_version,)
+    label1_begin.config(text='\nUXXI <-> BEST\n'+ v_version,)
     label2_begin.config (text = '')
     label3.config(text = '')
     
@@ -114,7 +114,7 @@ def status_running (name, start_process):
         #Not Fix Window on center...
         main_window.overrideredirect(False)
 
-        label1_begin.config(text='Events UXXI to BC\n\n-- BEST API --\n'+ v_version)
+        label1_begin.config(text='\nUXXI <-> BEST\n'+ v_version)
         label2_begin.config (text = 'Running')
         label3 = tk.Label(main_window, text = '....', font =(20)) 
 

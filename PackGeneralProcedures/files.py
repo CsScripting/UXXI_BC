@@ -3,7 +3,6 @@ from PackLibrary.librarys import (
     DataFrame,
     read_excel
 )
-
 from mod_variables import *
 
 
@@ -68,3 +67,12 @@ def read_data_files_import (main_folder_process : str, name_folder_process : str
     df = read_excel (path_file_name, sheet_name, dtype = 'str', keep_default_na=False, na_values=val_null)
 
     return(df)
+
+def create_csv_file (df : DataFrame, path ):
+
+    name_file = '/CSV_prueba.csv'
+    path_to_file = path + name_file
+
+    df.to_csv(path_to_file, index=False, encoding='iso8859-1', sep=';', na_rep='')
+
+    return()

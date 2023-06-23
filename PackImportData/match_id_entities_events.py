@@ -3,6 +3,7 @@ import PackManageApi.glogal_variable_process_request as gl_v_request
 import PackControllerRequest.general_requests as genRequest
 import PackDfFromJson.ModulesDf as modDf
 import PackDfFromJson.StudentGroupsDf as stGroupDf
+import PackDfFromJson.ClassroomsDf as classDf
 import PackDfFromJson.TypologiesDf as typeDf
 import PackDfFromJson.AcademicYearDf as acadyearDf
 import PackDfFromJson.EventTypeDf as eventTypeDf
@@ -15,7 +16,8 @@ from PackLibrary.librarys import (
     merge,
     where,
     concat,
-    arange
+    arange,
+    isnull
 )
 
 def filter_df_to_import (df:DataFrame):
@@ -32,7 +34,7 @@ def academic_year (df_event : DataFrame):
 
     columns_data_frame = [v_event_Id_BC, v_mod_name, v_mod_code,v_mod_typologie, v_section_name, v_day,
                           v_hourBegin, v_hourEnd, v_duration, v_course_name, v_course_code, 
-                          v_year, v_student_group_name,v_students_number,v_id_uxxi,v_weeks, v_event_type, v_error_id ]
+                          v_year, v_student_group_name,v_students_number,v_classroom_name, v_id_uxxi,v_weeks, v_event_type,v_code_request, v_message_request ]
 
     df_invalid_events_data = DataFrame(columns = columns_data_frame)
 
@@ -54,9 +56,11 @@ def academic_year (df_event : DataFrame):
 
     df_event_without_id = df_event_without_id [[v_event_Id_BC, v_mod_name, v_mod_code,v_mod_typologie, v_section_name, v_day,
                                                 v_hourBegin, v_hourEnd, v_duration, v_course_name, v_course_code, 
-                                                v_year, v_student_group_name,v_students_number,v_id_uxxi,v_weeks, v_event_type ]].copy()
+                                                v_year, v_student_group_name,v_students_number,v_classroom_name, v_id_uxxi,v_weeks, v_event_type ]].copy()
     
-    df_event_without_id [v_error_id] = v_error_id_acad_year
+    df_event_without_id [v_code_request] = '404' # ---> Code Entity Not Found
+    df_event_without_id [v_message_request] = v_error_id_acad_year + ' - ' + v_error_id
+    
 
     df_invalid = concat([df_invalid_events_data, df_event_without_id], ignore_index= True)
 
@@ -86,9 +90,11 @@ def event_type (df_event : DataFrame, df_invalid_events_data : DataFrame):
 
     df_event_without_id = df_event_without_id [[v_event_Id_BC, v_mod_name, v_mod_code,v_mod_typologie, v_section_name, v_day,
                                                         v_hourBegin, v_hourEnd, v_duration, v_course_name, v_course_code, 
-                                                        v_year, v_student_group_name,v_students_number,v_id_uxxi,v_weeks, v_event_type ]].copy()
+                                                        v_year, v_student_group_name,v_students_number,v_classroom_name, v_id_uxxi,v_weeks, v_event_type ]].copy()
     
-    df_event_without_id [v_error_id] = v_error_id_acad_year
+    df_event_without_id [v_code_request] = '404' # ---> Code Entity Not Found
+    df_event_without_id [v_message_request] = v_error_id_acad_year + ' - ' + v_error_id
+    
 
     df_invalid = concat([df_invalid_events_data, df_event_without_id], ignore_index= True)
 
@@ -122,9 +128,11 @@ def module (df_event : DataFrame, df_horarios_invalid : DataFrame):
 
     df_event_without_id_mod = df_event_without_id_mod [[v_event_Id_BC, v_mod_name, v_mod_code,v_mod_typologie, v_section_name, v_day,
                                                         v_hourBegin, v_hourEnd, v_duration, v_course_name, v_course_code, 
-                                                        v_year, v_student_group_name,v_students_number,v_id_uxxi,v_weeks, v_event_type ]].copy()
+                                                        v_year, v_student_group_name,v_students_number,v_classroom_name, v_id_uxxi,v_weeks, v_event_type ]].copy()
     
-    df_event_without_id_mod [v_error_id] = v_error_id_mod
+    df_event_without_id_mod [v_code_request] = '404' # ---> Code Entity Not Found
+    df_event_without_id_mod [v_message_request] = v_error_id_mod + ' - ' + v_error_id
+    
 
     df_invalid = concat([df_horarios_invalid, df_event_without_id_mod], ignore_index= True)
 
@@ -156,9 +164,12 @@ def typologies (df_event : DataFrame, df_horarios_invalid : DataFrame):
 
     df_event_without_id_type = df_event_without_id_type [[v_event_Id_BC, v_mod_name, v_mod_code,v_mod_typologie, v_section_name, v_day,
                                                           v_hourBegin, v_hourEnd, v_duration, v_course_name, v_course_code, 
-                                                          v_year, v_student_group_name,v_students_number,v_id_uxxi,v_weeks, v_event_type ]].copy()
+                                                          v_year, v_student_group_name,v_students_number,v_classroom_name, v_id_uxxi,v_weeks, v_event_type ]].copy()
     
-    df_event_without_id_type [v_error_id] = v_error_id_type
+    
+    df_event_without_id_type [v_code_request] = '404' # ---> Code Entity Not Found
+    df_event_without_id_type [v_message_request] = v_error_id_type + ' - ' + v_error_id
+    
 
     df_invalid = concat([df_horarios_invalid, df_event_without_id_type], ignore_index= True)
 
@@ -201,7 +212,7 @@ def student_group (df_event : DataFrame, df_horarios_invalid : DataFrame):
 
                 if value_id.empty:
 
-                    values_id_to_insert.append(v_error_id_group)
+                    values_id_to_insert.append(v_error_id_group + ' - ' + v_error_id)
                 
                 else:
 
@@ -212,20 +223,86 @@ def student_group (df_event : DataFrame, df_horarios_invalid : DataFrame):
         values_id_to_insert_string = ','.join(values_id_to_insert)
         df_event.loc[df_event[v_id_event] == id_event_to_map, v_student_group_id] = values_id_to_insert_string
 
-    df_event[v_error_id] = where(df_event[v_student_group_id].str.contains (v_error_id_group, na = False), 
-                                    v_error_id_group, '1')
+    df_event[v_message_request] = where(df_event[v_student_group_id].str.contains (v_error_id_group, na = False), 
+                                    v_error_id_group  + ' - ' + v_error_id, '1')
     
-    df_event_with_id_st_group = df_event[df_event[v_error_id] == '1'].copy() 
-    df_event_without_id_st_group = df_event[df_event[v_error_id] == v_error_id_group].copy()
+    df_event_with_id_st_group = df_event[df_event[v_message_request] == '1'].copy() 
+    df_event_without_id_st_group = df_event[df_event[v_message_request] == v_error_id_group + ' - ' + v_error_id].copy()
+    df_event_without_id_st_group [v_code_request] = '404' # ---> Code Entity Not Found
 
     df_event_without_id_st_group = df_event_without_id_st_group [[v_event_Id_BC, v_mod_name, v_mod_code,v_mod_typologie, v_section_name, v_day,
                                                                   v_hourBegin, v_hourEnd, v_duration, v_course_name, v_course_code, 
-                                                                  v_year, v_student_group_name,v_students_number,v_id_uxxi,v_weeks, v_event_type,v_error_id ]].copy()
+                                                                  v_year, v_student_group_name,v_students_number,v_classroom_name, v_id_uxxi,v_weeks, v_event_type,
+                                                                  v_code_request, v_message_request]].copy()
          
     df_horarios_invalid = concat([df_horarios_invalid, df_event_without_id_st_group], ignore_index= True)
-    df_event_with_id_st_group.drop(columns=v_error_id, inplace=True)
+    df_event_with_id_st_group.drop(columns=v_message_request, inplace=True)
 
     return (df_event_with_id_st_group, df_horarios_invalid)
+
+
+
+def classrooms (df_event : DataFrame, df_horarios_invalid : DataFrame):
+
+    
+    classrooms_db = genRequest.get_entity_data(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_classrooms_controller)
+    
+    flag_need_id = True
+    df_classrooms_best = classDf.classrooms_df_from_json(classrooms_db, flag_need_id)
+
+    df_event [v_id_classroom] = ''
+    df_event_to_iterate = df_event.copy()
+
+    for row in df_event_to_iterate.itertuples(index = False):
+
+        classrooms_inserted = getattr(row, v_classroom_name)
+        id_event_to_map = getattr(row, v_id_event)
+
+        values_id_to_insert = []
+
+        if classrooms_inserted == '' or isnull(classrooms_inserted):
+
+            values_id_to_insert_string = ''
+
+        else:
+
+            classroom_value  = classrooms_inserted.split(',')
+
+        
+            for cl in range (len(classroom_value)):
+
+                value_id = df_classrooms_best.loc[df_classrooms_best[v_name_best] == classroom_value[cl], [v_id_best]]
+
+                if value_id.empty:
+
+                    values_id_to_insert.append(v_error_id_classroom + ' - ' + v_error_id)
+                
+                else:
+
+                    values_id_to_insert.append(value_id.iloc[0][0])
+
+
+            values_id_to_insert = [str(i) for i in values_id_to_insert]
+            values_id_to_insert_string = ','.join(values_id_to_insert)
+            df_event.loc[df_event[v_id_event] == id_event_to_map, v_id_classroom] = values_id_to_insert_string
+
+    df_event[v_message_request] = where(df_event[v_id_classroom].str.contains (v_error_id_classroom, na = False), 
+                                    v_error_id_classroom  + ' - ' + v_error_id, '1')
+    
+    df_event_with_id_classrooms = df_event[df_event[v_message_request] == '1'].copy() 
+    df_event_without_id_classrooms = df_event[df_event[v_message_request] == v_error_id_classroom + ' - ' + v_error_id].copy()
+    df_event_without_id_classrooms [v_code_request] = '404' # ---> Code Entity Not Found
+
+    df_event_without_id_classrooms = df_event_without_id_classrooms [[v_event_Id_BC, v_mod_name, v_mod_code,v_mod_typologie, v_section_name, v_day,
+                                                                      v_hourBegin, v_hourEnd, v_duration, v_course_name, v_course_code, 
+                                                                      v_year, v_student_group_name,v_students_number,v_classroom_name,v_id_uxxi,v_weeks, v_event_type,v_code_request,
+                                                                      v_message_request ]].copy()
+         
+    df_horarios_invalid = concat([df_horarios_invalid, df_event_without_id_classrooms], ignore_index= True)
+    df_event_with_id_classrooms.drop(columns=v_message_request, inplace=True)
+
+    return (df_event_with_id_classrooms, df_horarios_invalid)
+
 
 
 
@@ -256,7 +333,7 @@ def weeks (df_event : DataFrame, df_horarios_invalid : DataFrame):
 
             if value_id.empty:
 
-                values_id_to_insert.append(v_error_id_week)
+                values_id_to_insert.append(v_error_id_week + ' - ' + v_error_id)
             
             else:
 
@@ -267,18 +344,20 @@ def weeks (df_event : DataFrame, df_horarios_invalid : DataFrame):
         values_id_to_insert_string = ','.join(values_id_to_insert)
         df_event.loc[df_event[v_id_event] == id_event_to_map, v_id_weeks] = values_id_to_insert_string
 
-    df_event[v_error_id] = where(df_event[v_id_weeks].str.contains (v_error_id_week, na = False), 
-                                 v_error_id_week, '1')
+    df_event[v_message_request] = where(df_event[v_id_weeks].str.contains (v_error_id_week, na = False), 
+                                 v_error_id_week + ' - ' + v_error_id, '1')
     
-    df_event_with_id = df_event[df_event[v_error_id] == '1'].copy() 
-    df_event_without_id = df_event[df_event[v_error_id] == v_error_id_week].copy()
+    df_event_with_id = df_event[df_event[v_message_request] == '1'].copy() 
+    df_event_without_id = df_event[df_event[v_message_request] == v_error_id_week + ' - ' + v_error_id].copy()
+    df_event_without_id [v_code_request] =  '404' # ---> Code Entity Not Found
 
     df_event_without_id = df_event_without_id [[v_event_Id_BC, v_mod_name, v_mod_code,v_mod_typologie, v_section_name, v_day,
                                                                   v_hourBegin, v_hourEnd, v_duration, v_course_name, v_course_code, 
-                                                                  v_year, v_student_group_name,v_students_number,v_id_uxxi,v_weeks, v_event_type,v_error_id ]].copy()
+                                                                  v_year, v_student_group_name,v_students_number,v_classroom_name, v_id_uxxi,v_weeks, v_event_type,
+                                                                  v_code_request,v_message_request ]].copy()
          
     df_horarios_invalid = concat([df_horarios_invalid, df_event_without_id], ignore_index= True)
-    df_event_with_id.drop(columns=v_error_id, inplace=True)
+    df_event_with_id.drop(columns=v_message_request, inplace=True)
 
     return (df_event_with_id, df_horarios_invalid)
 

@@ -45,6 +45,30 @@ def check_planes_uxxi (df : DataFrame, process_folder : str, process_code : str)
 
     return()
 
+def check_planes_modules (df:DataFrame, process_folder : str, process_code : str):
+
+    flag_file_created = True
+
+    #Notes README
+    df = df [[v_course_name, v_course_code, v_year, v_student_group, v_mod_code, v_mod_name]].copy()
+
+    df[v_identifier_gg] = df[v_student_group].str[0]
+    
+    df[v_name_best] = df[v_course_name] + '_' + df[v_year] + '_' + df[v_identifier_gg]
+    df[v_code_best] = df[v_course_code] + '_' + df[v_year] + '_' + df[v_identifier_gg]
+
+    df.rename(columns={v_year : v_year_best,
+                       v_course_code : v_course_code_best}, inplace=True)
+
+    df = df [[v_name_best,  v_code_best, v_year_best, v_course_code_best, v_mod_code, v_mod_name]].copy()
+    df.drop_duplicates(inplace=True)
+
+    genFiles.create  (df, process_folder,process_code, v_file_curriculum_uxxi, v_sheet_planes, v_process_manage_data, flag_file_created)
+    
+    
+
+    return()
+
 
 def check_st_groups_uxxi (df : DataFrame, process_folder : str, process_code : str):
 
@@ -147,3 +171,5 @@ def create_df_info_date_events (start_day : str, end_day : str):
 
 
     return(df_process)
+
+

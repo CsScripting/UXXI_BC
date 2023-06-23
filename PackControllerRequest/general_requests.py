@@ -2,11 +2,15 @@ from PackLibrary.librarys import(
     requests,
     json
 )
-from mod_variables import v_id_dto
+from mod_variables import v_id_dto, v_classrooms_controller
 
 def get_entity_data (url : str , header_request : str, controller : str):
 
     # If DataBse Empty return a empty list ()
+
+    if (controller == v_classrooms_controller):
+
+        controller = controller + '/all'
 
     url = url + controller
 

@@ -59,6 +59,7 @@ def manage_data_uxxi_steps(name_file_inserted : str):
     df_curriculum_uxxi = df_uxxi.copy()
     dataUxxi.check_courses_uxxi (df_curriculum_uxxi, process_folder, process_code)
     dataUxxi.check_planes_uxxi (df_curriculum_uxxi, process_folder, process_code)
+    dataUxxi.check_planes_modules (df_curriculum_uxxi, process_folder, process_code)
     dataUxxi.check_st_groups_uxxi (df_curriculum_uxxi, process_folder, process_code)
     dataUxxi.check_modules_uxxi (df_curriculum_uxxi, process_folder, process_code)
     dataUxxi.check_typologies_uxxi (df_curriculum_uxxi, process_folder, process_code)
@@ -88,11 +89,10 @@ def manage_data_uxxi_steps(name_file_inserted : str):
                        v_hourBegin, v_hourEnd, v_duration, v_course_name, v_course_code, 
                        v_year, v_student_group_name,v_students_number,v_id_uxxi,v_weeks, v_event_type ]].copy()
     
+    df_uxxi [v_classroom_name] = ''
     df_uxxi [v_academic_year] = ''
     df_uxxi [v_data_to_import_new] = ''
-
     
-
 
     #Insert File On Folder Manage Data:
 

@@ -16,6 +16,8 @@ import PackUpdateData.folders_process_update as folderUpdate
 import PackUpdateData.match_data_uxxi_api as matchData
 import PackGeneralProcedures.files as genFiles
 
+import PackManageData.bussiness_rules_uxxi as rulesUXXI
+
 from PackLibrary.librarys import (	
   DataFrame
 )
@@ -34,10 +36,15 @@ def update_data_steps(first_week_schedules : str, last_week_schedules : str, df_
     
     ### extract schedules BEST ###
 
-
     events_best = eventRequest.get_events_all(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_event_controller, first_week_schedules, last_week_schedules)
 
     df_events_best = eventDf.events_df_from_json(events_best)
+
+
+    ## format CSV ###
+
+    rulesUXXI.create_format_csv_uxxi(df_events_best, glVarPro.gl_process_folder,v_process_update_data) 
+    
 
     file_events_created = False
     genFiles.create (df_info_events,glVarPro.gl_process_folder,glVarPro.gl_process_code,

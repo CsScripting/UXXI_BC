@@ -4,6 +4,10 @@ import PackImportData.dataFrame_event_post as eventPost
 import PackImportData.folders_process_import as folderImport
 import PackImportData.match_id_entities_events as idEntities
 
+from PackLibrary.librarys import (	
+ concat
+)
+
 
 from mod_variables import *
 
@@ -93,7 +97,6 @@ def import_data_steps(name_folder_process):
 
     #Collect Id´s Entities to Insert  Events
 
-    
     ## - AcademicTerm - ##
     df_horarios, df_horarios_invalid = idEntities.academic_year (df_horarios )
 
@@ -109,6 +112,9 @@ def import_data_steps(name_folder_process):
     # # - StudentGroups - #
     df_horarios, df_horarios_invalid = idEntities.student_group (df_horarios, df_horarios_invalid)
 
+    # # - Classroooms - #
+    df_horarios, df_horarios_invalid = idEntities.classrooms (df_horarios, df_horarios_invalid)
+
 
     # # - Weeks - #
     df_horarios, df_horarios_invalid = idEntities.weeks (df_horarios, df_horarios_invalid)
@@ -116,8 +122,12 @@ def import_data_steps(name_folder_process):
 
     ## Import Events ##
 
+    ########## Verificar import sobre o mesmo processo ....erro se ficheiro ficar aberto .....
 
     df_events_imported, df_events_not_imported = eventPost.iterate_df_events_and_post(df_horarios)
+
+    ##### Errores From ID and not Inserted ID
+    df_events_not_imported = concat([df_events_not_imported, df_horarios_invalid], ignore_index= True)
 
     if not df_events_imported.empty:
 

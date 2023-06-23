@@ -3,7 +3,8 @@ from PackLibrary.librarys import (
   where,
   to_datetime,
   datetime,
-  timedelta
+  timedelta,
+  Series
 )
 
 
@@ -80,5 +81,22 @@ def manage_weeks (df: DataFrame):
     df = group_entities(df, series_grouped, sep=',')
 
     return(df, df_invalid)
+
+
+def split_by_column(column,sep):
+    
+	return Series(column.str.cat(sep=sep).split(sep=sep))
+	
+	
+def split_by_rows(df, name_serie, sep):	
+    
+	df= df.applymap(str)
+	df_new = (df.groupby(df.columns.drop(name_serie).tolist()) 
+	[name_serie]
+	.apply(split_by_column,sep=sep) 
+	.reset_index(drop=True,level=-1).reset_index()) 
+	
+
+	return (df_new)
 
 

@@ -1,10 +1,15 @@
+import PackManageData.join_tuples_data as manData
+
 from PackLibrary.librarys import (	
   DataFrame,
   where,
-  merge
+  merge,
+  to_datetime,
+  timedelta
 )
 
 from mod_variables import *
+import PackGeneralProcedures.files as genFile
 
 def group_entities(df, list_series, sep = ',', sort_flag = True):
     
@@ -87,5 +92,55 @@ def select_number_students(df : DataFrame):
 
     df[v_students_number] = df[v_students_number].str.split('#').str[0]
 
+    return(df)
+
+
+def create_format_csv_uxxi (df : DataFrame, path_folder, path_type_folder):
+
+    
+    df = df [[v_mod_code, v_mod_name, v_id_uxxi, v_mod_typologie,v_section_name,
+           v_weeks, v_day, v_hourBegin, v_hourEnd,v_classroom_name, v_classroom_code ]].copy()
+    
+    df.insert(2, v_year, df[v_id_uxxi].str.split('_').str[1])
+    df.insert(3, v_activity_code, df[v_id_uxxi].str.split('_').str[2])
+    df.insert(4, v_student_group_code, df[v_id_uxxi].str.split('_').str[3])
+    df.insert(5, v_student_group, df[v_section_name].str.split(' ').str[1])
+
+
+    #Manage Weeks
+
+    df = manData.split_by_rows(df, v_weeks, sep=',')
+
+    df.rename(columns={v_weeks : v_week_begin}, inplace=True)
+    df[v_week_begin] = to_datetime(df[v_week_begin], dayfirst = True)
+    df[v_week_end] = df[v_week_begin] + timedelta(days=5)
+
+    df[v_week_begin].apply(lambda x: x.strftime('%Y-%m-%d'))
+    df[v_week_end].apply(lambda x: x.strftime('%Y-%m-%d'))
+    df[v_day] = df[v_day].astype(int) + 1
+
+    df[v_hourBegin_split] = df[v_hourBegin].str.split(':').str[0].astype(int)
+    df[v_minute_begin_split] = df[v_hourBegin].str.split(':').str[-1].astype(int)
+
+    df[v_hourEnd_split] = df[v_hourEnd].str.split(':').str[0].astype(int)
+    df[v_minute_end_split] = df[v_hourEnd].str.split(':').str[-1].astype(int)
+
+    df[v_hourBegin] = to_datetime(df[v_hourBegin])
+    df[v_hourEnd] = to_datetime(df[v_hourEnd])
+
+    df[v_duration] = (df[v_hourEnd] - df[v_hourBegin]).dt.total_seconds() / 3600
+
+    df[v_plan_csv] = df[v_id_uxxi].str.split('_').str[0]
+
+    df[v_code_tipo_actividad_csv] = where(df[v_mod_typologie] == 'EB', '171', '172')
+
+    
+    df = df [[v_mod_code, v_mod_name, v_year,v_mod_typologie, v_code_tipo_actividad_csv, v_activity_code,v_student_group_code,v_student_group,
+              v_week_begin, v_week_end, v_day,v_hourBegin_split,v_minute_begin_split, v_hourEnd_split,v_minute_end_split, v_classroom_code,v_classroom_name, v_plan_csv]].copy()
+
+    path_file = path_folder + '/'+ path_type_folder + '/'
+    
+    genFile.create_csv_file(df, path_file)
+    
     return(df)
 

@@ -29,5 +29,6 @@ ExcelWriter,
 to_datetime,
 merge,
 concat,
-Series
+Series,
+isnull
 )

@@ -40,7 +40,8 @@ def add_event_section_name(df : DataFrame):
 
 def add_event_connector (df : DataFrame):
 
-    df[v_id_uxxi] = df[v_activity_code] + '_' + df[v_student_group_code]
+    df[v_plan_dominant] = df[v_course_code].str.split('#').str[0] + '_' + df[v_year].str.split('#').str[0] 
+    df[v_id_uxxi] = df[v_plan_dominant] + '_' + df[v_activity_code] + '_' + df[v_student_group_code]
 
     return(df)
 

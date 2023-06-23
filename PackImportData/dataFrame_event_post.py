@@ -13,8 +13,10 @@ def iterate_df_events_and_post (df : DataFrame):
 
     columns_to_present = [v_event_Id_BC, v_mod_name, v_mod_code,v_mod_typologie, v_section_name, v_day,
                           v_hourBegin, v_hourEnd, v_duration, v_course_name, v_course_code, 
-                          v_year, v_student_group_name,v_students_number,v_id_uxxi,v_weeks, v_event_type,
+                          v_year, v_student_group_name,v_students_number,v_classroom_name, v_id_uxxi,v_weeks, v_event_type,
                           v_code_request, v_message_request]
+    
+    
     
 
     df_columns_events = list(df.columns)

@@ -1,6 +1,7 @@
 from mod_variables import *
 from PackLibrary.librarys import (	
-    Series
+    Series,
+    isnull
 )
 
 def create_dto_courses (name : str, code : str, acronym : str):
@@ -113,7 +114,7 @@ def create_dto_event (event_data : Series):
                                   }) 
 
          #Manage typologies
-        typologie = getattr (event_data, v_mod_id_typologie)
+        typologie = getattr (event_data, v_mod_id_typologie).split(',')
         list_typologies =[]
 
         for k in range (len(typologie)):
@@ -125,11 +126,30 @@ def create_dto_event (event_data : Series):
                                                  "status": 1
                                   }) 
 
-         #ManageTeachers   
-         list_teachers =[]  
+        #ManageTeachers   
+        list_teachers =[]  
 
-         #ManageClassrooms  
-         list_classrooms =[]   
+        #ManageClassrooms 
+
+
+        classrooms = getattr (event_data, v_id_classroom)
+        
+        if classrooms == '' or isnull(classrooms) or None:
+        
+                list_classrooms = []
+        else:
+                
+                classrooms = classrooms.split(',') 
+                list_classrooms =[]  
+
+                for cl in range (len(classrooms)):
+
+                        list_classrooms.append(       { 
+                                                        "model": {
+                                                                "identifier": classrooms[cl]
+                                                                },
+                                                                "status": 1
+                                                })  
 
         data = {
                 
