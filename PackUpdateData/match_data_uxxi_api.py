@@ -113,3 +113,26 @@ def compare_typologies_uxxi_db (df_uxxi : DataFrame, df_best : DataFrame):
         df_uxxi_to_import[v_data_to_import_new] = '1'
 
     return(df_uxxi_to_import)
+
+
+def compare_classrooms_uxxi_db (df_uxxi : DataFrame, df_best : DataFrame):
+
+    df_best.rename(columns={v_code_best : v_classroom_code}, inplace=True)
+    
+
+    df_uxxi = merge(left=df_uxxi, right=df_best, how = 'left', on=v_name_best, indicator=True)
+
+    df_uxxi_to_import = df_uxxi[df_uxxi [v_merge] == 'left_only'].copy()
+
+    df_uxxi_to_import.drop(columns=[v_classroom_code,
+                                    v_merge], inplace=True)
+
+    if not df_uxxi_to_import.empty:
+        
+        df_uxxi_to_import[v_building_best] = ''
+        df_uxxi_to_import[v_floor_best] = ''
+        df_uxxi_to_import[v_capacity_class] = ''
+        df_uxxi_to_import[v_capacity_exam_class] = ''
+        df_uxxi_to_import[v_data_to_import_new] = '1'
+
+    return(df_uxxi_to_import)

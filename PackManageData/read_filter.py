@@ -29,16 +29,33 @@ def cleaning_data (df : DataFrame):
 	
 	return (df)
 
-def filter_null_values (df : DataFrame):
-      
-    df_null = df[df.isnull().any (axis=1)].copy()
-    df_null.fillna('NULL', inplace = True)
+def select_only_columns_to_process( df : DataFrame):
 
-    if not df_null.empty:
-         
-         print ('Check what to do')
+    df = df [[v_course_code, v_course_name, v_year, v_mod_code, v_mod_name,
+            v_mod_typologie,v_student_group, v_activity_code, v_student_group_code,v_week_begin,
+            v_week_end, v_day, v_hourBegin_split,v_minute_begin_split, v_hourEnd_split, 
+            v_minute_end_split, v_duration, v_students_number,v_mod_modalidad, v_classroom_code, v_classroom_name]].copy()
+
+
+    return(df)
+
+def filter_null_values (df : DataFrame):
     
-    df = df.dropna(axis=0, how ='any').copy()
+    columns_not_null = [v_course_code, v_course_name,v_year,
+                        v_mod_code,v_mod_name, v_mod_typologie,
+                        v_student_group, v_activity_code,v_student_group_code,
+                        v_week_begin, v_week_end, v_day, v_hourBegin_split,
+                        v_minute_begin_split, v_hourEnd_split, v_minute_end_split,
+                        v_duration,v_mod_modalidad, v_students_number
+                        ]
+
+    df_null = df[df[columns_not_null].isnull().any (axis=1)].copy()
+    df_null.fillna('NULL', inplace = True)
+    
+    df = df.dropna(axis=0, subset=columns_not_null).copy()
+
+    #Apenas Aplicado a Salas
+    df.fillna('', inplace=True)
 
 
     return(df, df_null)

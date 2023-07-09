@@ -69,14 +69,15 @@ def manage_weeks (df: DataFrame):
     df = weekly_date (df, series_dates)
     df_valid_weeks, df_invalid = asign_weeks(df, v_week_begin, v_week_end)
 
-    df_valid_weeks.sort_values(by = [v_course_name, v_year, v_mod_code,v_mod_typologie, 'WEEKS_EVENT'], inplace=True)
+    df_valid_weeks = df_valid_weeks.sort_values(by = [v_course_name, v_year, v_mod_code,v_mod_typologie, 'WEEKS_EVENT'])
 
     df = df_valid_weeks.copy()
 
     df['Split_Weeks'] = where (df['WEEKS_EVENT'].str.contains(','), '0', '1')
 
     series_grouped = [v_course_name,v_course_code, v_year, v_mod_code,v_mod_name,v_mod_typologie, v_student_group, v_activity_code,v_student_group_code, v_day,
-                      v_duration, v_hourBegin_split, v_hourEnd_split,v_minute_begin_split, v_minute_end_split, v_students_number]
+                      v_duration, v_hourBegin_split, v_hourEnd_split,v_minute_begin_split, v_minute_end_split, v_students_number,v_classroom_code,
+                      v_classroom_name]
 
     df = group_entities(df, series_grouped, sep=',')
 

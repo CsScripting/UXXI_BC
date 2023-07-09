@@ -80,7 +80,7 @@ def agg_groups_from_event (df : DataFrame):
 
 
     series_agg_event = [v_mod_typologie,v_student_group,v_activity_code, v_student_group_code,v_day, 
-                        v_duration, v_hourBegin_split, v_hourEnd_split,v_minute_begin_split,v_minute_end_split, v_weeks]
+                        v_duration, v_hourBegin_split, v_hourEnd_split,v_minute_begin_split,v_minute_end_split, v_weeks, v_classroom_code, v_classroom_name]
     
     df_agg_event = group_entities (df,series_agg_event,sep= '#')
 
@@ -91,6 +91,22 @@ def agg_groups_from_event (df : DataFrame):
 def select_number_students(df : DataFrame):
 
     df[v_students_number] = df[v_students_number].str.split('#').str[0]
+
+    return(df)
+
+
+def add_duration_event (df : DataFrame):
+
+    df['Hour_Begin_Temp'] = df[v_hourBegin]
+    df['Hour_End_Temp'] = df[v_hourEnd]
+
+    
+    df['Hour_Begin_Temp'] = to_datetime(df['Hour_Begin_Temp'])
+    df['Hour_End_Temp'] = to_datetime(df['Hour_End_Temp'])
+
+    df[v_duration] = (df['Hour_End_Temp'] - df['Hour_Begin_Temp']).dt.total_seconds() / 3600
+
+    df.drop(columns=['Hour_Begin_Temp', 'Hour_End_Temp'], inplace = True)
 
     return(df)
 
@@ -144,3 +160,10 @@ def create_format_csv_uxxi (df : DataFrame, path_folder, path_type_folder):
     
     return(df)
 
+
+def select_type_module_uuxi(df :DataFrame):
+
+    df[v_mod_modalidad] = df[v_mod_modalidad].str.split('#').str[0]
+    df[v_mod_modalidad] = df[v_mod_modalidad].str.split(',').str[0]
+
+    return(df) 

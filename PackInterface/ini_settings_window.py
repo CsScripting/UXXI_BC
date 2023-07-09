@@ -2,7 +2,7 @@ from PackInterface.global_object_window import (
     main_window,
     path_icon,
     names_inserted_vars,
-    radio_button_vars
+    radio_button_vars,
 
 )
 
@@ -16,12 +16,13 @@ from PackLibrary.librarys import (
 def start_settings_window():
 
     global button_validation
+    
       
     objectState.disable_link_settings()
 
     objectState.settings_window = tk.Toplevel()
     objectState.settings_window.title('Settings')
-    objectState.settings_window.geometry ("230x112") ##Geometry (230x214) --With Iten Separator
+    objectState.settings_window.geometry ("230x150") ##Geometry (230x214) --With Iten Separator
     objectState.settings_window.resizable(0, 0)
     objectState.settings_window.iconbitmap(path_icon + '/log.ico')
 
@@ -35,92 +36,104 @@ def start_settings_window():
 
     #Containers to distinct grid
     top_WindowGrid = tk.Frame(objectState.settings_window)
-    bottom_WindowGrid = tk.Frame(objectState.settings_window)
-    # check_Section_WindowGrid = tk.Frame(objectState.settings_window)
+    doubleEntry_windowGrid = tk.Frame(objectState.settings_window)
+    tripleEntry_windowGrid = tk.Frame(objectState.settings_window)
+    final_WindowGrid = tk.Frame(objectState.settings_window)
 
     #Pack Containers Grid
     top_WindowGrid.pack(side="top", fill="x", expand=False)
-    bottom_WindowGrid.pack(side="bottom", fill="both", expand=True)
-    # check_Section_WindowGrid.pack(side="bottom", fill="x", expand=False)
+    doubleEntry_windowGrid.pack(side="top", fill="both", expand=True)
+    tripleEntry_windowGrid.pack(side="top", fill="both", expand=True)
+    final_WindowGrid.pack(side="bottom", fill="both", expand=False)
+    
     
     #Proportions Window
     top_WindowGrid.grid_columnconfigure(0, weight=1)
     top_WindowGrid.grid_columnconfigure(1, weight=3)
+    final_WindowGrid.grid_columnconfigure(0, weight=3)
+
 
     #Objects inside topGrid Window:
 
+    #Configuraciones RadioButtons
+
+    opciones_process = tk.Frame(top_WindowGrid)
+    check_data_opcion= tk.Radiobutton(opciones_process, text = 'Check Data',font="Helvetica 8", cursor="hand2", variable=radio_button_vars[0], value=0, command=objectState.opciones_choice_check_data)
+    import_data_opcion= tk.Radiobutton(opciones_process, text = 'Import', font="Helvetica 8", cursor="hand2",variable=radio_button_vars[0], value=1,command=objectState.opciones_choice_import_data)
+    csv_opcion= tk.Radiobutton(opciones_process, text = 'CSV', font="Helvetica 8", cursor="hand2",variable=radio_button_vars[0], value=2, command=objectState.opciones_choice_export_csv)
+    check_data_opcion.select()
+    
+    
+    # Objects Inside doubleEntry_windowGrid
+
     #Config label File Data UXXI
-    fileLabel = tk.Label(top_WindowGrid, text='Data UXXI:', font="Segoe 8 italic", foreground="#009999")
+    objectState.fileLabel = tk.Label(doubleEntry_windowGrid, text='Data UXXI:', font="Helvetica 8", foreground="#000000")
     #Config textInsertion
-    names_inserted_vars[0] = tk.Entry(top_WindowGrid,borderwidth=0,highlightthickness=1,highlightcolor='#ffb84d', width=23,justify='left',font=("Segoe 8"),background="#ffe6cc", disabledbackground="#ffe6cc")
+    names_inserted_vars[0] = tk.Entry(doubleEntry_windowGrid,borderwidth=0,highlightthickness=1,highlightcolor='#ffb84d', width=23,justify='left',font=("Segoe 8"),background="#ffe6cc", disabledbackground="#d1e0e0")
     #Default Value (only for DEV !!!)
-    names_inserted_vars[0].insert(0, 'DatosUXXI.xlsx')
+    objectState.names_inserted_vars[0].insert(0, 'HorariosPrimer_23_24.xlsx')
 
 
-    #Config Opcion Manage Data
-    manage_data_object = tk.Frame(bottom_WindowGrid)
-    label_manage_data= tk.Label(manage_data_object, text='Manage Data:', font="Segoe 8 italic", foreground="#009999")
-    #Config Opcion Manage Data
-    opcion_manage_data = tk.Checkbutton (manage_data_object, variable = radio_button_vars[0])
-    opcion_manage_data.select()
+    #Config label File Data UXXI
+    objectState.processImportLabel = tk.Label(doubleEntry_windowGrid, text='Process ID:', font="Segoe 8 italic", foreground="#009999")
+    #Config textInsertion
+    objectState.names_inserted_vars[1] = tk.Entry(doubleEntry_windowGrid,borderwidth=0,highlightthickness=1,highlightcolor='#ffb84d', width=23,justify='left',font=("Segoe 8"),background="#ffe6cc", disabledbackground="#d1e0e0")
 
-    #Config Opcion Update Data
-    update_data_object = tk.Frame(bottom_WindowGrid)
-    label_update_data = tk.Label(update_data_object, text='Update Data:', font="Segoe 8 italic", foreground="#009999")
-    #Config Opcion Manage Data
-    opcion_update_data = tk.Checkbutton (update_data_object,variable = radio_button_vars[1])
-    opcion_update_data.select()
 
-    #(Opcion: Import Data):
-    import_data_obejct = tk.Frame(bottom_WindowGrid)
-    label_import = tk.Label(import_data_obejct, text='Import Data:', font="Segoe 8 italic", foreground="#009999") 
-    opcion_import_data = tk.Checkbutton (import_data_obejct, variable = radio_button_vars[2]) #, command= manage_entry_historic) 
-    names_inserted_vars[1] = tk.Entry(bottom_WindowGrid,borderwidth=0,highlightthickness=1,highlightcolor='#ffb84d', width=18,justify='left',font=("Segoe 8"),background="#ffe6cc", disabledbackground="#d1e0e0")
-    # disable_entry_event_type()
-    names_inserted_vars[1].insert(0, '')
+    #(Opcion: export Data):
+    
+    objectState.exportLabel = tk.Label(doubleEntry_windowGrid, text='Export Csv:', font="Segoe 8 italic", foreground="#009999") 
+    
+
+    data_pack = tk.Frame(doubleEntry_windowGrid)
+    objectState.names_inserted_vars[2] = tk.Entry(data_pack,borderwidth=0,highlightthickness=1,highlightcolor='#ffb84d', width=10,justify='left',font=("Segoe 8"),background="#ffe6cc", disabledbackground="#d1e0e0")
+    objectState.names_inserted_vars[2].insert(0, 'Begin Date')
+    objectState.names_inserted_vars[3] = tk.Entry(data_pack,borderwidth=0,highlightthickness=1,highlightcolor='#ffb84d', width=10,justify='left',font=("Segoe 8"),background="#ffe6cc", disabledbackground="#d1e0e0")
+    objectState.names_inserted_vars[3].insert(0, 'End Date')
+    
+    #When Start State
+    objectState.opciones_choice_check_data()
+    
     
 
  
     #(Last Opcion Grid: Button VAlidacion and Edit)
-    aggregate_object_validation = tk.Frame(bottom_WindowGrid)
-    button_validation = tk.Button(aggregate_object_validation, text = 'Submit', background="#ffe6cc", borderwidth=0, cursor="hand2", command = settValid.validation_settings_steps)
-    objectState.link_edit = tk.Label(aggregate_object_validation, text="Edit",font=('Helvetica', 8, 'underline'), fg="#663300")
+    object_validation = tk.Frame(final_WindowGrid)
+    button_validation = tk.Button(object_validation, text = 'Submit', background="#ffe6cc", borderwidth=0, cursor="hand2", command = settValid.validation_settings_steps)
+    objectState.link_edit = tk.Label(object_validation, text="Edit",font=('Helvetica', 8, 'underline'), fg="#663300")
     # disable_link_edit()
 
-     #Position Objects inside TopGrid 
-    fileLabel.grid(row=0, column=0, sticky=tk.W, pady=3,padx=3 )
-    names_inserted_vars[0].grid(row=0, column=1, sticky='w')
+     #Position Objects inside Grid 
+    
+    opciones_process.grid(row=0, column=0, sticky=tk.W, pady=3,padx=3)
+    
+    objectState.fileLabel.grid(row=1, column=0, sticky=tk.W, pady=3,padx=3 )
+    objectState.names_inserted_vars[0].grid(row=1, column=1, sticky='w')
+    
+    objectState.processImportLabel.grid(row=2, column=0, sticky=tk.W, pady=3,padx=3 )
+    names_inserted_vars[1].grid(row=2, column=1, sticky='w')
+    
+    objectState.exportLabel.grid(row=3, column=0, sticky=tk.W, pady=3,padx=3 )
+    data_pack.grid(row=3, column=1, sticky='w')
+   
+
+    object_validation.grid(row=4, column=1, sticky=tk.W)
 
 
-    manage_data_object.grid(row=1, column=0,sticky=tk.W, pady=3,padx=3 )
-    update_data_object.grid(row=1, column=1,sticky=tk.W, pady=3,padx=3 )
+    #Pack Values TopGrid --- opciones
+    check_data_opcion.pack(side=tk.LEFT,)
+    import_data_opcion.pack(side=tk.LEFT, padx=6)
+    csv_opcion.pack(side=tk.LEFT, padx=6)
     
 
-    # label_import.grid(row=2, column=0, sticky=tk.W, padx=3)
-    import_data_obejct.grid (row=2, column=0, sticky=tk.W,pady=3,padx=3)
-    names_inserted_vars[1].grid(row=2, column=1, sticky='w',padx=3)
-    
-    aggregate_object_validation.grid(row=3, column=1, sticky=tk.W)
+    objectState.names_inserted_vars[2].pack(side=tk.LEFT, padx = 2)
+    objectState.names_inserted_vars[3].pack(side=tk.LEFT, padx = 10)
+ 
 
-
-    #pack Values agregatted inside same column Grid
-
-    label_manage_data.pack(side=tk.LEFT)
-    opcion_manage_data.pack(side=tk.LEFT)
-    label_update_data.pack(side=tk.LEFT)
-    opcion_update_data.pack(side=tk.LEFT)
-    
-
-
-    #pack Values agregatted inside same column Grid
-    label_import.pack(side=tk.LEFT)
-    opcion_import_data.pack(side=tk.LEFT)
-
-
-
-    objectState.link_edit.pack(side=tk.LEFT)
-    button_validation.pack(side=tk.LEFT, padx=45)
+    objectState.link_edit.pack(side=tk.LEFT,padx = 55)
+    button_validation.pack(side=tk.LEFT, padx = 5)
 
     #Minimize Window
     main_window.wm_state('iconic')
     # settings_window.protocol("WM_DELETE_WINDOW", closing_behavior)
+

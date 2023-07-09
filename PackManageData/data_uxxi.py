@@ -5,6 +5,7 @@ from PackLibrary.librarys import (
 )
 from mod_variables import *
 import PackGeneralProcedures.files as genFiles
+import PackManageData.join_tuples_data as tupleData 
 
 def check_courses_uxxi (df : DataFrame, process_folder : str, process_code : str):
 
@@ -74,25 +75,30 @@ def check_st_groups_uxxi (df : DataFrame, process_folder : str, process_code : s
 
     flag_file_created = True
 
-    df = df [[v_course_name, v_course_code, v_year, v_student_group, v_mod_typologie, v_students_number]].copy()
+    df = df [[v_course_name, v_course_code, v_year, v_student_group, v_mod_typologie, v_students_number, v_student_group_name]].copy()
 
-    df = df[df[v_mod_typologie] == 'EPD'].copy()
+    df.rename(columns= {v_student_group_name : v_name_best}, inplace=True)
 
-    # Create Name Group
-    df[v_name_best] = df[v_course_code] + '_' + df[v_year] + '_' + df[v_mod_typologie] + df[v_student_group]
-    df[v_code_best] = df[v_course_code] + '_' + df[v_year] + '_' + df[v_mod_typologie] + df[v_student_group]
+    
 
     #Create Name Plan
     df[v_identifier_gg] = df[v_student_group].str[0]
 
     df[v_plan_code_best] = df[v_course_code] + '_' + df[v_year] + '_' + df[v_identifier_gg]
 
-    df = df [[v_name_best, v_code_best, v_plan_code_best, v_students_number]]
+    df = df [[v_name_best, v_plan_code_best, v_students_number]].copy()
+
+    df = tupleData.split_by_rows(df, v_name_best, ',')
 
     df.sort_values(by=[v_name_best,v_students_number], ascending=[True, False], inplace=True)
+   
+    df[v_code_best] = df[v_name_best]
+
     df.drop_duplicates(subset=[v_name_best, v_code_best, v_plan_code_best], inplace=True)
 
     df.rename(columns={v_students_number : v_students_number_best}, inplace=True)
+
+    df = df[[v_name_best, v_code_best, v_plan_code_best,v_students_number_best]]
 
 
     genFiles.create  (df,process_folder, process_code, v_file_curriculum_uxxi, v_sheet_st_group, v_process_manage_data, flag_file_created)
@@ -131,6 +137,25 @@ def check_typologies_uxxi (df : DataFrame, process_folder : str, process_code : 
     df[v_description_typologie_best] = 'Add Description'
 
     genFiles.create  (df,process_folder, process_code, v_file_curriculum_uxxi, v_sheet_typologies, v_process_manage_data, flag_file_created)
+
+    return()
+
+
+def check_classrooms_uxxi (df : DataFrame, process_folder : str, process_code : str):
+
+    flag_file_created = True
+
+    df = df [[v_classroom_name, v_classroom_code]].copy()
+
+    df.drop_duplicates(inplace=True)
+
+    df = df[df[v_classroom_name] != 'NULL'].copy()
+
+    df.rename(columns={v_classroom_name : v_name_best,
+                       v_classroom_code : v_code_best}, inplace=True)
+    
+
+    genFiles.create  (df,process_folder, process_code, v_file_curriculum_uxxi, v_sheet_classrooms, v_process_manage_data, flag_file_created)
 
     return()
 

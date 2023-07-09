@@ -11,7 +11,6 @@ from PackLibrary.librarys import (
 main_window = tk.Tk()
 
 
-
 # - Manage Icon used on Main Window and Settings Window - #
 
 def resource_path(relative_path):
@@ -32,16 +31,18 @@ path_icon = resource_path("./log.ico")
 
 #Save Values Inserted by User (Boxes)
 names_inserted_vars = []
-for i in range(2):
+for i in range(4):
 
     check_names = tk.StringVar
     names_inserted_vars.append(check_names)
 
 #Save on list distinct INT opciones (RadioButtones, CheckBoxes)
 radio_button_vars= []
-for j in range(3):
+for j in range(1):
 
     check_radio_button = tk.IntVar()
     radio_button_vars.append(check_radio_button)
+
+
 
 

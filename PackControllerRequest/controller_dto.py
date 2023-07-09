@@ -86,7 +86,15 @@ def create_dto_simple_search_filter (path_to_find : str, value_to_find : str):
         return(data)
 
 def create_dto_event (event_data : Series):
-        
+
+        # Insert Name Event 
+        type_module_uxxi = getattr (event_data,v_mod_modalidad)
+        code_titulacion_dominant = getattr (event_data,v_course_code)
+
+        name_event = code_titulacion_dominant + '_' + type_module_uxxi
+
+
+
         #Manage Weeks
         weeks_event = getattr (event_data, v_id_weeks).split(',')
         list_weeks =[]
@@ -153,7 +161,7 @@ def create_dto_event (event_data : Series):
 
         data = {
                 
-                v_name_dto : getattr (event_data,v_event_Id_BC),
+                v_name_dto : name_event,
                 v_code_dto : getattr (event_data,v_event_Id_BC),
                 v_start_time_event_dto : getattr (event_data,v_hourBegin),
                 v_end_time_event_dto :  getattr (event_data,v_hourEnd),

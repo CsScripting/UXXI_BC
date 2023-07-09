@@ -34,9 +34,6 @@ class FileDataUxxiNotInserted (Exception):
 class ValidationFolderConfigApi(Exception):
     pass
 
-# present_on_ui_opciones_process()
-class OpcionesProcessOnUI(Exception):
-    pass
 
 # check_extension_file()
 class FileNameErrorExtensionXlsx(Exception):
@@ -57,24 +54,15 @@ class FileConfigNotInserted(Exception):
 
 def get_inserted_values_settings():
 
-    name_file_inserted = names_inserted_vars[0].get()
-    opcion_manage_data = radio_button_vars[0].get()
-    opcion_update_data = radio_button_vars[1].get()
-    opcion_import_data = radio_button_vars[2].get()
-    name_process_to_import = names_inserted_vars[1].get()
+    opcion_process_to_ejecute = radio_button_vars[0].get()
+    name_file_uxxi = radio_button_vars[0].get()
+    name_process_to_import = radio_button_vars[1].get()
+    begin_date_export_csv = radio_button_vars[2].get()
+    end_date_export_csv = names_inserted_vars[3].get()
     
 
-    return (name_file_inserted, opcion_manage_data, opcion_update_data,opcion_import_data, name_process_to_import)
+    return (opcion_process_to_ejecute, name_file_uxxi, name_process_to_import,begin_date_export_csv, end_date_export_csv)
 
-
-# - Validation Variables Process - # 
-
-def present_on_ui_opciones_process(opcion_manage_data : int, opcion_import_data : int):
-    
-    # if update_data selected select manage_data
-    if ((opcion_manage_data == 0) & (opcion_import_data == 0)):
-
-        raise OpcionesProcessOnUI
     
 
 # - Validation Data UXXI - # 

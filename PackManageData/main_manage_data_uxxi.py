@@ -22,6 +22,7 @@ def manage_data_uxxi_steps(name_file_inserted : str):
 
     #read and filter data UXXI  
     df_uxxi = readFilter.read_data_file(name_file_inserted)
+    df_uxxi = readFilter.select_only_columns_to_process(df_uxxi)
     df_uxxi = readFilter.cleaning_data (df_uxxi).copy()
     df_uxxi, df_uxxi_null_values = readFilter.filter_null_values(df_uxxi)
     
@@ -59,10 +60,11 @@ def manage_data_uxxi_steps(name_file_inserted : str):
     df_curriculum_uxxi = df_uxxi.copy()
     dataUxxi.check_courses_uxxi (df_curriculum_uxxi, process_folder, process_code)
     dataUxxi.check_planes_uxxi (df_curriculum_uxxi, process_folder, process_code)
-    dataUxxi.check_planes_modules (df_curriculum_uxxi, process_folder, process_code)
+    # dataUxxi.check_planes_modules (df_curriculum_uxxi, process_folder, process_code)
     dataUxxi.check_st_groups_uxxi (df_curriculum_uxxi, process_folder, process_code)
     dataUxxi.check_modules_uxxi (df_curriculum_uxxi, process_folder, process_code)
     dataUxxi.check_typologies_uxxi (df_curriculum_uxxi, process_folder, process_code)
+    dataUxxi.check_classrooms_uxxi (df_curriculum_uxxi, process_folder, process_code)
 
 
     df_uxxi = rulesUxxi.agg_groups_from_event(df_uxxi)
@@ -74,6 +76,9 @@ def manage_data_uxxi_steps(name_file_inserted : str):
     df_uxxi = rulesBest.add_event_section_name(df_uxxi)
     df_uxxi = rulesBest.add_event_connector(df_uxxi)
     df_uxxi = rulesBest.manage_hours(df_uxxi)
+    df_uxxi = rulesUxxi.add_duration_event(df_uxxi)
+
+    df_uxxi = rulesUxxi.select_type_module_uuxi(df_uxxi)
 
     #Extrat Date Schedules:
 
@@ -85,18 +90,20 @@ def manage_data_uxxi_steps(name_file_inserted : str):
 
 
 
-    df_uxxi = df_uxxi[[v_event_Id_BC, v_mod_name, v_mod_code,v_mod_typologie, v_section_name, v_day,
-                       v_hourBegin, v_hourEnd, v_duration, v_course_name, v_course_code, 
-                       v_year, v_student_group_name,v_students_number,v_id_uxxi,v_weeks, v_event_type ]].copy()
+    df_uxxi_to_manage_data = df_uxxi[[v_event_Id_BC, v_mod_name, v_mod_code,v_mod_typologie, v_section_name, v_day,
+                                      v_hourBegin, v_hourEnd, v_duration, v_course_name, v_course_code, 
+                                      v_year, v_student_group_name,v_students_number,v_id_uxxi,v_weeks,v_mod_modalidad, v_event_type,v_classroom_code, v_classroom_name ]].copy()
     
-    df_uxxi [v_classroom_name] = ''
-    df_uxxi [v_academic_year] = ''
-    df_uxxi [v_data_to_import_new] = ''
+
+    df_uxxi_to_update_data = df_uxxi_to_manage_data.copy()
+
+    df_uxxi_to_update_data [v_academic_year] = ''
+    df_uxxi_to_update_data [v_data_to_import_new] = ''
     
 
     #Insert File On Folder Manage Data:
 
-    # genFiles.create(df_uxxi,process_folder, process_code,v_file_horarios,v_sheet_data_uxxi,v_process_manage_data)
+    genFiles.create(df_uxxi_to_manage_data,process_folder, process_code,v_file_horarios,v_sheet_data_uxxi,v_process_manage_data)
 
-    return(first_week, last_week, df_info_events, df_uxxi)
+    return(first_week, last_week, df_info_events, df_uxxi_to_update_data)
 

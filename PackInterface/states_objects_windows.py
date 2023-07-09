@@ -6,6 +6,8 @@ from PackLibrary.librarys import (
 
 from PackInterface.global_object_window import (
     main_window,
+    names_inserted_vars
+
 )
 
 import PackValidations.settings_validation as settval
@@ -14,14 +16,19 @@ from mod_variables import v_version
 import PackInterface.ini_settings_window as iniciateSettings
 import PackValidations.exe_process_validation as exeProc
 
-link : str
-link_edit : str
 
 global settings_window
 global button_start
 global label1_begin
 global label2_begin
 global label3
+global fileLabel
+global processImportLabel
+global exportLabel
+
+link : str
+link_edit : str
+
 
 
 # Not Used 
@@ -162,4 +169,56 @@ def status_running (name, start_process):
 
     main_window.deiconify()
     # main_window.after(10, main_window.destroy)
+
+
+def opciones_choice_check_data ():
+
+    fileLabel.config (font="Helvetica 8", foreground="#000000")
+    exportLabel.config (font="Segoe 8 italic", foreground="#009999")
+    processImportLabel.config (font="Segoe 8 italic", foreground="#009999")
+    
+    names_inserted_vars[1].config(state = 'disable')
+    names_inserted_vars[2].config(state = 'disable')
+    names_inserted_vars[3].config(state = 'disable')
+    names_inserted_vars[0].config(state = 'normal')
+
+
+def opciones_choice_import_data ():
+
+    processImportLabel.config (font="Helvetica 8", foreground="#000000")
+    exportLabel.config (font="Segoe 8 italic", foreground="#009999")
+    fileLabel.config (font="Segoe 8 italic", foreground="#009999")
+    
+    names_inserted_vars[0].config(state = 'disable')
+    names_inserted_vars[2].config(state = 'disable')
+    names_inserted_vars[3].config(state = 'disable')
+    names_inserted_vars[1].config(state = 'normal')
+
+
+def opciones_choice_export_csv ():
+
+    exportLabel.config (font="Helvetica 8", foreground="#000000")
+    fileLabel.config (font="Segoe 8 italic", foreground="#009999")
+    processImportLabel.config (font="Segoe 8 italic", foreground="#009999")
+    
+    names_inserted_vars[0].config(state = 'disable')
+    names_inserted_vars[1].config(state = 'disable')
+    names_inserted_vars[2].config(state = 'normal')
+    names_inserted_vars[3].config(state = 'normal')
+
+    names_inserted_vars[2].delete(0, 'end')
+    names_inserted_vars[3].delete(0, 'end')
+
+    names_inserted_vars[2].insert(0, 'yyyy/mm/dd')
+    names_inserted_vars[3].insert(0, 'yyyy/mm/dd')
+   
+    
+    
+
+
+
+
+    
+    
+    
 

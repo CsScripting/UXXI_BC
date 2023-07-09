@@ -25,75 +25,73 @@ def validation_settings_steps():
 
     
         # - GET DATA INSERTED UI - #
-        name_file_inserted, opcion_manage_data,opcion_update_data, opcion_import_data, name_process_to_import = settValFunct.get_inserted_values_settings()
+        opcion_process_to_ejecute, name_file_uxxi, name_process_to_import,begin_date_export_csv, end_date_export_csv = settValFunct.get_inserted_values_settings()
         
-        global gl_name_file_inserted 
-        gl_name_file_inserted = name_file_inserted
-        global gl_opcion_manage_data
-        gl_opcion_manage_data = opcion_manage_data
-        global gl_opcion_update_data
-        gl_opcion_update_data = opcion_update_data
-        global gl_opcion_import_data
-        gl_opcion_import_data = opcion_import_data
+        global gl_opcion_process_to_ejecute
+        gl_opcion_process_to_ejecute = opcion_process_to_ejecute
+        global gl_name_file_uxxi
+        gl_name_file_uxxi = name_file_uxxi
         global gl_name_process_to_import
         gl_name_process_to_import = name_process_to_import
+        global gl_begin_date_export_csv
+        gl_begin_date_export_csv = begin_date_export_csv
+        global gl_end_date_export_csv
+        gl_end_date_export_csv = end_date_export_csv
 
+
+
+        # Begin Validation Connectivity API #
 
         global check_conexion_type
         check_conexion_type = 'IS'
 
+        settValFunct.validation_folder_config_api()
+        settValFunct.validation_config_exist_on_folder()
         
-        # Opcions Process:
-        settValFunct.present_on_ui_opciones_process(opcion_manage_data, opcion_import_data)
+        #Extract Variables API To Check Conexion
+        url_api, url_identity, client_id, client_secret = settValFunct.validation_and_file_config_and_get_variables()
+
+        value_token = getToken.get_token_identity(url_identity, client_id, client_secret)
+        header_request = getToken.create_header_request (value_token)
+
+        glRequest.gl_url_api = url_api
+        glRequest.gl_header_request = header_request
+
+        # colocar na validação se a chamada é a API ou ao IDentity......para mais tarde....A excepção será a mesma
+
+        check_conexion_type = 'API'
+        genRequest.get_entity_data(url_api, header_request, v_acad_term_controller)
+
+        # END Validation Connectivity API #
+
 
         # - Verify Folder to Insert Data From UXXI
         settValFunct.validation_folder_uxxi()
 
-        # Values Opciones Radio Button (Selected - 1 ; Not Selected - 0 )
-        if opcion_manage_data == 1:
+        if opcion_process_to_ejecute == 0:
 
             # Validation Data UXXI (insercion UI)
             box_to_validate = 'boxManageData'
-            # settValFunct.check_filling_entry_box(name_file_inserted)
-            # settValFunct.check_extension_file(name_file_inserted)
-            # settValFunct.validation_data_uxxi_exist_on_folder(name_file_inserted)
+            settValFunct.check_filling_entry_box(name_file_uxxi)
+            settValFunct.check_extension_file(name_file_uxxi)
+            settValFunct.validation_data_uxxi_exist_on_folder(name_file_uxxi)
 
             # Validation Data UXXI (file)
-            # dataValFunct.verify_sheet_and_columns_name_file_uxxi(name_file_inserted)
-
-            print ('PassManageData')
+            dataValFunct.verify_sheet_and_columns_name_file_uxxi(name_file_uxxi)
 
 
-        if (opcion_update_data == 1) | (opcion_import_data == 1): 
-    
-            settValFunct.validation_folder_config_api()
-            settValFunct.validation_config_exist_on_folder()
-            
-            #Extract Variables API To Check Conexion
-            url_api, url_identity, client_id, client_secret = settValFunct.validation_and_file_config_and_get_variables()
 
-            value_token = getToken.get_token_identity(url_identity, client_id, client_secret)
-            header_request = getToken.create_header_request (value_token)
+        if (opcion_process_to_ejecute == 1):
 
-            glRequest.gl_url_api = url_api
-            glRequest.gl_header_request = header_request
-
-            # colocar na validação se a chamada é a API ou ao IDentity......para mais tarde....A excepção será a mesma
-
-            check_conexion_type = 'API'
-            genRequest.get_entity_data(url_api, header_request, v_acad_term_controller)
-
-        if (opcion_import_data == 1):
-
-            value_token = getToken.get_token_identity(url_identity, client_id, client_secret,True)
-            header_request = getToken.create_header_request (value_token)
-
-            glRequest.gl_url_api = url_api
-            glRequest.gl_header_request = header_request
 
             box_to_validate = 'boxImportData'
             settValFunct.check_filling_entry_box(name_process_to_import)
             settValFunct.validation_process_exist_on_folder(name_process_to_import)
+
+
+        if (opcion_process_to_ejecute == 2):
+
+            box_to_validate = 'boxDates'
 
 
 
@@ -103,22 +101,6 @@ def validation_settings_steps():
         main_window.wm_state('normal')
         
 
-              
-
-    except settValFunct.OpcionesProcessOnUI:
-
-        message_info_process = 'Select Valid Opciones To Submit:\n\n' \
-                       ' Opcion 1: \n' \
-                       '  - Insert File Name;\n' \
-                       '  - Select Manage Data;\n'\
-                       '  - Select Update Data (Opcional);\n'\
-                       '  - Select Import Data (Opcional).\n\n'\
-                       ' Opcion 2: \n' \
-                       '  - Only Select Import Data;\n'\
-                       '  - Insert Process Folder already executed with Folder Update.\n'\
-
-
-        messagebox.showinfo('Info Process', message_info_process)
     
     except settValFunct.ValidationFolderDataUxxi:
 
@@ -132,7 +114,7 @@ def validation_settings_steps():
 
         if (box_to_validate == 'boxImportData'):
 
-            messagebox.showerror('Validation File', 'Fill box Import Data to submit !!')
+            messagebox.showerror('Validation File', 'Fill box Process ID to submit !!')
 
     except settValFunct.FileNameErrorExtensionXlsx as e:
 
@@ -141,7 +123,7 @@ def validation_settings_steps():
 
     except settValFunct.FileDataUxxiNotInserted:
 
-        messagebox.showerror('Validation Folder', name_file_inserted + ' not inserted on folder ' + v_folder_data_uxxi + ' !!')
+        messagebox.showerror('Validation Folder', name_file_uxxi + ' not inserted on folder ' + v_folder_data_uxxi + ' !!')
 
 
     except dataValFunct.ErrorSheetFileGeneral:  
@@ -153,8 +135,8 @@ def validation_settings_steps():
         columns_file = v_course_code + ' - ' + v_course_name + ' - ' +   v_year + ' - ' + v_mod_code + ' - ' + v_mod_name + '\n' +  \
                        v_mod_typologie + ' - ' + v_student_group + ' - ' +   v_activity_code + ' - ' + v_student_group_code + ' - ' + v_week_begin + '\n'  + \
                        v_week_end + ' - ' + v_day + ' - ' +   v_hourBegin_split + ' - ' + v_minute_begin_split + ' - ' + v_hourEnd_split + '\n' + \
-                       v_minute_end_split + ' - ' + v_duration + ' - ' +   v_students_number
-        
+                       v_minute_end_split + ' - ' + v_duration + ' - ' +   v_students_number + '\n' + \
+                       v_mod_modalidad +  ' - '+ v_classroom_code + ' - ' + v_classroom_name
         messagebox.showerror('Check Data UXXI', 'Possible COLUMNS NAME:\n\n' + columns_file)
 
     except settValFunct.ValidationFolderConfigApi:

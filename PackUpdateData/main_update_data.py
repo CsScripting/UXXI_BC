@@ -6,6 +6,7 @@ import PackDfFromJson.CurricularPlansDf as planDf
 import PackDfFromJson.StudentGroupsDf as groupDf 
 import PackDfFromJson.ModulesDf as modDf
 import PackDfFromJson.TypologiesDf as typeDf
+import PackDfFromJson.ClassroomsDf as classDf
 import PackDfFromJson.EventsDf as eventDf
 
 
@@ -16,7 +17,7 @@ import PackUpdateData.folders_process_update as folderUpdate
 import PackUpdateData.match_data_uxxi_api as matchData
 import PackGeneralProcedures.files as genFiles
 
-import PackManageData.bussiness_rules_uxxi as rulesUXXI
+
 
 from PackLibrary.librarys import (	
   DataFrame
@@ -40,19 +41,15 @@ def update_data_steps(first_week_schedules : str, last_week_schedules : str, df_
 
     df_events_best = eventDf.events_df_from_json(events_best)
 
-
-    ## format CSV ###
-
-    rulesUXXI.create_format_csv_uxxi(df_events_best, glVarPro.gl_process_folder,v_process_update_data) 
     
 
-    file_events_created = False
-    genFiles.create (df_info_events,glVarPro.gl_process_folder,glVarPro.gl_process_code,
-                     v_file_events_best, v_sheet_variables_process,v_process_update_data)
+    # file_events_created = False
+    # genFiles.create (df_info_events,glVarPro.gl_process_folder,glVarPro.gl_process_code,
+    #                  v_file_events_best, v_sheet_variables_process,v_process_update_data)
     
-    file_events_created = True
-    genFiles.create (df_events_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,
-                     v_file_events_best, v_sheet_events_best,v_process_update_data, file_events_created)
+    # file_events_created = True
+    # genFiles.create (df_events_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,
+    #                  v_file_events_best, v_sheet_events_best,v_process_update_data, file_events_created)
     
 
 
@@ -104,6 +101,15 @@ def update_data_steps(first_week_schedules : str, last_week_schedules : str, df_
     #Insert Typologies To Curriculum File
     genFiles.create (df_typologies_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,
                      v_file_curriculum_best, v_sheet_typologies,v_process_update_data,flag_file_created)
+    
+
+     # # - Classrooms - #
+
+    classrooms_db = genRequest.get_entity_data(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_classrooms_controller)
+    df_classrooms_best = classDf.classrooms_df_from_json (classrooms_db)
+    #Insert Classrooms To Curriculum File
+    genFiles.create (df_classrooms_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,
+                     v_file_curriculum_best, v_sheet_classrooms,v_process_update_data,flag_file_created)
 
 
     # - Read File CURRICULUM_UXXI - #
@@ -127,7 +133,11 @@ def update_data_steps(first_week_schedules : str, last_week_schedules : str, df_
     
     # # - Modules Typologies- #
     df_typologies_uxxi = genFiles.read_data_files_update(v_main_folder_process,glVarPro.gl_process_code, v_process_manage_data, 
-                                                      v_file_curriculum_uxxi,v_sheet_typologies )
+                                                         v_file_curriculum_uxxi,v_sheet_typologies )
+    
+    # # -Classrooms- #
+    df_classrooms_uxxi = genFiles.read_data_files_update(v_main_folder_process,glVarPro.gl_process_code, v_process_manage_data, 
+                                                         v_file_curriculum_uxxi,v_sheet_classrooms )
     
 
     # - Match Data UXXI and DB - #
@@ -153,14 +163,19 @@ def update_data_steps(first_week_schedules : str, last_week_schedules : str, df_
                      v_file_curriculum_to_import, v_sheet_st_group,v_process_update_data, flag_file_to_import_created)
     
 
-    #Student Groups
+    #Modules
     df_modules_to_import = matchData.compare_modules_uxxi_db(df_modules_uxxi, df_modules_best)
     genFiles.create (df_modules_to_import, glVarPro.gl_process_folder,glVarPro.gl_process_code,
                      v_file_curriculum_to_import, v_sheet_modules,v_process_update_data, flag_file_to_import_created)
     
-    #Student Groups
+    #Typologies
     df_typologies_to_import = matchData.compare_typologies_uxxi_db(df_typologies_uxxi, df_typologies_best)
     genFiles.create (df_typologies_to_import, glVarPro.gl_process_folder,glVarPro.gl_process_code,
                      v_file_curriculum_to_import, v_sheet_typologies,v_process_update_data, flag_file_to_import_created)
+    
+    #Classrooms
+    df_classrooms_to_import = matchData.compare_classrooms_uxxi_db(df_classrooms_uxxi, df_classrooms_best)
+    genFiles.create (df_classrooms_to_import, glVarPro.gl_process_folder,glVarPro.gl_process_code,
+                     v_file_curriculum_to_import, v_sheet_classrooms,v_process_update_data, flag_file_to_import_created)
 
     return()

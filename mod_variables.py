@@ -62,6 +62,7 @@ v_sheet_planes = 'CurriculumProgrammes'
 v_sheet_planes_modules = 'Cur_Prog_Module'
 v_sheet_st_group = 'StudentGroups'
 v_sheet_variables_process = 'DatesEvents'
+v_sheet_classrooms = 'Classrooms'
 
 # Name Sheets Events
 v_sheet_events = 'EventImported'
@@ -85,6 +86,7 @@ v_mod_code_dominant = 'CODIGO_ASIG_DOMINANT'
 v_mod_id_dominant = 'ID_ASIG_DOMINANT'
 v_mod_name = 'NOMBRE_ASIGNATURA'
 v_mod_typologie =	'TIPO'
+v_mod_modalidad = 'TIPO_ASIGNATURA'
 v_mod_type_dominant = 'TIPO_ASIG_DOMINANT'
 v_mod_id_typologie =	'ID_TIPO'
 
@@ -109,6 +111,7 @@ v_student_group_id = 'ID_GRUPO'
 v_student_group_name_to_EB = 'NameGrupoToEB'
 v_hourBegin = 'HoraInicio'
 v_hourEnd = 'HoraFin'
+
 
 v_id_event = 'ID'
 
@@ -269,6 +272,15 @@ v_course_code_best = 'CourseCode'
 #To Student Group File
 v_plan_code_best = 'CurriculumProgrammeCode'
 v_students_number_best = 'StudentsNumber'
+
+
+#To Classrooms File
+v_building_best = 'Building'
+v_floor_best = 'Floor'
+v_capacity_class = 'CapacityClasses'
+v_capacity_exam_class = 'CapacityExam'
+
+
 
 #Variable To import File CURRICULUM_NEW
 
