@@ -68,9 +68,9 @@ def read_data_files_import (main_folder_process : str, name_folder_process : str
 
     return(df)
 
-def create_csv_file (df : DataFrame, path ):
+def create_csv_file (df : DataFrame, path : str):
 
-    name_file = '/CSV_prueba.csv'
+    name_file = 'CSV_Horarios.csv'
     path_to_file = path + name_file
 
     df.to_csv(path_to_file, index=False, encoding='iso8859-1', sep=';', na_rep='')

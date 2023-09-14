@@ -13,11 +13,15 @@ v_folder_config_api = 'ConfigAPI'
 # Folder Name Process
 
 v_main_folder_process = 'DataProcess'
+v_main_folder_csv  = 'CsvFiles'
+
 v_process_sub_folder = 'Data'
+v_csv_sub_folder = 'Horarios'
 
 v_process_manage_data = 'ManageData'
 v_process_update_data = 'UpdateData'
 v_process_import_data = 'ImportData'
+v_process_export_data_csv  = 'CsvFiles'
 
 
 # Name config
@@ -77,7 +81,9 @@ v_variable_start_day = 'StartDay'
 v_variable_end_day = 'EndDay'
 
 
-# - Variables File UXXI -# 
+# - Variables File UXXI -#
+v_id_code = 'CODIGO'
+v_id_db = 'ID_BD'
 v_course_code = 'CODIGO_TITULACION'
 v_course_name = 'NOMBRE_TITULACION'
 v_year = 'CURSO'
@@ -105,6 +111,7 @@ v_students_number = 'ALUMNOS'
 v_classroom_name = 'NOMBRE_AULA'
 v_classroom_code = 'CODIGO_AULA'
 v_id_classroom = 'ID_AULA'
+v_id_classroom_uxxi = 'ID_AULA_UXXI' 
 
 v_student_group_name = 'NAME_GRUPO'
 v_student_group_id = 'ID_GRUPO'
@@ -125,9 +132,11 @@ v_weeks = 'WEEKS_EVENT'
 v_week_first = 'FIRST_WEEK'
 v_week_last = 'LAST_WEEK'
 v_id_weeks = 'ID_WEEKS_EVENT'
+v_number_weeks = 'NUMBER_WEEK'
 v_id_student= 'studentGroup_id'
 
 v_event_Id_BC = 'EventIdBC'
+v_event_title_BC = 'EventTitleBC'
 v_event_type = 'EventType'
 v_id_event_type = 'EventTypeId'
 v_section_name = 'SectionName'
@@ -138,6 +147,7 @@ v_plan_dominant = 'PLAN_DOMINANT_MODULE'
 #New Variables CSV
 v_plan_csv = 'PLAN'
 v_code_tipo_actividad_csv = 'CODIGO_TIPO'
+v_tipologie_mod_uxxi = 'CODIGO_TIPOLOGIA_ASIGNATURA'
 
 v_split_weeks = 'Split_Weeks'
 v_merge = '_merge'

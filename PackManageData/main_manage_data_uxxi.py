@@ -28,7 +28,6 @@ def manage_data_uxxi_steps(name_file_inserted : str):
     
     if not df_uxxi_null_values.empty:
 
-
         readFilter.create_insert_validation_file(df_uxxi_null_values, process_folder, process_code,
                                                  v_sheet_null_values, flag_file_validation_created)
         flag_file_validation_created = True
@@ -41,6 +40,11 @@ def manage_data_uxxi_steps(name_file_inserted : str):
         readFilter.create_insert_validation_file(df_uxxi_wrong_type, process_folder, process_code,
                                                  v_sheet_wrong_type, flag_file_validation_created)
         flag_file_validation_created= True
+
+    
+    # Split ID_BD From CODIGO
+
+    df_uxxi = rulesUxxi.split_id_bd_from_code(df_uxxi)
 
     df_uxxi, df_uxxi_wrong_week = joinData.manage_weeks(df_uxxi)
 
@@ -64,6 +68,8 @@ def manage_data_uxxi_steps(name_file_inserted : str):
     dataUxxi.check_st_groups_uxxi (df_curriculum_uxxi, process_folder, process_code)
     dataUxxi.check_modules_uxxi (df_curriculum_uxxi, process_folder, process_code)
     dataUxxi.check_typologies_uxxi (df_curriculum_uxxi, process_folder, process_code)
+
+    #New Code Classroom - On method check_classrooms_uxxi code saved with new Code (Concat CODIGO_AULA - (ID_AULA_UXXI))
     dataUxxi.check_classrooms_uxxi (df_curriculum_uxxi, process_folder, process_code)
 
 
@@ -74,8 +80,9 @@ def manage_data_uxxi_steps(name_file_inserted : str):
     df_uxxi = rulesBest.add_event_type(df_uxxi)
     df_uxxi = rulesBest.add_event_code(df_uxxi, process_code)
     df_uxxi = rulesBest.add_event_section_name(df_uxxi)
-    df_uxxi = rulesBest.add_event_connector(df_uxxi)
+    df_uxxi = rulesBest.add_number_week(df_uxxi)
     df_uxxi = rulesBest.manage_hours(df_uxxi)
+    df_uxxi = rulesBest.add_event_connector(df_uxxi)
     df_uxxi = rulesUxxi.add_duration_event(df_uxxi)
 
     df_uxxi = rulesUxxi.select_type_module_uuxi(df_uxxi)

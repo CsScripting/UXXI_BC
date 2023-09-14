@@ -1,8 +1,10 @@
 from PackLibrary.librarys import (	
   DataFrame,
+  datetime,
   arange
   
 )
+from datetime import datetime
 
 from mod_variables import *
 
@@ -37,11 +39,32 @@ def add_event_section_name(df : DataFrame):
 
     return(df)
 
+def add_number_week (df : DataFrame):
+
+    df[v_number_weeks] = df[v_weeks].str.split(',').apply(lambda x: ','.join([str(datetime.strptime(e, '%Y-%m-%d').isocalendar().week)  for e in x]))
+
+    return(df)
 
 def add_event_connector (df : DataFrame):
 
+    # Before ID's BD
+    # df[v_plan_dominant] = df[v_course_code].str.split('#').str[0] + '_' + df[v_year].str.split('#').str[0] 
+    # df[v_id_uxxi] = df[v_plan_dominant] + '_' + df[v_activity_code] + '_' + df[v_student_group_code]
+
+    # After
     df[v_plan_dominant] = df[v_course_code].str.split('#').str[0] + '_' + df[v_year].str.split('#').str[0] 
-    df[v_id_uxxi] = df[v_plan_dominant] + '_' + df[v_activity_code] + '_' + df[v_student_group_code]
+
+
+    df[v_id_uxxi] = '{"Plan":' +  '"' + df[v_course_code].str.split('#').str[0] + '"' + \
+                    ',"Cur":'  +  df[v_year].str.split('#').str[0] + \
+                    ',"Act":'  +  df[v_activity_code] + \
+                    ',"Gr":'   +  df[v_student_group_code] + \
+                    ',"Day":'  +  df[v_day] + \
+                    ',"Hour":' +  '"' + df[v_hourBegin] + '-' + df[v_hourEnd] + '"' + \
+                    ',"Week":' +  '[' + df[v_number_weeks]  +']' + \
+                    ',"Id":'   +  '[' + df[v_id_db] + ']' +\
+                    '}'
+  
 
     return(df)
 

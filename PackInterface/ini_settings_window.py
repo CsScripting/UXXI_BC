@@ -15,7 +15,7 @@ from PackLibrary.librarys import (
 
 def start_settings_window():
 
-    global button_validation
+    
     
       
     objectState.disable_link_settings()
@@ -58,10 +58,10 @@ def start_settings_window():
     #Configuraciones RadioButtons
 
     opciones_process = tk.Frame(top_WindowGrid)
-    check_data_opcion= tk.Radiobutton(opciones_process, text = 'Check Data',font="Helvetica 8", cursor="hand2", variable=radio_button_vars[0], value=0, command=objectState.opciones_choice_check_data)
-    import_data_opcion= tk.Radiobutton(opciones_process, text = 'Import', font="Helvetica 8", cursor="hand2",variable=radio_button_vars[0], value=1,command=objectState.opciones_choice_import_data)
-    csv_opcion= tk.Radiobutton(opciones_process, text = 'CSV', font="Helvetica 8", cursor="hand2",variable=radio_button_vars[0], value=2, command=objectState.opciones_choice_export_csv)
-    check_data_opcion.select()
+    objectState.check_data_opcion= tk.Radiobutton(opciones_process, text = 'Check Data',font="Helvetica 8", cursor="hand2", variable=radio_button_vars[0], value=0, command=objectState.opciones_choice_check_data)
+    objectState.import_data_opcion= tk.Radiobutton(opciones_process, text = 'Import', font="Helvetica 8", cursor="hand2",variable=radio_button_vars[0], value=1,command=objectState.opciones_choice_import_data)
+    objectState.csv_opcion= tk.Radiobutton(opciones_process, text = 'CSV', font="Helvetica 8", cursor="hand2",variable=radio_button_vars[0], value=2, command=objectState.opciones_choice_export_csv)
+    objectState.check_data_opcion.select()
     
     
     # Objects Inside doubleEntry_windowGrid
@@ -71,7 +71,7 @@ def start_settings_window():
     #Config textInsertion
     names_inserted_vars[0] = tk.Entry(doubleEntry_windowGrid,borderwidth=0,highlightthickness=1,highlightcolor='#ffb84d', width=23,justify='left',font=("Segoe 8"),background="#ffe6cc", disabledbackground="#d1e0e0")
     #Default Value (only for DEV !!!)
-    objectState.names_inserted_vars[0].insert(0, 'HorariosPrimer_23_24.xlsx')
+    objectState.names_inserted_vars[0].insert(0, 'horarios_2023_24_Primer_Last.xlsx')
 
 
     #Config label File Data UXXI
@@ -98,10 +98,10 @@ def start_settings_window():
 
  
     #(Last Opcion Grid: Button VAlidacion and Edit)
-    object_validation = tk.Frame(final_WindowGrid)
-    button_validation = tk.Button(object_validation, text = 'Submit', background="#ffe6cc", borderwidth=0, cursor="hand2", command = settValid.validation_settings_steps)
-    objectState.link_edit = tk.Label(object_validation, text="Edit",font=('Helvetica', 8, 'underline'), fg="#663300")
-    # disable_link_edit()
+    objectState.object_validation = tk.Frame(final_WindowGrid)
+    objectState.button_validation = tk.Button(objectState.object_validation, text = 'Submit', background="#ffe6cc", borderwidth=0, cursor="hand2", command = settValid.validation_settings_steps)
+    objectState.link_edit = tk.Label(objectState.object_validation, text="Edit",font=('Helvetica', 8, 'underline'), fg="#663300")
+    objectState.disable_link_edit()
 
      #Position Objects inside Grid 
     
@@ -117,13 +117,13 @@ def start_settings_window():
     data_pack.grid(row=3, column=1, sticky='w')
    
 
-    object_validation.grid(row=4, column=1, sticky=tk.W)
+    objectState.object_validation.grid(row=4, column=1, sticky=tk.W)
 
 
     #Pack Values TopGrid --- opciones
-    check_data_opcion.pack(side=tk.LEFT,)
-    import_data_opcion.pack(side=tk.LEFT, padx=6)
-    csv_opcion.pack(side=tk.LEFT, padx=6)
+    objectState.check_data_opcion.pack(side=tk.LEFT,)
+    objectState.import_data_opcion.pack(side=tk.LEFT, padx=6)
+    objectState.csv_opcion.pack(side=tk.LEFT, padx=6)
     
 
     objectState.names_inserted_vars[2].pack(side=tk.LEFT, padx = 2)
@@ -131,9 +131,9 @@ def start_settings_window():
  
 
     objectState.link_edit.pack(side=tk.LEFT,padx = 55)
-    button_validation.pack(side=tk.LEFT, padx = 5)
+    objectState.button_validation.pack(side=tk.LEFT, padx = 5)
 
     #Minimize Window
     main_window.wm_state('iconic')
-    # settings_window.protocol("WM_DELETE_WINDOW", closing_behavior)
+    objectState.settings_window.protocol("WM_DELETE_WINDOW", objectState.closing_behavior_settings)
 

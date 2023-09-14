@@ -37,11 +37,11 @@ def verify_sheet_and_columns_name_file_uxxi(file_to_check : str):
     load_file = openpyxl.load_workbook(filename= path_to_file, read_only=True)
 
     sheet = load_file[v_sheet_data_uxxi] 
-    columns_original = [v_course_code, v_course_name, v_year, v_mod_code, v_mod_name,
+    columns_original = [v_id_code, v_course_code, v_course_name, v_year, v_mod_code, v_mod_name,
                         v_mod_typologie,v_student_group, v_activity_code, v_student_group_code,v_week_begin,
                         v_week_end, v_day, v_hourBegin_split,v_minute_begin_split, v_hourEnd_split, 
                         v_minute_end_split, v_duration,v_students_number,v_mod_modalidad,
-                        v_classroom_code, v_classroom_name]
+                        v_classroom_code, v_classroom_name, v_id_classroom_uxxi]
 
     columns_file = []
 

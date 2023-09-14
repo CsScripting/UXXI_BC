@@ -93,7 +93,7 @@ def event_type (df_event : DataFrame, df_invalid_events_data : DataFrame):
                                                         v_year, v_student_group_name,v_students_number,v_classroom_name, v_id_uxxi,v_weeks, v_event_type ]].copy()
     
     df_event_without_id [v_code_request] = '404' # ---> Code Entity Not Found
-    df_event_without_id [v_message_request] = v_error_id_acad_year + ' - ' + v_error_id
+    df_event_without_id [v_message_request] = v_error_id_event_type + ' - ' + v_error_id
     
 
     df_invalid = concat([df_invalid_events_data, df_event_without_id], ignore_index= True)

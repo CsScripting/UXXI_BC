@@ -145,11 +145,16 @@ def check_classrooms_uxxi (df : DataFrame, process_folder : str, process_code : 
 
     flag_file_created = True
 
-    df = df [[v_classroom_name, v_classroom_code]].copy()
+    df = df [[v_classroom_name, v_classroom_code, v_id_classroom_uxxi]].copy()
 
+    df = df[df[v_classroom_name] != ''].copy()
     df.drop_duplicates(inplace=True)
 
-    df = df[df[v_classroom_name] != 'NULL'].copy()
+    df[v_classroom_code] = df[v_classroom_code] + ' - (' + df[v_id_classroom_uxxi] + ')'
+
+    df.sort_values(by=v_classroom_name, inplace=True)
+
+    df.drop(columns=v_id_classroom_uxxi, inplace=True)
 
     df.rename(columns={v_classroom_name : v_name_best,
                        v_classroom_code : v_code_best}, inplace=True)

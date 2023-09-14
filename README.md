@@ -98,6 +98,16 @@ Ver dados importados Ultimos de alunos reais na UPO
 - Formato de Horas;
 
 * Notas em relação a Possibilidade de Criar Nome de Grupo Bullet com Sigla de Titulacion e não com o Nome.
+
+[] join_tuples_data
+
+    * [x] manage_weeks
+
+        --> Caso de eventos que tem dois intervalos de Datas: id com 1562822 [2023-10-16 ; 2023-10-29] e 1562827 [2023-11-06 ; 2023-12-03]
+
+            Ao agregar as semanas irá juntar os dois em que tem em consideração os codigos de Grupo de UXXI , dia, hora, a disciplina e a sala !!!!
+
+
      
 == PackUpdateData ==  
 

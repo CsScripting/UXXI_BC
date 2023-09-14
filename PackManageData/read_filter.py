@@ -15,6 +15,10 @@ def read_data_file (name_file : str):
 
     df = read_excel (path_file_name, sheet_name, dtype = 'str', keep_default_na=False, na_values=val_null)
 
+
+    values_modules = ['504011','902019' ]
+    df = df[df[v_mod_code].isin(values_modules)].copy()
+
     return(df)
 
 def write_file(df, path_associad, sheet_name_associad):
@@ -31,17 +35,17 @@ def cleaning_data (df : DataFrame):
 
 def select_only_columns_to_process( df : DataFrame):
 
-    df = df [[v_course_code, v_course_name, v_year, v_mod_code, v_mod_name,
-            v_mod_typologie,v_student_group, v_activity_code, v_student_group_code,v_week_begin,
-            v_week_end, v_day, v_hourBegin_split,v_minute_begin_split, v_hourEnd_split, 
-            v_minute_end_split, v_duration, v_students_number,v_mod_modalidad, v_classroom_code, v_classroom_name]].copy()
+    df = df [[v_id_code, v_course_code, v_course_name, v_year, v_mod_code, v_mod_name,
+              v_mod_typologie,v_student_group, v_activity_code, v_student_group_code,v_week_begin,
+              v_week_end, v_day, v_hourBegin_split,v_minute_begin_split, v_hourEnd_split, 
+              v_minute_end_split, v_duration, v_students_number,v_mod_modalidad, v_classroom_code, v_classroom_name, v_id_classroom_uxxi]].copy()
 
 
     return(df)
 
 def filter_null_values (df : DataFrame):
     
-    columns_not_null = [v_course_code, v_course_name,v_year,
+    columns_not_null = [v_id_code, v_course_code, v_course_name,v_year,
                         v_mod_code,v_mod_name, v_mod_typologie,
                         v_student_group, v_activity_code,v_student_group_code,
                         v_week_begin, v_week_end, v_day, v_hourBegin_split,

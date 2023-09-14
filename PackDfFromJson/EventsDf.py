@@ -7,7 +7,7 @@ from mod_variables import *
 def events_df_from_json(events : list):
 
 
-    columns_df = [v_id_best, v_event_Id_BC, v_mod_name, v_mod_code,v_mod_typologie, v_section_name, v_day,
+    columns_df = [v_id_best, v_event_Id_BC, v_event_title_BC, v_mod_name, v_mod_code,v_mod_typologie, v_section_name, v_day,
                   v_hourBegin, v_hourEnd, v_duration, v_student_group_name, v_students_number,v_id_uxxi,v_weeks, v_event_type,
                   v_classroom_name,v_classroom_code, v_academic_year]
 
@@ -16,6 +16,7 @@ def events_df_from_json(events : list):
     for i in range (len(events)):
     
         event_id = events[i][v_id_dto]
+        event_name = events[i][v_name_dto]
         event_code= events[i][v_code_dto]
         start_time = events[i][v_start_time_event_dto]
         end_time = events[i][v_end_time_event_dto]
@@ -123,7 +124,7 @@ def events_df_from_json(events : list):
         
 
 
-        df = df.append({v_id_best : event_id, v_event_Id_BC : event_code , v_mod_name : module_name, v_mod_code : module_code,
+        df = df.append({v_id_best : event_id, v_event_Id_BC : event_code ,v_event_title_BC : event_name, v_mod_name : module_name, v_mod_code : module_code,
                         v_mod_typologie  : typologies_str, v_section_name: wlsSectionName,  v_day : day,v_hourBegin : start_time, v_hourEnd : end_time,
                         v_duration : duration, v_student_group_name : groups_str, v_students_number : num_students,
                         v_id_uxxi : wlsSectionConector, v_weeks : weeks_str, v_event_type : event_type, v_classroom_name : classrooms_name_str,

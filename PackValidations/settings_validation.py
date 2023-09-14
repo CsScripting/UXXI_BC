@@ -51,7 +51,7 @@ def validation_settings_steps():
         #Extract Variables API To Check Conexion
         url_api, url_identity, client_id, client_secret = settValFunct.validation_and_file_config_and_get_variables()
 
-        value_token = getToken.get_token_identity(url_identity, client_id, client_secret)
+        value_token = getToken.get_token_identity(url_identity, client_id, client_secret, events = True)
         header_request = getToken.create_header_request (value_token)
 
         glRequest.gl_url_api = url_api
@@ -94,8 +94,18 @@ def validation_settings_steps():
             box_to_validate = 'boxDates'
 
 
+        # After all Validation
 
         stateObj.enable_button_start()
+        stateObj.disable_button_submit()
+
+        #  All Opciones Disables
+
+        stateObj.all_opciones_disables_after_submit()
+
+        
+
+
 
         # Focus on Main Window
         main_window.wm_state('normal')
@@ -132,11 +142,11 @@ def validation_settings_steps():
 
     except dataValFunct.WrongColumsGeneral:  
         
-        columns_file = v_course_code + ' - ' + v_course_name + ' - ' +   v_year + ' - ' + v_mod_code + ' - ' + v_mod_name + '\n' +  \
+        columns_file = v_id_code + '-' + v_course_code + ' - ' + v_course_name + ' - ' +   v_year + ' - ' + v_mod_code + ' - ' + v_mod_name + '\n' +  \
                        v_mod_typologie + ' - ' + v_student_group + ' - ' +   v_activity_code + ' - ' + v_student_group_code + ' - ' + v_week_begin + '\n'  + \
                        v_week_end + ' - ' + v_day + ' - ' +   v_hourBegin_split + ' - ' + v_minute_begin_split + ' - ' + v_hourEnd_split + '\n' + \
                        v_minute_end_split + ' - ' + v_duration + ' - ' +   v_students_number + '\n' + \
-                       v_mod_modalidad +  ' - '+ v_classroom_code + ' - ' + v_classroom_name
+                       v_mod_modalidad +  ' - '+ v_classroom_code + ' - ' + v_classroom_name + ' - ' + v_id_classroom_uxxi
         messagebox.showerror('Check Data UXXI', 'Possible COLUMNS NAME:\n\n' + columns_file)
 
     except settValFunct.ValidationFolderConfigApi:
