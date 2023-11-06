@@ -1,5 +1,5 @@
 import PackControllerRequest.event_request as eventRequest
-import PackManageApi.glogal_variable_process_request as gl_v_request
+import PackManageApi.global_variable_process_request as gl_v_request
 import PackDfFromJson.EventsDf as eventDf
 import PackGeneralProcedures.global_variable_process_procedures as glVarProcess
 import PackExportCsv.folders_process_export_csv as folderProcessCsv

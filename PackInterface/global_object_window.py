@@ -31,7 +31,7 @@ path_icon = resource_path("./log.ico")
 
 #Save Values Inserted by User (Boxes)
 names_inserted_vars = []
-for i in range(4):
+for i in range(6):
 
     check_names = tk.StringVar
     names_inserted_vars.append(check_names)

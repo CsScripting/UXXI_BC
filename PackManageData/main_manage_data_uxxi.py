@@ -101,16 +101,11 @@ def manage_data_uxxi_steps(name_file_inserted : str):
                                       v_hourBegin, v_hourEnd, v_duration, v_course_name, v_course_code, 
                                       v_year, v_student_group_name,v_students_number,v_id_uxxi,v_weeks,v_mod_modalidad, v_event_type,v_classroom_code, v_classroom_name ]].copy()
     
-
-    df_uxxi_to_update_data = df_uxxi_to_manage_data.copy()
-
-    df_uxxi_to_update_data [v_academic_year] = ''
-    df_uxxi_to_update_data [v_data_to_import_new] = ''
     
 
     #Insert File On Folder Manage Data:
 
     genFiles.create(df_uxxi_to_manage_data,process_folder, process_code,v_file_horarios,v_sheet_data_uxxi,v_process_manage_data)
 
-    return(first_week, last_week, df_info_events, df_uxxi_to_update_data)
+    return(first_week, last_week, df_info_events, df_uxxi_to_manage_data)
 

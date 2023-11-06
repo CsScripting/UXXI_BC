@@ -16,7 +16,7 @@ def import_data_steps(name_folder_process):
     file_imported_created = False
 
     #Create Importacion Folder
-    folderImport.create_folder_import_process(name_folder_process)
+    folderImport.create_folder_import_process(name_folder_process) #### NÂO ESQUECER GESTÂO DE FICHEIROS - PODE SE EXECUTAR PROCESSO MAIS DE UMA VEZ #####
 
     # Check File CURRICULUM_NEW, always Inserted !!!
 
@@ -106,6 +106,8 @@ def import_data_steps(name_folder_process):
     ## - Modules - ##
     df_horarios, df_horarios_invalid = idEntities.module (df_horarios, df_horarios_invalid)
 
+    #### Efetuar analise ate ao Import Events
+
     ## - Typologies - ##
     df_horarios, df_horarios_invalid = idEntities.typologies (df_horarios, df_horarios_invalid)
 
@@ -120,8 +122,9 @@ def import_data_steps(name_folder_process):
     df_horarios, df_horarios_invalid = idEntities.weeks (df_horarios, df_horarios_invalid)
 
 
-    ## Import Events ##
 
+    ## Import Events ##
+ 
     ########## Verificar import sobre o mesmo processo ....erro se ficheiro ficar aberto .....
 
     df_events_imported, df_events_not_imported = eventPost.iterate_df_events_and_post(df_horarios)

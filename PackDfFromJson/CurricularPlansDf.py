@@ -3,29 +3,59 @@ DataFrame
 )
 from mod_variables import *
 
-def plan_df_from_json(plan : list):
+def parse_list_plan_to_df (plan : list):
 
-    df = DataFrame(columns = [v_name_best,
-                              v_code_best,
-                              v_year_best,
-                              v_course_code_best])
+    df = DataFrame(plan)
+
+    columns_used_from_json = [v_id_dto,
+                              v_name_dto,
+                              v_code_dto,
+                              v_year_dto,
+                              v_course_dto
+                              ]
     
-    for i in range (len(plan)):
+
+    #Filter DataFrame Values
+    df = df [columns_used_from_json].copy()
+
+    #Extract values from object/Dict
+
+    ## - SingleValues Dict: - ##
+
+    #Course
+    df[v_course_code_best] =  df[v_course_dto].apply(lambda x: x.get(v_code_dto))
+
+    #DropColumnsObjects
+
+    columns_to_drop = [     
+                        v_course_dto
+                        
+                      ]
+
+    df.drop(columns=columns_to_drop, inplace=True)
+
+    columns_to_rename = {   
+                            
+                            v_name_dto : v_name_best, 
+                            v_code_dto : v_code_best,
+                            v_year_dto : v_year_best,
+                               
+                        }
+
+
+    df.rename(columns=columns_to_rename, inplace = True)
     
-        name_plan = plan[i][v_name_dto]
-        code_plan = plan[i][v_code_dto]
-        year_plan = plan[i][v_year_dto]
 
-        course_code = plan[i][v_course_dto][v_code_dto]
-        
-
-
-        df = df.append({v_name_best : name_plan,
-                        v_code_best : code_plan,
-                        v_year_best : year_plan,
-                        v_course_code_best : course_code}, 
-                        ignore_index = True)    
+    order_columns_df = [ 
+                        v_name_best, 
+                        v_code_best,
+                        v_year_best,
+                        v_course_code_best
+                        ]
 
 
+    df = df [order_columns_df].copy()
 
+
+    
     return(df)

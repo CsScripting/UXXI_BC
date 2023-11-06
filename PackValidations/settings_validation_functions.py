@@ -30,10 +30,6 @@ class FileNameNotInserted (Exception):
 class FileDataUxxiNotInserted (Exception):
     pass
 
-# validation_folder_ConfigApi()
-class ValidationFolderConfigApi(Exception):
-    pass
-
 
 # check_extension_file()
 class FileNameErrorExtensionXlsx(Exception):
@@ -41,9 +37,7 @@ class FileNameErrorExtensionXlsx(Exception):
         self.error_value = error_value
     pass
 
-# validation_config_exist_on_folder()
-class FileConfigNotInserted(Exception):
-    pass 
+
 
 # Algumas das Validações de Config associadas a ConfigParser !!! (não necessitam de estar defenidas)
 
@@ -94,43 +88,6 @@ def validation_data_uxxi_exist_on_folder(file_inserted):
     if not os.path.exists(path_to_file_config):
         raise FileDataUxxiNotInserted
 
-
-
-
-# - Validacion Config File - # 
-
-def validation_folder_config_api():
-    
-    check_directory = './' + v_folder_config_api
-
-    if not os.path.isdir(check_directory):
-        
-        os.mkdir(check_directory)
-        raise ValidationFolderConfigApi
-
-def validation_config_exist_on_folder():
-
-    path_to_file_config = './' + v_folder_config_api + '/' + v_file_name_config
-    if not os.path.exists(path_to_file_config):
-        raise FileConfigNotInserted
-    
-def validation_and_file_config_and_get_variables ():
-
-    # If Config file not configurated raise excepciones from Confiparser
-
-    #Manage Config File
-    conf = cp.RawConfigParser()   
-    path = './ConfigAPI/config.txt'
-    conf.read(path) 
-
-    # URL's
-    url_identity = conf.get(v_header_urls, v_url_identiy)
-    url_api = conf.get(v_header_urls, v_url_api)
-    # Credenciais API
-    client_id = conf.get(v_header_credentiales, v_client_id)
-    client_secret = conf.get(v_header_credentiales, v_client_secret)
-
-    return(url_api, url_identity, client_id, client_secret)
 
     
 # - Validacion Import Data - # 

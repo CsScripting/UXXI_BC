@@ -1,5 +1,6 @@
 from PackLibrary.librarys import(
-DataFrame
+DataFrame,
+ast
 )
 from mod_variables import *
 
@@ -7,8 +8,8 @@ from mod_variables import *
 def events_df_from_json(events : list):
 
 
-    columns_df = [v_id_best, v_event_Id_BC, v_event_title_BC, v_mod_name, v_mod_code,v_mod_typologie, v_section_name, v_day,
-                  v_hourBegin, v_hourEnd, v_duration, v_student_group_name, v_students_number,v_id_uxxi,v_weeks, v_event_type,
+    columns_df = [v_id_best, v_event_Id_BC, v_event_title_BC, v_mod_name, v_mod_code,v_mod_typologie,v_mod_id_typologie, v_section_name, v_day,
+                  v_hourBegin, v_hourEnd, v_duration, v_student_group_name, v_students_number,v_id_uxxi,v_weeks, v_event_type,v_id_event_type,
                   v_classroom_name,v_classroom_code, v_academic_year]
 
     df = DataFrame(columns = columns_df)
@@ -23,6 +24,7 @@ def events_df_from_json(events : list):
         duration = events[i][v_duration_event_dto]
         day = events[i][v_day_event_dto]
         event_type = events[i][v_event_type_event_dto][v_name_dto]
+        event_type_id = events[i][v_event_type_event_dto][v_id_dto]
         num_students = events[i][v_num_students_event_dto]
 
         wlsSectionName = events[i][v_section_name_event_dto]
@@ -89,6 +91,7 @@ def events_df_from_json(events : list):
         typologies = events[i][v_typologies_event_dto]
 
         list_typologies = []
+        list_typologies_id = []
 
         if not typologies:
 
@@ -101,7 +104,11 @@ def events_df_from_json(events : list):
                 value_name_ty = typologies[ty][v_name_dto]
                 list_typologies.append(value_name_ty)
 
+                value_id_ty = typologies[ty][v_id_dto]
+                list_typologies_id.append(str(value_id_ty))
+
             typologies_str = ','.join(list_typologies)
+            typologies_id_str = str(','.join(list_typologies_id))
             
         
         if events[i][v_module_event_dto] is not None:
@@ -125,13 +132,120 @@ def events_df_from_json(events : list):
 
 
         df = df.append({v_id_best : event_id, v_event_Id_BC : event_code ,v_event_title_BC : event_name, v_mod_name : module_name, v_mod_code : module_code,
-                        v_mod_typologie  : typologies_str, v_section_name: wlsSectionName,  v_day : day,v_hourBegin : start_time, v_hourEnd : end_time,
+                        v_mod_typologie  : typologies_str,v_mod_id_typologie : typologies_id_str, v_section_name: wlsSectionName,  v_day : day,v_hourBegin : start_time, v_hourEnd : end_time,
                         v_duration : duration, v_student_group_name : groups_str, v_students_number : num_students,
-                        v_id_uxxi : wlsSectionConector, v_weeks : weeks_str, v_event_type : event_type, v_classroom_name : classrooms_name_str,
+                        v_id_uxxi : wlsSectionConector, v_weeks : weeks_str, v_event_type : event_type,v_id_event_type : event_type_id, v_classroom_name : classrooms_name_str,
                         v_classroom_code : classrooms_code_str , v_academic_year :academic_year
                         }, 
                         ignore_index = True)    
 
+
+
+    return(df)
+
+
+def parse_list_events_to_df (events : list):
+
+
+    df = DataFrame(events)
+
+    columns_used_from_json = [v_id_dto,
+                              v_name_dto,
+                              v_code_dto,
+                              v_event_type_event_dto,
+                              v_start_time_event_dto,
+                              v_end_time_event_dto,
+                              v_duration_event_dto,
+                              v_day_event_dto, 
+                              v_students_number_dto,
+                              v_section_name_event_dto,
+                              v_conector_name_event_dto,
+                              v_weeks_event_dto,
+                              v_classrooms_event_dto,
+                              v_groups_event_dto,
+                              v_module_event_dto,
+                              v_typologies_event_dto
+                              ]
+    
+    #Filter DataFrame Values
+    df = df [columns_used_from_json].copy()
+
+    #Extract values from object/Dict
+
+    ## - SingleValues Dict: - ##
+
+    
+
+    #Module
+    df[v_mod_name] =  df[v_module_event_dto].apply(lambda x: x.get(v_name_dto) if x is not None else '')
+    df[v_mod_code] =  df[v_module_event_dto].apply(lambda x: x.get(v_code_dto) if x is not None else '')
+    df[v_mod_id] =  df[v_module_event_dto].apply(lambda x: x.get(v_id_dto) if x is not None else '')
+    
+    #Event Type
+    df[v_event_type] = df [v_event_type_event_dto].apply(lambda x: x.get(v_name_dto)if x is not None else '')
+    df[v_id_event_type] = df [v_event_type_event_dto].apply(lambda x: x.get(v_id_dto)if x is not None else '')
+
+
+    ## - NestedValues Dict: - ##
+
+    #weeks
+    df[v_weeks] = df[v_weeks_event_dto].apply(lambda x: [d[v_start_date_dto][0:10] for d in x])
+    df[v_weeks] = df[v_weeks].agg(lambda x: ','.join(map(str, x)))
+    
+    #Typologies
+    df[v_mod_id_typologie] = df[v_typologies_event_dto].apply(lambda x: [d[v_id_dto]for d in x])
+    df[v_mod_typologie] = df[v_typologies_event_dto].apply(lambda x: [d[v_name_dto] for d in x])
+    df[v_mod_typologie] = df[v_mod_typologie].agg(lambda x: ','.join(map(str, x)))
+    df[v_mod_id_typologie] = df[v_mod_id_typologie].agg(lambda x: ','.join(map(str, x)))
+
+    #Classrooms
+    df[v_classroom_name] = df[v_classrooms_event_dto].apply(lambda x: [d[v_name_dto] for d in x])
+    df[v_classroom_code] = df[v_classrooms_event_dto].apply(lambda x: [d[v_code_dto] for d in x])
+    df[v_id_classroom] = df[v_classrooms_event_dto].apply(lambda x: [d[v_id_dto] for d in x])
+    df[v_classroom_name] = df[v_classroom_name].agg(lambda x: ','.join(map(str, x)))
+    df[v_classroom_code] = df[v_classroom_code].agg(lambda x: ','.join(map(str, x)))
+    df[v_id_classroom] = df[v_id_classroom].agg(lambda x: ','.join(map(str, x)))
+
+    #Student Groups
+    df[v_student_group_name] = df[v_groups_event_dto].apply(lambda x: [d[v_name_dto] for d in x])
+    df[v_student_group_id] = df[v_groups_event_dto].apply(lambda x: [d[v_id_dto] for d in x])
+    df[v_student_group_name] = df[v_student_group_name].agg(lambda x: ','.join(map(str, x)))
+    df[v_student_group_id] = df[v_student_group_id].agg(lambda x: ','.join(map(str, x)))
+    
+    #DropColumnsObjects
+
+    columns_to_drop = [     
+                        v_module_event_dto,
+                        v_event_type_event_dto,
+                        v_classrooms_event_dto,
+                        v_groups_event_dto,
+                        v_typologies_event_dto,
+                        v_weeks_event_dto
+                        
+                      ]
+
+    df.drop(columns=columns_to_drop, inplace=True)
+
+    columns_to_rename = {   
+                            v_id_dto : v_id_best,
+                            v_name_dto : v_event_title_BC, 
+                            v_code_dto : v_event_Id_BC,
+                            v_start_time_event_dto : v_hourBegin ,
+                            v_end_time_event_dto : v_hourEnd,
+                            v_duration_event_dto : v_duration,
+                            v_day_event_dto : v_day, 
+                            v_students_number_dto : v_students_number,
+                            v_section_name_event_dto : v_section_name,
+                            v_conector_name_event_dto : v_id_uxxi
+                            
+                        }
+
+
+    df.rename(columns=columns_to_rename, inplace = True)
+
+    columns_df = [v_id_best, v_event_Id_BC, v_event_title_BC, v_mod_name, v_mod_code,v_mod_typologie,v_mod_id_typologie, v_section_name, v_day,
+                  v_hourBegin, v_hourEnd, v_duration, v_student_group_name, v_students_number,v_id_uxxi,v_weeks, v_event_type,v_id_event_type,
+                  v_classroom_name,v_classroom_code, v_academic_year]
 
 
     return(df)

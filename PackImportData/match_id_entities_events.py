@@ -1,5 +1,5 @@
 #Extract Data API
-import PackManageApi.glogal_variable_process_request as gl_v_request
+import PackManageApi.global_variable_process_request as gl_v_request
 import PackControllerRequest.general_requests as genRequest
 import PackDfFromJson.ModulesDf as modDf
 import PackDfFromJson.StudentGroupsDf as stGroupDf
@@ -109,7 +109,7 @@ def module (df_event : DataFrame, df_horarios_invalid : DataFrame):
     modules_db = genRequest.get_entity_data(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_module_controller)
     
     flag_need_id = True
-    df_modules_best = modDf.modules_df_from_json(modules_db, flag_need_id)
+    df_modules_best = modDf.parse_list_mod_to_df(modules_db, flag_need_id)
 
     #One event can have more than un one module (Dominant/Dominated)
     
@@ -150,7 +150,7 @@ def typologies (df_event : DataFrame, df_horarios_invalid : DataFrame):
     typologies_db = genRequest.get_entity_data(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_typologie_controller)
     
     flag_need_id = True
-    df_typologies_best = typeDf.typologies_df_from_json(typologies_db, flag_need_id)
+    df_typologies_best = typeDf.parse_list_typologies_to_df(typologies_db, flag_need_id)
 
 
     df_typologies_best.rename(columns={v_name_best:v_mod_type_dominant,
@@ -185,7 +185,7 @@ def student_group (df_event : DataFrame, df_horarios_invalid : DataFrame):
     st_groups_db = genRequest.get_entity_data(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_st_group_controller)
     
     flag_need_id = True
-    df_st_group_best = stGroupDf.st_groups_df_from_json(st_groups_db, flag_need_id)
+    df_st_group_best = stGroupDf.parse_list_st_groups_to_df(st_groups_db, flag_need_id)
 
     df_event.insert(0, v_id_event, arange(len(df_event)))
     df_event [v_student_group_id] = ''
@@ -248,7 +248,7 @@ def classrooms (df_event : DataFrame, df_horarios_invalid : DataFrame):
     classrooms_db = genRequest.get_entity_data(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_classrooms_controller)
     
     flag_need_id = True
-    df_classrooms_best = classDf.classrooms_df_from_json(classrooms_db, flag_need_id)
+    df_classrooms_best = classDf.parse_list_classrooms_to_df(classrooms_db, flag_need_id)
 
     df_event [v_id_classroom] = ''
     df_event_to_iterate = df_event.copy()
@@ -311,7 +311,7 @@ def weeks (df_event : DataFrame, df_horarios_invalid : DataFrame):
     
     weeks_db = genRequest.get_entity_data(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_weeks_controller)
     
-    df_weeks_best = weeksDf.weeks_df_from_json(weeks_db)
+    df_weeks_best = weeksDf.parse_list_weeks_to_df(weeks_db)
 
     df_weeks_best[v_name_best] = df_weeks_best[v_name_best].str[0:10]
 

@@ -10,13 +10,13 @@ import PackDfFromJson.ClassroomsDf as classDf
 import PackDfFromJson.EventsDf as eventDf
 
 
-import PackManageApi.glogal_variable_process_request as gl_v_request
+import PackManageApi.global_variable_process_request as gl_v_request
 import PackGeneralProcedures.files as genFiles
 import PackGeneralProcedures.global_variable_process_procedures as glVarPro
 import PackUpdateData.folders_process_update as folderUpdate
 import PackUpdateData.match_data_uxxi_api as matchData
 import PackGeneralProcedures.files as genFiles
-
+import PackUpdateData.match_schedules_best_uxxi as matchSche
 
 
 from PackLibrary.librarys import (	
@@ -29,42 +29,51 @@ def update_data_steps(first_week_schedules : str, last_week_schedules : str, df_
                        df_events_to_import : DataFrame):
 
 
-    # Create Folder Update
+    # Create Folder Update  
+    
     folderUpdate.create_folder_update_process(glVarPro.gl_process_folder)
-
-    genFiles.create(df_events_to_import,glVarPro.gl_process_folder,glVarPro.gl_process_code,v_file_horarios,v_sheet_data_uxxi,v_process_update_data, False)
-
     
     ### extract schedules BEST ###
 
     events_best = eventRequest.get_events_all(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_event_controller, first_week_schedules, last_week_schedules)
+    
+    #Verify if list Events Empty or Not Empty
+    if events_best: 
 
-    df_events_best = eventDf.events_df_from_json(events_best)
+      # df_events_best = eventDf.events_df_from_json(events_best)
+      df_events_best = eventDf.parse_list_events_to_df (events_best)
+
+      df_uxxi_to_insert_data, df_uxxi_to_update_data, df_events_best = matchSche.match_id_schedules_to_import (df_events_to_import, df_events_best)
+      
+      # New Events
+      df_uxxi_to_insert_data = matchSche.create_df_insert_data (df_uxxi_to_insert_data)
+      
+      # Verify events than exist on APP if needed Update
+      if not df_uxxi_to_update_data.empty:
+         
+        df_events_best, verify_columns_values_update = df_uxxi_to_update_data = matchSche.match_id_schedules_to_update(df_uxxi_to_update_data, df_events_best)
+
+        if len (verify_columns_values_update) != 0:
+           
+          genFiles.create(df_events_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,v_file_horarios_update,v_sheet_data_uxxi,v_process_update_data, False)
+
+
+
+
+    else:
+       
+      df_uxxi_to_insert_data = matchSche.create_df_insert_data (df_events_to_import, True)
+
+       
+    genFiles.create(df_uxxi_to_insert_data,glVarPro.gl_process_folder,glVarPro.gl_process_code,v_file_horarios,v_sheet_data_uxxi,v_process_update_data, False)
 
     
-
-    # file_events_created = False
-    # genFiles.create (df_info_events,glVarPro.gl_process_folder,glVarPro.gl_process_code,
-    #                  v_file_events_best, v_sheet_variables_process,v_process_update_data)
-    
-    # file_events_created = True
-    # genFiles.create (df_events_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,
-    #                  v_file_events_best, v_sheet_events_best,v_process_update_data, file_events_created)
-    
-
-
-    ### -- ###
-
-    
-
-
-
     
     ## - Extract Data from DataBase (API) to Check Data - ##
 
     # - Courses - #
     courses_db = genRequest.get_entity_data(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_course_controller)
-    df_courses_best = courseDf.courses_df_from_json(courses_db)
+    df_courses_best = courseDf.parse_list_courses_to_df(courses_db)
     #Insert Course To Curriculum File
     genFiles.create (df_courses_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,
                      v_file_curriculum_best, v_sheet_courses,v_process_update_data)
@@ -74,21 +83,22 @@ def update_data_steps(first_week_schedules : str, last_week_schedules : str, df_
 
     # # - Planes - #
     planes_db = genRequest.get_entity_data(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_plan_controller)
-    df_planes_best = planDf.plan_df_from_json(planes_db)
+    df_planes_best = planDf.parse_list_plan_to_df(planes_db)
     #Insert Planes To Curriculum File
     genFiles.create (df_planes_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,
                      v_file_curriculum_best, v_sheet_planes,v_process_update_data, flag_file_created)
     
     # # - StudentGroups - #
     student_group_db = genRequest.get_entity_data(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_st_group_controller)
-    df_st_groups_best = groupDf.st_groups_df_from_json(student_group_db)
+    df_st_groups_best = groupDf.parse_list_st_groups_to_df(student_group_db)
     #Insert StGroup To Curriculum File
     genFiles.create (df_st_groups_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,
                      v_file_curriculum_best, v_sheet_st_group,v_process_update_data, flag_file_created)
     
     # # - Modules - #
     modules_db = genRequest.get_entity_data(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_module_controller)
-    df_modules_best = modDf.modules_df_from_json(modules_db)
+    df_modules_best = modDf.parse_list_mod_to_df(modules_db)
+    
     #Insert Modules To Curriculum File
     genFiles.create (df_modules_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,
                      v_file_curriculum_best, v_sheet_modules,v_process_update_data, flag_file_created)
@@ -97,7 +107,7 @@ def update_data_steps(first_week_schedules : str, last_week_schedules : str, df_
     # # - Typologies Modules - #
 
     typologies_db = genRequest.get_entity_data(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_typologie_controller)
-    df_typologies_best = typeDf.typologies_df_from_json (typologies_db)
+    df_typologies_best = typeDf.parse_list_typologies_to_df (typologies_db)
     #Insert Typologies To Curriculum File
     genFiles.create (df_typologies_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,
                      v_file_curriculum_best, v_sheet_typologies,v_process_update_data,flag_file_created)
@@ -106,7 +116,7 @@ def update_data_steps(first_week_schedules : str, last_week_schedules : str, df_
      # # - Classrooms - #
 
     classrooms_db = genRequest.get_entity_data(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_classrooms_controller)
-    df_classrooms_best = classDf.classrooms_df_from_json (classrooms_db)
+    df_classrooms_best = classDf.parse_list_classrooms_to_df (classrooms_db)
     #Insert Classrooms To Curriculum File
     genFiles.create (df_classrooms_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,
                      v_file_curriculum_best, v_sheet_classrooms,v_process_update_data,flag_file_created)

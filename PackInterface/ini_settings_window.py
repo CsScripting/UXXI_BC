@@ -15,10 +15,6 @@ from PackLibrary.librarys import (
 
 def start_settings_window():
 
-    
-    
-      
-    objectState.disable_link_settings()
 
     objectState.settings_window = tk.Toplevel()
     objectState.settings_window.title('Settings')

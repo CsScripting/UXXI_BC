@@ -4,25 +4,31 @@ DataFrame
 from mod_variables import *
 
 
-def courses_df_from_json( course : list):
+def parse_list_courses_to_df (course : list):
 
-    # if empty list create a Empty Data Frame
-    df = DataFrame(columns = [v_name_best,
-                              v_acronym_best,
-                              v_code_best])
+    df = DataFrame(course)
+
+    columns_used_from_json = [
+                              v_name_dto,
+                              v_acronym_dto,
+                              v_code_dto
+                              ]
     
-    for i in range (len(course)):
+
+    #Filter DataFrame Values
+    df = df [columns_used_from_json].copy()
+
+
+    columns_to_rename = {   
+                            
+                            v_name_dto : v_name_best,
+                            v_acronym_dto : v_acronym_best,
+                            v_code_dto : v_code_best,
+       
+                        }
+
+
+    df.rename(columns=columns_to_rename, inplace = True)
     
-        name_course = course[i][v_name_dto]
-        acronym_course = course[i][v_acronym_dto]
-        code_course = course[i][v_code_dto]
-
-
-        df = df.append({v_name_best : name_course, 
-                        v_acronym_best : acronym_course,
-                        v_code_best : code_course}, 
-                        ignore_index = True)    
-
-
 
     return(df)

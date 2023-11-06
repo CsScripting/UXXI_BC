@@ -4,23 +4,31 @@ DataFrame
 from mod_variables import *
 
 
-def typologies_df_from_json(typologie : list, flag_need_id : bool = False):
+def parse_list_typologies_to_df (typologie : list, flag_need_id : bool = False):
 
-    df = DataFrame(columns = [v_id_best,
-                              v_name_best,
-                              v_description_typologie_best])
+    df = DataFrame(typologie)
+
+    columns_used_from_json = [
+                              v_id_dto,
+                              v_name_dto,
+                              v_description_dto
+                              ]
     
-    for i in range (len(typologie)):
-    
-        id_typologie = typologie[i][v_id_dto]
-        name_typologie = typologie[i][v_name_dto]
-        description_typologie = typologie[i][v_description_dto]
+
+    #Filter DataFrame Values
+    df = df [columns_used_from_json].copy()
 
 
-        df = df.append({v_id_best : id_typologie,
-                        v_name_best : name_typologie, 
-                        v_description_typologie_best : description_typologie}, 
-                        ignore_index = True)    
+    columns_to_rename = {   
+                            
+                            v_id_dto : v_id_best,
+                            v_name_dto : v_name_best,
+                            v_description_dto : v_description_typologie_best,
+       
+                        }
+
+
+    df.rename(columns=columns_to_rename, inplace = True)
 
     if not flag_need_id:
 
@@ -29,5 +37,6 @@ def typologies_df_from_json(typologie : list, flag_need_id : bool = False):
     else:
 
         df.drop(columns=[v_description_typologie_best], inplace=True)
+    
 
     return(df)

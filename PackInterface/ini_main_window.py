@@ -3,7 +3,10 @@ from PackLibrary.librarys import (
 )
 
 import PackInterface.states_objects_windows as objectState
-import PackInterface.ini_settings_window as iniciateSettings
+import PackInterface.ini_user_window as iniciatUser
+import PackInterface.ini_settings_window as iniciatSett
+
+
 from PackInterface.global_object_window import(
     main_window,
     path_icon) 
@@ -32,7 +35,7 @@ def start_main_window ():
     objectState.label1_begin = tk.Label(main_window, text = '\nUXXI <-> BEST\n'+ v_version)
     objectState.label2_begin = tk.Label(main_window, text = '')
     objectState.link = tk.Label(main_window, text="Process Settings",font=('Helvetica', 8, 'underline'), fg="#663300", cursor="hand2")
-    objectState.link.bind("<Button-1>", lambda e: iniciateSettings.start_settings_window())
+    objectState.link.bind("<Button-1>", lambda e: iniciatUser.start_window_user_credential())
     objectState.label3=tk.Label()
 
     #Position objects inside window

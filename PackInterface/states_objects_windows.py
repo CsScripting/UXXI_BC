@@ -13,6 +13,7 @@ from PackInterface.global_object_window import (
 import PackValidations.settings_validation as settval
 
 from mod_variables import v_version
+import PackInterface.ini_user_window as iniciatUser
 import PackInterface.ini_settings_window as iniciateSettings
 import PackValidations.exe_process_validation as exeProc
 
@@ -31,6 +32,13 @@ global import_data_opcion
 global csv_opcion
 global object_validation
 
+#WINDOW USER BWP
+global user_window
+global password_label
+global user_name_label
+global button_ok_sign_in
+global button_cancel_sign_in
+
 link : str
 link_edit : str
 
@@ -40,6 +48,26 @@ link_edit : str
 def raise_above_all(window):
     window.attributes('-topmost', True)
 
+# - BEHAVIOR BUTTON GENERAL - #
+
+def focus_button_ok(e):
+    
+    button_ok_sign_in.config(background='#ffdba6', foreground = "#3D85C6")
+
+def without_focus_button_ok(e):
+    
+    button_ok_sign_in.config(background= '#d3d3d3', foreground= 'black')
+
+def focus_button_cancel(e):
+    
+    button_cancel_sign_in.config(background='#ffdba6', foreground = "#3D85C6")
+
+def without_focus_button_cancel(e):
+    
+    button_cancel_sign_in.config(background= '#d3d3d3', foreground= 'black')
+
+
+
 
 # - Behavior Link Settings (Main Window ) - #
 
@@ -47,7 +75,7 @@ def enable_link_settings():
 
     link["state"] = "normal"
     link.config(cursor= "hand2")
-    link.bind("<Button-1>", lambda e: iniciateSettings.start_settings_window())
+    link.bind("<Button-1>", lambda e: iniciatUser.start_window_user_credential())
 
 
 def disable_link_settings():
@@ -293,7 +321,13 @@ def closing_behavior_settings():
         disable_button_start()
         settings_window.destroy()
         main_window.state('normal')
-    
+
+
+def closing_behavior_user_window():
+
+    enable_link_settings()
+    user_window.destroy()
+
 
     
 

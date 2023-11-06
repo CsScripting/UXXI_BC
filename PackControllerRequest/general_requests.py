@@ -2,7 +2,7 @@ from PackLibrary.librarys import(
     requests,
     json
 )
-from mod_variables import v_id_dto, v_classrooms_controller
+from mod_variables import v_id_dto, v_classrooms_controller, v_is_admin_dto
 
 def get_entity_data (url : str , header_request : str, controller : str):
 
@@ -75,6 +75,24 @@ def post_data_search_filter (url : str , header_request : str, controller : str,
         total_records = 0
         
 
-
-
     return (response.status_code, total_records, value_id)
+
+
+def post_data_search_filter_user (url : str , header_request : str, controller : str, body_data : dict):
+
+    is_admin = False
+
+    url = url + controller + '/' + 'search'
+
+    response = requests.post(url, headers = header_request, json = body_data)
+    
+
+    dict_data_section = json.loads(response.content)
+
+
+    if response.status_code == 200:
+
+        is_admin = dict_data_section['data']['data'][0][v_is_admin_dto]
+     
+
+    return (response.status_code, is_admin)

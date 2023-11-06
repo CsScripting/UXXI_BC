@@ -3,27 +3,30 @@ DataFrame
 )
 from mod_variables import *
 
+def parse_list_classrooms_to_df (classroom : list, flag_need_id : bool = False):
 
+    df = DataFrame(classroom)
 
-def classrooms_df_from_json(classroom : list, flag_need_id : bool = False):
-
-    df = DataFrame(columns=[v_id_best,
-                            v_name_best,
-                            v_code_best
-                            ])
+    columns_used_from_json = [v_id_dto,
+                              v_name_dto,
+                              v_code_dto,
+                              ]
     
-    for i in range (len(classroom)):
-    
-        id_class = classroom[i][v_id_dto]
-        name_class = classroom[i][v_name_dto]
-        code_class = classroom[i][v_code_dto]
+
+    #Filter DataFrame Values
+    df = df [columns_used_from_json].copy()
 
 
-        df = df.append({v_id_best : id_class, 
-                        v_name_best : name_class, 
-                        v_code_best : code_class
-                         }, 
-                        ignore_index = True)    
+    columns_to_rename = {   
+                            
+                            v_id_dto : v_id_best, 
+                            v_name_dto : v_name_best,
+                            v_code_dto : v_code_best,
+                               
+                        }
+
+
+    df.rename(columns=columns_to_rename, inplace = True)
 
     if not flag_need_id:
 
@@ -34,5 +37,12 @@ def classrooms_df_from_json(classroom : list, flag_need_id : bool = False):
         df.drop(columns=[v_code_best], inplace=True)
 
 
+    return(df)
+    
+
+    
+
+
+    
     return(df)
 

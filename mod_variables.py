@@ -3,7 +3,8 @@ v_version = '0.0'
 
 #File Horarios Generated
 
-v_file_horarios = 'HorariosUXXI'
+v_file_horarios = 'HorariosUXXI_Insert'
+v_file_horarios_update = 'HorariosUXXI_Update'
 
 # Folders Names App
 v_folder_data_uxxi = 'DataUXXI'
@@ -91,6 +92,7 @@ v_mod_code = 'CODIGO_ASIGNATURA'
 v_mod_code_dominant = 'CODIGO_ASIG_DOMINANT'
 v_mod_id_dominant = 'ID_ASIG_DOMINANT'
 v_mod_name = 'NOMBRE_ASIGNATURA'
+v_mod_id = 'ID_ASIGNATURA_BEST'
 v_mod_typologie =	'TIPO'
 v_mod_modalidad = 'TIPO_ASIGNATURA'
 v_mod_type_dominant = 'TIPO_ASIG_DOMINANT'
@@ -135,11 +137,11 @@ v_id_weeks = 'ID_WEEKS_EVENT'
 v_number_weeks = 'NUMBER_WEEK'
 v_id_student= 'studentGroup_id'
 
-v_event_Id_BC = 'EventIdBC'
-v_event_title_BC = 'EventTitleBC'
-v_event_type = 'EventType'
-v_id_event_type = 'EventTypeId'
-v_section_name = 'SectionName'
+v_event_Id_BC = 'EVENT_ID_BC'
+v_event_title_BC = 'EVENT_TITLE_BC'
+v_event_type = 'EVENT_TYPE'
+v_id_event_type = 'EVENT_TYPE_ID'
+v_section_name = 'SECTION_NAME'
 v_academic_year = 'ACADEMIC_YEAR'
 v_id_academic_year = 'ACADEMIC_YEAR_ID'
 v_plan_dominant = 'PLAN_DOMINANT_MODULE'
@@ -191,6 +193,7 @@ v_importance_degree_dto = 'degreeImportance'
 v_scientif_area_dto = 'scientificArea'
 v_scientif_area_id_dto = 'scientificAreaIdentifier'
 v_active_dto = 'active'
+v_is_admin_dto = 'isAdmin'
 
 
 # from typologieDTO
@@ -221,6 +224,9 @@ v_value_to_find = 'Value'
 
 v_search_code = 'Code'
 v_search_name = 'Name'
+
+v_search_email = 'Email'
+
 
 # from weeksDTO
 
@@ -311,6 +317,7 @@ v_acad_year_controller = 'AcademicYear'
 v_weeks_controller = 'Weeks'
 v_event_academic_controller = 'EventsAcademic'
 v_event_controller = 'Events'
+v_user_controller = 'Users'
 
 
 ## - Variables DataFrames to Compare Data Frames - ##
@@ -349,3 +356,41 @@ v_error_id_event_type = 'EventTypeName'
 v_error_id_acad_year = 'AcademicYearName'
 v_error_id_week = 'WeekValue'
 v_error_id_classroom = 'Classroom'
+
+
+#values dict UXXI_code
+
+v_dict_id_uxxi = 'Id'
+
+#Rename Name BEST_EVENT_DATAFRAME to update
+
+v_suffix_check_update_best = '_BEST'
+
+v_id_best_check_update = v_id_best  + v_suffix_check_update_best 
+v_event_Id_BC_check_update = v_event_Id_BC  + v_suffix_check_update_best 
+v_event_title_BC_check_update= v_event_title_BC  + v_suffix_check_update_best 
+v_mod_name_check_update = v_mod_name  + v_suffix_check_update_best 
+v_mod_code_check_update = v_mod_code  + v_suffix_check_update_best 
+v_mod_typologie_check_update = v_mod_typologie  + v_suffix_check_update_best 
+v_section_name_check_update = v_section_name  + v_suffix_check_update_best 
+v_day_check_update = v_day  + v_suffix_check_update_best 
+v_hourBegin_check_update = v_hourBegin  + v_suffix_check_update_best 
+v_hourEnd_check_update = v_hourEnd  + v_suffix_check_update_best 
+v_duration_check_update = v_duration  + v_suffix_check_update_best 
+v_student_group_name_check_update = v_student_group_name  + v_suffix_check_update_best 
+v_students_number_check_update = v_students_number  + v_suffix_check_update_best 
+v_id_uxxi_check_update = v_id_uxxi  + v_suffix_check_update_best 
+v_weeks_check_update = v_weeks  + v_suffix_check_update_best 
+v_classroom_name_check_update = v_classroom_name  + v_suffix_check_update_best 
+v_classroom_code_check_update = v_classroom_code  + v_suffix_check_update_best 
+v_id_db_check_update = v_id_db  + v_suffix_check_update_best 
+
+
+v_suffix_to_update = '_UPDATE'
+
+v_mod_code_update = v_mod_code + v_suffix_to_update 
+v_mod_code_update = v_mod_code + v_suffix_to_update
+v_mod_typologie_update = v_mod_typologie + v_suffix_to_update
+
+
+

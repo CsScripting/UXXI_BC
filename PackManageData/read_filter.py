@@ -16,8 +16,8 @@ def read_data_file (name_file : str):
     df = read_excel (path_file_name, sheet_name, dtype = 'str', keep_default_na=False, na_values=val_null)
 
 
-    values_modules = ['504011','902019' ]
-    df = df[df[v_mod_code].isin(values_modules)].copy()
+    # values_modules = ['504011','902019' ]
+    # df = df[df[v_mod_code].isin(values_modules)].copy()
 
     return(df)
 

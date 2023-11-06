@@ -1,4 +1,4 @@
-import PackManageApi.glogal_variable_process_request as gl_v_request
+import PackManageApi.global_variable_process_request as gl_v_request
 import PackControllerRequest.general_requests as genRequest
 import PackControllerRequest.controller_dto as dtObj
 from mod_variables import *
