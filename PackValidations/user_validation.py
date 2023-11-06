@@ -2,8 +2,10 @@ import PackValidations.user_validation_functions as userValFunct
 import PackManageApi.get_token as getToken
 import PackControllerRequest.general_requests as genRequest
 import PackInterface.states_objects_windows as stateObj
+import PackInterface.ini_settings_window as iniSett
 import PackManageApi.global_variable_process_request as glRequest
 import PackControllerRequest.controller_dto as dtObj
+
 from PackLibrary.librarys import (
     messagebox,
     traceback,
@@ -64,19 +66,16 @@ def user_validation_steps ():
 
             if user_is_admin:
 
-                print('move')
+                stateObj.closing_behavior_user_window()
+                iniSett.start_settings_window()      
 
             else:
 
                 raise userValFunct.UserNotAdmin
             
         else:
-
+           
            raise userValFunct.NoAccessToUsers
-
-
-
-
 
 
 
@@ -91,17 +90,17 @@ def user_validation_steps ():
     except userValFunct.InvalidCredentials:
 
         messagebox.showerror('Sign In', 'Invalid Credentials !!')
-        stateObj.enable_link_settings()
+        stateObj.closing_behavior_user_window()
 
     except userValFunct.NoAccessToUsers:
 
         messagebox.showerror('Sign In', 'Without Access to Users')
-        stateObj.enable_link_settings()
+        stateObj.closing_behavior_user_window()
 
     except userValFunct.UserNotAdmin:
 
         messagebox.showerror('Sign In', 'Process Rules:\n\n' + 'User Must be Admin !!')
-        stateObj.enable_link_settings()
+        stateObj.closing_behavior_user_window()
 
 
     #error headers config

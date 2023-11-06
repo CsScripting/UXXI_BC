@@ -7,6 +7,7 @@ from PackLibrary.librarys import (
 )
 from mod_variables import *
 
+
 # validation_folder_ConfigApi()
 class ValidationFolderConfigApi(Exception):
     pass
@@ -74,3 +75,4 @@ def validation_and_file_config_and_get_variables ():
     client_secret = conf.get(v_header_credentiales, v_client_secret)
 
     return(url_api, url_identity, client_id, client_secret)
+
