@@ -1,6 +1,7 @@
 from PackLibrary.librarys import (	
     ExcelWriter,
     read_excel,
+    read_csv,
     DataFrame
 )
 from mod_variables import *
@@ -13,8 +14,10 @@ def read_data_file (name_file : str):
     path_file_name = './' + v_folder_data_uxxi + '/' + name_file
     sheet_name = v_sheet_data_uxxi
 
-    df = read_excel (path_file_name, sheet_name, dtype = 'str', keep_default_na=False, na_values=val_null)
 
+    df = read_csv (path_file_name, sep= ';',encoding = 'UTF-8' , dtype = 'str')
+
+    # df = read_excel (path_file_name, sheet_name, dtype = 'str', keep_default_na=False, na_values=val_null)
 
     # values_modules = ['504011','902019' ]
     # df = df[df[v_mod_code].isin(values_modules)].copy()

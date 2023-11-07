@@ -51,7 +51,7 @@ def start_window_user_credential():
     #Config textInsertion
     names_inserted_vars[4] = tk.Entry(doubleEntry_windowGrid,borderwidth=0,highlightbackground = '#d3d3d3',highlightthickness=1,highlightcolor='#ffb84d', width=23,justify='left',font=("Segoe 8"),background="#FFFFFF", disabledbackground="#d1e0e0")
     #Default Value (only for DEV !!!)
-    objectState.names_inserted_vars[4].insert(0, 'paulovirgilio.79@gmail.com')
+    objectState.names_inserted_vars[4].insert(0, 'admin@bulletsolutions.com')
 
     #Config label PASSWORD
     objectState.password_label = tk.Label(doubleEntry_windowGrid, text='Password:', font="Helvetica 8", foreground="#000000")

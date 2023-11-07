@@ -33,5 +33,6 @@ to_datetime,
 merge,
 concat,
 Series,
-isnull
+isnull,
+read_csv
 )

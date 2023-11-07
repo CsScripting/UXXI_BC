@@ -16,6 +16,8 @@ from PackLibrary.librarys import (
 def start_settings_window():
 
 
+    objectState.disable_link_settings()
+
     objectState.settings_window = tk.Toplevel()
     objectState.settings_window.title('Settings')
     objectState.settings_window.geometry ("230x150") ##Geometry (230x214) --With Iten Separator
@@ -65,7 +67,7 @@ def start_settings_window():
     #Config label File Data UXXI
     objectState.fileLabel = tk.Label(doubleEntry_windowGrid, text='Data UXXI:', font="Helvetica 8", foreground="#000000")
     #Config textInsertion
-    names_inserted_vars[0] = tk.Entry(doubleEntry_windowGrid,borderwidth=0,highlightthickness=1,highlightcolor='#ffb84d', width=23,justify='left',font=("Segoe 8"),background="#ffe6cc", disabledbackground="#d1e0e0")
+    names_inserted_vars[0] = tk.Entry(doubleEntry_windowGrid,borderwidth=0,highlightbackground = '#d3d3d3',highlightthickness=1,highlightcolor='#ffb84d', width=23,justify='left',font=("Segoe 8"),background="#FFFFFF", disabledbackground="#d1e0e0")
     #Default Value (only for DEV !!!)
     objectState.names_inserted_vars[0].insert(0, 'horarios_2023_24_Primer_Last.xlsx')
 
@@ -73,7 +75,7 @@ def start_settings_window():
     #Config label File Data UXXI
     objectState.processImportLabel = tk.Label(doubleEntry_windowGrid, text='Process ID:', font="Segoe 8 italic", foreground="#009999")
     #Config textInsertion
-    objectState.names_inserted_vars[1] = tk.Entry(doubleEntry_windowGrid,borderwidth=0,highlightthickness=1,highlightcolor='#ffb84d', width=23,justify='left',font=("Segoe 8"),background="#ffe6cc", disabledbackground="#d1e0e0")
+    objectState.names_inserted_vars[1] = tk.Entry(doubleEntry_windowGrid,borderwidth=0,highlightbackground = '#d3d3d3',highlightthickness=1,highlightcolor='#ffb84d', width=23,justify='left',font=("Segoe 8"),background="#FFFFFF", disabledbackground="#d1e0e0")
 
 
     #(Opcion: export Data):
@@ -82,9 +84,9 @@ def start_settings_window():
     
 
     data_pack = tk.Frame(doubleEntry_windowGrid)
-    objectState.names_inserted_vars[2] = tk.Entry(data_pack,borderwidth=0,highlightthickness=1,highlightcolor='#ffb84d', width=10,justify='left',font=("Segoe 8"),background="#ffe6cc", disabledbackground="#d1e0e0")
+    objectState.names_inserted_vars[2] = tk.Entry(data_pack,borderwidth=0,highlightbackground = '#d3d3d3',highlightthickness=1,highlightcolor='#ffb84d', width=10,justify='left',font=("Segoe 8"),background="#FFFFFF", disabledbackground="#d1e0e0")
     objectState.names_inserted_vars[2].insert(0, 'Begin Date')
-    objectState.names_inserted_vars[3] = tk.Entry(data_pack,borderwidth=0,highlightthickness=1,highlightcolor='#ffb84d', width=10,justify='left',font=("Segoe 8"),background="#ffe6cc", disabledbackground="#d1e0e0")
+    objectState.names_inserted_vars[3] = tk.Entry(data_pack,borderwidth=0,highlightbackground = '#d3d3d3',highlightthickness=1,highlightcolor='#ffb84d', width=10,justify='left',font=("Segoe 8"),background="#FFFFFF", disabledbackground="#d1e0e0")
     objectState.names_inserted_vars[3].insert(0, 'End Date')
     
     #When Start State
@@ -95,9 +97,12 @@ def start_settings_window():
  
     #(Last Opcion Grid: Button VAlidacion and Edit)
     objectState.object_validation = tk.Frame(final_WindowGrid)
-    objectState.button_validation = tk.Button(objectState.object_validation, text = 'Submit', background="#ffe6cc", borderwidth=0, cursor="hand2", command = settValid.validation_settings_steps)
+    objectState.button_validation = tk.Button(objectState.object_validation, text = 'Submit', font=("Segoe 8"), background='#d3d3d3', borderwidth=0, cursor="hand2", command = settValid.validation_settings_steps)
     objectState.link_edit = tk.Label(objectState.object_validation, text="Edit",font=('Helvetica', 8, 'underline'), fg="#663300")
     objectState.disable_link_edit()
+
+    objectState.button_validation.bind('<Enter>', objectState.focus_button_submit)
+    objectState.button_validation.bind('<Leave>', objectState.without_focus_button_submit)
 
      #Position Objects inside Grid 
     
@@ -126,10 +131,10 @@ def start_settings_window():
     objectState.names_inserted_vars[3].pack(side=tk.LEFT, padx = 10)
  
 
-    objectState.link_edit.pack(side=tk.LEFT,padx = 55)
-    objectState.button_validation.pack(side=tk.LEFT, padx = 5)
+    objectState.link_edit.pack(side=tk.LEFT,padx = [0,36], pady = [5,5])
+    objectState.button_validation.pack(side=tk.LEFT, ipady=0, ipadx=9, padx = [0,18], pady = [5,5])
 
     #Minimize Window
-    main_window.wm_state('iconic')
+    # main_window.wm_state('iconic')
     objectState.settings_window.protocol("WM_DELETE_WINDOW", objectState.closing_behavior_settings)
 

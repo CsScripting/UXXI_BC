@@ -18,6 +18,12 @@ def validation_settings_steps():
 
     try:
 
+        # Disable Button Submit
+        stateObj.disable_button_submit()
+
+        #  All Opciones Disables
+        stateObj.all_opciones_disables_after_submit()
+
     
         # - GET DATA INSERTED UI - #
         opcion_process_to_ejecute, name_file_uxxi, name_process_to_import,begin_date_export_csv, end_date_export_csv = settValFunct.get_inserted_values_settings()
@@ -49,7 +55,7 @@ def validation_settings_steps():
             settValFunct.validation_data_uxxi_exist_on_folder(name_file_uxxi)
 
             # Validation Data UXXI (file)
-            dataValFunct.verify_sheet_and_columns_name_file_uxxi(name_file_uxxi)
+            # dataValFunct.verify_sheet_and_columns_name_file_uxxi(name_file_uxxi)
 
 
 
@@ -73,15 +79,9 @@ def validation_settings_steps():
         # After all Validation
 
         stateObj.enable_button_start()
-        stateObj.disable_button_submit()
-
-        #  All Opciones Disables
-
-        stateObj.all_opciones_disables_after_submit()
-
         
 
-
+    
 
         # Focus on Main Window
         main_window.wm_state('normal')

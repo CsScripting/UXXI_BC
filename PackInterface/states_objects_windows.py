@@ -50,6 +50,14 @@ def raise_above_all(window):
 
 # - BEHAVIOR BUTTON GENERAL - #
 
+def focus_button_submit(e):
+    
+    button_validation.config(background='#ffdba6', foreground = "#3D85C6")
+
+def without_focus_button_submit(e):
+    
+    button_validation.config(background= '#d3d3d3', foreground= 'black')
+
 def focus_button_ok(e):
     
     button_ok_sign_in.config(background='#ffdba6', foreground = "#3D85C6")
@@ -115,6 +123,8 @@ def enable_link_edit():
     link_edit["state"] = 'normal'
     link_edit.config(cursor= "hand2")
     link_edit.bind("<Button-1>", lambda e: edit_opciones_window_settings())
+    button_validation.bind('<Enter>', focus_button_submit)
+    button_validation.bind('<Leave>', without_focus_button_submit)
     
 
 
@@ -124,6 +134,8 @@ def disable_button_submit():
     button_validation['state'] = 'disable'
     button_validation['background'] = '#d1e0e0'
     button_validation ['cursor']=""
+    button_validation.unbind('<Enter>')
+    button_validation.unbind('<Leave>')
 
 
 def enable_button_submit():
@@ -311,6 +323,7 @@ def edit_opciones_window_settings():
     csv_opcion.config(state = 'normal')
     disable_button_start()
     enable_button_submit()
+    disable_link_edit()
 
 
 def closing_behavior_settings():

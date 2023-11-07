@@ -79,7 +79,7 @@ def check_extension_file(name_file : str):
 
     file_extension = name_file.split('.')[-1]
     
-    if (file_extension != 'xlsx'):
+    if (file_extension != 'csv'):
         raise FileNameErrorExtensionXlsx(name_file)
     
 def validation_data_uxxi_exist_on_folder(file_inserted):

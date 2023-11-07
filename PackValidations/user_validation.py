@@ -43,7 +43,7 @@ def user_validation_steps ():
         header_request = getToken.create_header_request (value_token)
 
         glRequest.gl_url_api = url_api
-        glRequest.gl_header_request = header_request
+        
 
         # colocar na validação se a chamada é a API ou ao IDentity......para mais tarde....A excepção será a mesma
 
@@ -57,6 +57,8 @@ def user_validation_steps ():
         value_token = getToken.get_token_identity_legacy(url_identity, client_id, client_secret,user_name, user_credential)
         header_request = getToken.create_header_request (value_token)
 
+        glRequest.gl_url_api = url_api
+        glRequest.gl_header_request = header_request
 
         #VERIFICAÇÃO se USER é ADMIN
         data_object_search = dtObj.create_dto_simple_search_filter (v_search_email, user_name)
