@@ -13,10 +13,12 @@ from mod_variables import *
 
 def import_data_steps(name_folder_process):
 
+    
+
     file_imported_created = False
 
     #Create Importacion Folder
-    folderImport.create_folder_import_process(name_folder_process) #### NÂO ESQUECER GESTÂO DE FICHEIROS - PODE SE EXECUTAR PROCESSO MAIS DE UMA VEZ #####
+    folderImport.create_folder_import_process(name_folder_process) #### NÂO ESQUECER GESTÂO DE FICHEIROS - PODE SE EXECUTAR PROCESSO MAIS DE UMA VEZ ##### Se Pasta existir pedir para verificar a pasta de Update
 
     # Check File CURRICULUM_NEW, always Inserted !!!
 
@@ -89,7 +91,7 @@ def import_data_steps(name_folder_process):
     #Read Files to Import Data Events
 
     df_horarios = genFiles.read_data_files_import(v_main_folder_process,name_folder_process, v_process_update_data, 
-                                                  v_file_horarios,v_folder_data_uxxi )
+                                                  v_file_horarios,v_sheet_data_uxxi )
     
     # Verify Events to Import (Opcion From User) --> Value 1 To Import
 
@@ -127,19 +129,39 @@ def import_data_steps(name_folder_process):
  
     ########## Verificar import sobre o mesmo processo ....erro se ficheiro ficar aberto .....
 
-    df_events_imported, df_events_not_imported = eventPost.iterate_df_events_and_post(df_horarios)
+
+        ##################################
+    # - OLD METHOD ... EVENTO POR EVENTO - #
+       ###################################
+    # df_events_imported, df_events_not_imported = eventPost.iterate_df_events_and_post_single_event(df_horarios)
 
     ##### Errores From ID and not Inserted ID
-    df_events_not_imported = concat([df_events_not_imported, df_horarios_invalid], ignore_index= True)
+    # df_events_not_imported = concat([df_events_not_imported, df_horarios_invalid], ignore_index= True)
 
-    if not df_events_imported.empty:
+    # if not df_events_imported.empty:
 
-        genFiles.create(df_events_imported,v_main_folder_process,name_folder_process,v_file_events_imported,v_sheet_events,v_process_import_data )
+    #     genFiles.create(df_events_imported,v_main_folder_process,name_folder_process,v_file_events_imported,v_sheet_events,v_process_import_data )
 
-    if not df_events_not_imported.empty:
+    # if not df_events_not_imported.empty:
         
-        genFiles.create(df_events_not_imported,v_main_folder_process,name_folder_process,v_file_events_not_imported,v_sheet_events,v_process_import_data)
+    #     genFiles.create(df_events_not_imported,v_main_folder_process,name_folder_process,v_file_events_not_imported,v_sheet_events,v_process_import_data)
 
+         ##################################
+    # - OLD METHOD ... EVENTO POR EVENTO - #
+         ###################################
+
+
+       ##################################
+    #   NEW METHOD ... COLLECTION EVENT - #
+       ###################################
+
+
+    eventPost.iterate_df_events_and_put_collection_event(df_horarios)
+
+
+    if not df_horarios_invalid.empty:
+
+        genFiles.create(df_horarios_invalid,v_main_folder_process,name_folder_process,v_file_events_not_imported,v_sheet_events_not_imported ,v_process_import_data )
 
 
     return()

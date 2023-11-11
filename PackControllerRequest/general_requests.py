@@ -49,6 +49,34 @@ def post_data_to_entity (url : str , header_request : str, controller : str, bod
 
     return (response.status_code, data_to_present)
 
+
+def put_data_to_entity_collection (url : str , header_request : str, controller : str, body_data : dict):
+
+    url = url + controller 
+
+    response = requests.put(url, headers = header_request, json = body_data)
+    
+
+    dict_data_section = json.loads(response.content)
+
+
+    if response.status_code == 200:
+
+        data_message : json = dict_data_section['message']
+
+        data_to_present = data_message
+
+    # else:
+
+    #     data_errors : json = dict_data_section['errors'][0]['detail']
+
+    #     data_to_present = data_errors
+
+    return ()
+
+
+
+
 def post_data_search_filter (url : str , header_request : str, controller : str, body_data : dict):
 
     value_id : int = 0

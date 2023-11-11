@@ -37,6 +37,12 @@ def create (df : DataFrame, process_folder : str, process_code : str, file_name 
 
     return()
 
+def create_file_process_csv (df : DataFrame, process_folder : str, file_name : str, sheet_name : str):
+    
+    df.to_excel(process_folder + '/' + file_name, sheet_name, index = False,freeze_panes=(1,0))
+
+    return()
+
 
 def read_data_files_update (main_folder_process : str, process_code : str,folder_type_process : str, name_file : str, sheet_name : str):
 
@@ -68,9 +74,18 @@ def read_data_files_import (main_folder_process : str, name_folder_process : str
 
     return(df)
 
-def create_csv_file (df : DataFrame, path : str):
+def create_csv_file (df : DataFrame, path : str, first_importacion):
 
-    name_file = 'CSV_Horarios.csv'
+    if first_importacion:
+    
+        name_file = 'CSV_Horarios_First_Import.csv'
+
+    else:
+
+        name_file = 'CSV_Horarios_Update_Import.csv'
+
+
+
     path_to_file = path + name_file
 
     df.to_csv(path_to_file, index=False, encoding='iso8859-1', sep=';', na_rep='')

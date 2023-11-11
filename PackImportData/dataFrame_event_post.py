@@ -9,7 +9,7 @@ from PackLibrary.librarys import (
 )
 
 
-def iterate_df_events_and_post (df : DataFrame):
+def iterate_df_events_and_post_single_event (df : DataFrame):
 
     columns_to_present = [v_event_Id_BC, v_mod_name, v_mod_code,v_mod_typologie, v_section_name, v_day,
                           v_hourBegin, v_hourEnd, v_duration, v_course_name, v_course_code, 
@@ -60,3 +60,44 @@ def iterate_df_events_and_post (df : DataFrame):
     df_events_not_imported =df_events_not_imported[columns_to_present]
     
     return(df_events_imported, df_events_not_imported)
+
+
+def iterate_df_events_and_put_collection_event (df : DataFrame):
+
+    # POSSIBILIDADE DE TAL COMO EM METODO DE SINGLE EVENT ESCREVER OS EVENTOS QUE FORAM IMPORTADOS --- A DESENVOLVER
+    # NO ENTANTO OS EVENTOS SERÃO SEMPRE INSERIDOS, SÓ se EXISTIR ERRO DE CONEXÂO
+
+    number_events_on_collection = 50
+   
+    df = df.applymap(str)
+
+    total_rows = len(df.axes[0])
+
+    nr_event_import = 0
+    counter_rows = 0
+    list_collection_event = []
+    
+    for row in df.itertuples(index= False):
+
+        nr_event_import += 1
+        counter_rows += 1
+
+        if nr_event_import <= number_events_on_collection:
+
+            data_object = dtObj.create_dto_event(row)
+
+            list_collection_event.append(data_object)
+            
+
+        if (nr_event_import == number_events_on_collection) or (total_rows == counter_rows):
+
+            nr_event_import = 0
+
+            data_collection = dtObj.create_dto_collection_event(list_collection_event) 
+
+            genRequest.put_data_to_entity_collection(gl_v_request.gl_url_api, gl_v_request.gl_header_request, v_event_create_collection_controller, data_collection)
+
+            list_collection_event = []
+
+    
+    return()

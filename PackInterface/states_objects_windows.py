@@ -39,6 +39,8 @@ global user_name_label
 global button_ok_sign_in
 global button_cancel_sign_in
 
+
+
 link : str
 link_edit : str
 
@@ -50,13 +52,6 @@ def raise_above_all(window):
 
 # - BEHAVIOR BUTTON GENERAL - #
 
-def focus_button_submit(e):
-    
-    button_validation.config(background='#ffdba6', foreground = "#3D85C6")
-
-def without_focus_button_submit(e):
-    
-    button_validation.config(background= '#d3d3d3', foreground= 'black')
 
 def focus_button_ok(e):
     
@@ -123,19 +118,18 @@ def enable_link_edit():
     link_edit["state"] = 'normal'
     link_edit.config(cursor= "hand2")
     link_edit.bind("<Button-1>", lambda e: edit_opciones_window_settings())
-    button_validation.bind('<Enter>', focus_button_submit)
-    button_validation.bind('<Leave>', without_focus_button_submit)
+    
     
 
-
-
 def disable_button_submit():
+
+    global button_validation
 
     button_validation['state'] = 'disable'
     button_validation['background'] = '#d1e0e0'
     button_validation ['cursor']=""
-    button_validation.unbind('<Enter>')
-    button_validation.unbind('<Leave>')
+    
+    
 
 
 def enable_button_submit():
@@ -158,25 +152,29 @@ def on_click_two_threads():
 
 def update_start_window():
 
-    label1_begin.config(text='\nUXXI <-> BEST\n'+ v_version,)
+    global label3
+
+    disable_button_start()
     label2_begin.config (text = '')
     label3.config(text = '')
-    
-    disable_button_start()
     label3.grid_remove()
+
     #Position objects inside window
-    label1_begin.grid(column= 0, row = 0)
+    label1_begin.grid(column= 0, row = 0, pady=[10,0])
     button_start.grid(column = 0, row = 1)
     link.grid(column=0, row=3, ipady=4)
     label2_begin.grid(column=0, row=4)
-    enable_link_settings()
 
     #Center Window - position on grid
     main_window.columnconfigure(0, weight=1)
     main_window.rowconfigure(0, weight=1)
+
+    enable_link_settings()
     
 
 def status_running (name, start_process):
+
+    global label3
 
     def on_start():
         global running
@@ -230,18 +228,18 @@ def status_running (name, start_process):
     main_window.after(0, update_status_running) 
 
     valid_process = start_process(settval.gl_opcion_process_to_ejecute, settval.gl_name_file_uxxi,settval.gl_name_process_to_import, 
-                                 settval.gl_begin_date_export_csv, settval.gl_end_date_export_csv)
+                                 settval.gl_academic_year_process, settval.gl_date_last_update)
 
     on_stop()
-    # main_window.withdraw()
-    update_start_window()
+   
+    
     settings_window.destroy()
 
     if valid_process:
         messagebox.showinfo('All Files Generated', 'Check Folder .\DataProcess\BC_XML')
+        update_start_window()
 
     main_window.deiconify()
-    # main_window.after(10, main_window.destroy)
 
 
 def opciones_choice_check_data ():
@@ -286,7 +284,7 @@ def opciones_choice_export_csv ():
     names_inserted_vars[2].delete(0, 'end')
     names_inserted_vars[3].delete(0, 'end')
 
-    names_inserted_vars[2].insert(0, 'yyyy-mm-dd')
+    names_inserted_vars[2].insert(0, '2023_24 Primer')
     names_inserted_vars[3].insert(0, 'yyyy-mm-dd')
 
     

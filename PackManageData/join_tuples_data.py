@@ -40,6 +40,7 @@ def asign_weeks (df, begin_date, end_date, name_new_serie = 'WEEKS_EVENT'):
         weekly_end = row[end_date].date()
         
         if weekly_begin <= weekly_end:
+            
             while weekly_begin <= weekly_end:
                 
                 if weekly_begin == weekly_end:
@@ -75,7 +76,8 @@ def manage_weeks (df: DataFrame):
 
     df['Split_Weeks'] = where (df['WEEKS_EVENT'].str.contains(','), '0', '1')
 
-    df.sort_values(by=v_id_db, inplace=True)
+    # Sort Values por ID da BD desordena as semanas !!!! ## Não pode ter o Sort Seguinte ###
+    # df.sort_values(by=v_id_db, inplace=True)
 
     series_grouped = [v_course_name,v_course_code, v_year, v_mod_code,v_mod_name,v_mod_typologie, v_student_group, v_activity_code,v_student_group_code, v_day,
                       v_duration, v_hourBegin_split, v_hourEnd_split,v_minute_begin_split, v_minute_end_split, v_students_number,v_classroom_code,

@@ -164,7 +164,8 @@ def parse_list_events_to_df (events : list):
                               v_classrooms_event_dto,
                               v_groups_event_dto,
                               v_module_event_dto,
-                              v_typologies_event_dto
+                              v_typologies_event_dto,
+                              v_acad_year_dto
                               ]
     
     #Filter DataFrame Values
@@ -211,6 +212,9 @@ def parse_list_events_to_df (events : list):
     df[v_student_group_id] = df[v_groups_event_dto].apply(lambda x: [d[v_id_dto] for d in x])
     df[v_student_group_name] = df[v_student_group_name].agg(lambda x: ','.join(map(str, x)))
     df[v_student_group_id] = df[v_student_group_id].agg(lambda x: ','.join(map(str, x)))
+
+    #AcademicYear
+    df[v_academic_year] = df[v_acad_year_dto].apply(lambda x: x.get(v_name_dto) if x is not None else '')
     
     #DropColumnsObjects
 
@@ -220,7 +224,8 @@ def parse_list_events_to_df (events : list):
                         v_classrooms_event_dto,
                         v_groups_event_dto,
                         v_typologies_event_dto,
-                        v_weeks_event_dto
+                        v_weeks_event_dto,
+                        v_acad_year_dto
                         
                       ]
 
@@ -246,6 +251,8 @@ def parse_list_events_to_df (events : list):
     columns_df = [v_id_best, v_event_Id_BC, v_event_title_BC, v_mod_name, v_mod_code,v_mod_typologie,v_mod_id_typologie, v_section_name, v_day,
                   v_hourBegin, v_hourEnd, v_duration, v_student_group_name, v_students_number,v_id_uxxi,v_weeks, v_event_type,v_id_event_type,
                   v_classroom_name,v_classroom_code, v_academic_year]
+    
+    df = df[columns_df]
 
 
     return(df)

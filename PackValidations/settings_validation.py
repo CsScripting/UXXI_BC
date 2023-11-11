@@ -26,7 +26,7 @@ def validation_settings_steps():
 
     
         # - GET DATA INSERTED UI - #
-        opcion_process_to_ejecute, name_file_uxxi, name_process_to_import,begin_date_export_csv, end_date_export_csv = settValFunct.get_inserted_values_settings()
+        opcion_process_to_ejecute, name_file_uxxi, name_process_to_import,academic_year_process, date_last_update = settValFunct.get_inserted_values_settings()
         
         global gl_opcion_process_to_ejecute
         gl_opcion_process_to_ejecute = opcion_process_to_ejecute
@@ -34,11 +34,10 @@ def validation_settings_steps():
         gl_name_file_uxxi = name_file_uxxi
         global gl_name_process_to_import
         gl_name_process_to_import = name_process_to_import
-        global gl_begin_date_export_csv
-        gl_begin_date_export_csv = begin_date_export_csv
-        global gl_end_date_export_csv
-        gl_end_date_export_csv = end_date_export_csv
-
+        global gl_academic_year_process
+        gl_academic_year_process = academic_year_process
+        global gl_date_last_update
+        gl_date_last_update = date_last_update
 
     
 
@@ -61,10 +60,6 @@ def validation_settings_steps():
 
         if (opcion_process_to_ejecute == 1):
 
-            #ENVOLVE A IMPORTAÇÃO DE EVENTO -- AUTENTICAÇÃO LEGACY:
-
-            
-            iniciateUserWindow.start_window_user_credential()
 
             box_to_validate = 'boxImportData'
             settValFunct.check_filling_entry_box(name_process_to_import)
@@ -105,7 +100,7 @@ def validation_settings_steps():
     except settValFunct.FileNameErrorExtensionXlsx as e:
 
         file_name = e.error_value
-        messagebox.showerror('Validation File', 'File ' + file_name + ' must have a .xlsx extension !!')
+        messagebox.showerror('Validation File', 'File ' + file_name + ' must have a .csv extension !!')
 
     except settValFunct.FileDataUxxiNotInserted:
 

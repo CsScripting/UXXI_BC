@@ -51,11 +51,11 @@ def get_inserted_values_settings():
     opcion_process_to_ejecute = radio_button_vars[0].get()
     name_file_uxxi = names_inserted_vars[0].get()
     name_process_to_import = names_inserted_vars[1].get()
-    begin_date_export_csv = names_inserted_vars[2].get()
-    end_date_export_csv = names_inserted_vars[3].get()
+    academic_year_process = names_inserted_vars[2].get()
+    date_last_update = names_inserted_vars[3].get()
     
 
-    return (opcion_process_to_ejecute, name_file_uxxi, name_process_to_import,begin_date_export_csv, end_date_export_csv)
+    return (opcion_process_to_ejecute, name_file_uxxi, name_process_to_import,academic_year_process, date_last_update)
 
     
 

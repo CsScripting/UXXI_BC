@@ -41,7 +41,7 @@ def create_df_update_data ():
 def manage_conector_id_parse_to_dict (df : DataFrame):              
 
     df [v_id_uxxi] = df[v_id_uxxi].apply(lambda x: exceptMatch.parse_string_dict_to_dict(x))
-    df [v_id_db] = df [v_id_uxxi].apply(lambda x: (exceptMatch.extract_value_dict(x)))
+    df [v_id_db] = df [v_id_uxxi].apply(lambda x: (exceptMatch.extract_value_dict(x,v_id_conector_bwp)))
 
     return(df)
 
@@ -157,7 +157,6 @@ def match_id_schedules_to_update(df_events_check_update : DataFrame, df_events_b
     #Remove columns Update Don´t have values to update
     df_columns_to_drop = df_events_best[[v_mod_code_update, v_mod_typologie_update]].loc[:, (df_events_best == '').all()]
     columns_to_drop = df_columns_to_drop.columns.values.tolist()
-
     
     df_events_best.drop(columns=columns_to_drop, inplace=True)
 
@@ -167,14 +166,13 @@ def match_id_schedules_to_update(df_events_check_update : DataFrame, df_events_b
 
     if len(verify_columns_values_update) != 0:
 
-        
         columns_update_to_manage = [col for col in df_events_best.columns if v_suffix_to_update in col]
 
         #Select only rows need Update
 
         df_events_best.replace("", nan, inplace=True)
 
-        df_events_best = df_events_best.dropna(axis=0, subset=columns_update_to_manage).copy()
+        df_events_best = df_events_best.dropna(axis=0, subset=columns_update_to_manage,how='all',).copy()
 
         df_events_best.replace(nan, "", inplace=True)
          

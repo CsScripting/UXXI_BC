@@ -178,8 +178,30 @@ def create_dto_event (event_data : Series):
                 v_classrooms_event_dto : list_classrooms,
                 v_typologies_event_dto : list_typologies,
 
-                v_constrains_event: True
+                # APENAS USAR QUANDO IMPORTA UM EVENTO
+                # v_constrains_event: True
 
                 }
+
+        return(data)
+
+
+
+def create_dto_collection_event (event_data : list):
+     
+
+
+        data = {
+                "eventsCreateCollection": event_data ,
+                "userAgreementsConstraints": 
+                        {
+                        "consideringClassroomsCapacityMargin": False,
+                        "consideringGlobalClassroomsCapacity": False,
+                        "breakConstraints": True
+                        }
+                        
+               }
+
+
 
         return(data)

@@ -4,7 +4,9 @@ v_version = '0.0'
 #File Horarios Generated
 
 v_file_horarios = 'HorariosUXXI_Insert'
+v_file_horarios_dates = 'HorariosUXXI_Dates'
 v_file_horarios_update = 'HorariosUXXI_Update'
+
 
 # Folders Names App
 v_folder_data_uxxi = 'DataUXXI'
@@ -38,7 +40,8 @@ v_client_id = 'client_id'
 v_client_secret = 'client_secret'
 
 # Name Sheet - Data UXXI 
-v_sheet_data_uxxi = 'DataUXXI'
+v_sheet_data_uxxi = 'DatosUXXI'
+v_sheet_data_uxxi_dates = 'WeeksSchedules'
 
 # Name File Validations
 v_file_validation_data_uxxi = 'Validation'
@@ -194,6 +197,7 @@ v_scientif_area_dto = 'scientificArea'
 v_scientif_area_id_dto = 'scientificAreaIdentifier'
 v_active_dto = 'active'
 v_is_admin_dto = 'isAdmin'
+v_acad_year_dto = 'academicYear'
 
 
 # from typologieDTO
@@ -231,6 +235,7 @@ v_search_email = 'Email'
 # from weeksDTO
 
 v_start_date_dto = 'startDate'
+v_end_date_dto = 'endDate'
 
 # from eventDTO
 
@@ -317,7 +322,10 @@ v_acad_year_controller = 'AcademicYear'
 v_weeks_controller = 'Weeks'
 v_event_academic_controller = 'EventsAcademic'
 v_event_controller = 'Events'
+v_event_create_collection_controller = 'Events/create/delete/collection'
 v_user_controller = 'Users'
+v_acad_year_controller = 'AcademicYear'
+
 
 
 ## - Variables DataFrames to Compare Data Frames - ##
@@ -360,9 +368,10 @@ v_error_id_classroom = 'Classroom'
 
 #values dict UXXI_code
 
-v_dict_id_uxxi = 'Id'
+
 
 #Rename Name BEST_EVENT_DATAFRAME to update
+# Usado Inicialmente caso de ver eventos de UXXI que existem no BC
 
 v_suffix_check_update_best = '_BEST'
 
@@ -376,21 +385,64 @@ v_section_name_check_update = v_section_name  + v_suffix_check_update_best
 v_day_check_update = v_day  + v_suffix_check_update_best 
 v_hourBegin_check_update = v_hourBegin  + v_suffix_check_update_best 
 v_hourEnd_check_update = v_hourEnd  + v_suffix_check_update_best 
+v_hour_check_update = 'HOUR_BEGIN - HOUR_END' + v_suffix_check_update_best
 v_duration_check_update = v_duration  + v_suffix_check_update_best 
 v_student_group_name_check_update = v_student_group_name  + v_suffix_check_update_best 
 v_students_number_check_update = v_students_number  + v_suffix_check_update_best 
 v_id_uxxi_check_update = v_id_uxxi  + v_suffix_check_update_best 
 v_weeks_check_update = v_weeks  + v_suffix_check_update_best 
+v_number_weeks_check_update = v_number_weeks + v_suffix_check_update_best
 v_classroom_name_check_update = v_classroom_name  + v_suffix_check_update_best 
 v_classroom_code_check_update = v_classroom_code  + v_suffix_check_update_best 
 v_id_db_check_update = v_id_db  + v_suffix_check_update_best 
-
 
 v_suffix_to_update = '_UPDATE'
 
 v_mod_code_update = v_mod_code + v_suffix_to_update 
 v_mod_code_update = v_mod_code + v_suffix_to_update
 v_mod_typologie_update = v_mod_typologie + v_suffix_to_update
+
+
+
+
+#USADO EM REGRAS DE IMPORTAÇÃO CSV
+v_suffix_check_update_uxxi = '_UXXI'
+
+v_day_check_update_uxxi = v_day  + v_suffix_check_update_uxxi 
+v_hour_check_update_uxxi = 'HOUR_BEGIN - HOUR_END' + v_suffix_check_update_uxxi
+v_number_weeks_check_update_uxxi = v_weeks  + v_suffix_check_update_uxxi 
+v_classroom_check_update_uxxi = v_classroom_name + v_suffix_check_update_uxxi
+
+v_id_db_check_update_uxxi = v_id_db + v_suffix_check_update_uxxi
+
+
+
+
+
+# CAMPOS DICIONARIO CODIGO UXXI
+
+v_app_conector_bwp = 'App'
+v_plan_conector_bwp = 'Plan'
+v_curso_conector_bwp  = 'Cur'
+v_act_uxxi_conector_bwp  = 'Act'
+v_grupo_uxxi_conector_bwp = 'Gr'
+v_nr_grupo_uxxi_conector_bwp = 'NrGr'
+v_day_conector_bwp = 'Day'
+v_classroom_conector_bwp = 'Class'
+v_hour_conector_bwp = 'Hour'
+v_week_conector_bwp = 'Week'
+v_id_conector_bwp = 'Id'
+
+# ESTADOS IMPORT
+
+v_app_uxxi = "UXXI"
+v_app_bwp_to_uxxi = 'BWP_UXXI'
+
+
+# ESTADOS IMPORTAÇÂO CSV:
+
+first_csv_export = 'first_export_csv'
+uptade_csv_export = 'update_export_csv'
 
 
 

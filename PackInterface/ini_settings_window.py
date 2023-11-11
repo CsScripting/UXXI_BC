@@ -69,7 +69,7 @@ def start_settings_window():
     #Config textInsertion
     names_inserted_vars[0] = tk.Entry(doubleEntry_windowGrid,borderwidth=0,highlightbackground = '#d3d3d3',highlightthickness=1,highlightcolor='#ffb84d', width=23,justify='left',font=("Segoe 8"),background="#FFFFFF", disabledbackground="#d1e0e0")
     #Default Value (only for DEV !!!)
-    objectState.names_inserted_vars[0].insert(0, 'horarios_2023_24_Primer_Last.xlsx')
+    objectState.names_inserted_vars[0].insert(0, 'horarios_2023_24_Primer_Last.csv')
 
 
     #Config label File Data UXXI
@@ -85,9 +85,9 @@ def start_settings_window():
 
     data_pack = tk.Frame(doubleEntry_windowGrid)
     objectState.names_inserted_vars[2] = tk.Entry(data_pack,borderwidth=0,highlightbackground = '#d3d3d3',highlightthickness=1,highlightcolor='#ffb84d', width=10,justify='left',font=("Segoe 8"),background="#FFFFFF", disabledbackground="#d1e0e0")
-    objectState.names_inserted_vars[2].insert(0, 'Begin Date')
+    objectState.names_inserted_vars[2].insert(0, 'Acad. year')
     objectState.names_inserted_vars[3] = tk.Entry(data_pack,borderwidth=0,highlightbackground = '#d3d3d3',highlightthickness=1,highlightcolor='#ffb84d', width=10,justify='left',font=("Segoe 8"),background="#FFFFFF", disabledbackground="#d1e0e0")
-    objectState.names_inserted_vars[3].insert(0, 'End Date')
+    objectState.names_inserted_vars[3].insert(0, 'Last Update')
     
     #When Start State
     objectState.opciones_choice_check_data()
@@ -97,12 +97,12 @@ def start_settings_window():
  
     #(Last Opcion Grid: Button VAlidacion and Edit)
     objectState.object_validation = tk.Frame(final_WindowGrid)
-    objectState.button_validation = tk.Button(objectState.object_validation, text = 'Submit', font=("Segoe 8"), background='#d3d3d3', borderwidth=0, cursor="hand2", command = settValid.validation_settings_steps)
+    objectState.button_validation = tk.Button(objectState.object_validation, text = 'Submit', font=("Segoe 8"), background='#ffe6cc', borderwidth=0, cursor="hand2", command = settValid.validation_settings_steps)
     objectState.link_edit = tk.Label(objectState.object_validation, text="Edit",font=('Helvetica', 8, 'underline'), fg="#663300")
     objectState.disable_link_edit()
 
-    objectState.button_validation.bind('<Enter>', objectState.focus_button_submit)
-    objectState.button_validation.bind('<Leave>', objectState.without_focus_button_submit)
+    
+
 
      #Position Objects inside Grid 
     

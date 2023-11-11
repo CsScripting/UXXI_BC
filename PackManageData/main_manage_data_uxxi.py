@@ -107,5 +107,9 @@ def manage_data_uxxi_steps(name_file_inserted : str):
 
     genFiles.create(df_uxxi_to_manage_data,process_folder, process_code,v_file_horarios,v_sheet_data_uxxi,v_process_manage_data)
 
+    #INSERT DATA TO MANAGE ACADEMIC YEAR.
+
+    genFiles.create(df_info_events,process_folder, process_code,v_file_horarios_dates,v_sheet_data_uxxi_dates,v_process_manage_data)
+
     return(first_week, last_week, df_info_events, df_uxxi_to_manage_data)
 

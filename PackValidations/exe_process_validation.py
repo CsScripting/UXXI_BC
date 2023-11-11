@@ -3,14 +3,12 @@ import PackUpdateData.main_update_data as updateData
 import PackImportData.main_import_data as importData
 import PackExportCsv.main_export_csv as exportCsv
 
-import PackManageApi.get_token as getToken
-import PackControllerRequest.general_requests as genRequest
 
 
 
 
 def exe_process_steps (gl_opcion_process_to_ejecute : int, gl_name_file_uxxi: str,
-                       gl_name_process_to_import : str, gl_begin_date_export_csv : str, gl_end_date_export_csv : str):
+                       gl_name_process_to_import : str, gl_academic_year_process : str, date_last_update : str):
 
     valid_process = False
 
@@ -22,11 +20,21 @@ def exe_process_steps (gl_opcion_process_to_ejecute : int, gl_name_file_uxxi: st
 
     if gl_opcion_process_to_ejecute == 1:
 
-        importData.import_data_steps(gl_name_process_to_import)
+        process_import = 'Insert'
+
+        if process_import == 'Insert':
+
+            importData.import_data_steps(gl_name_process_to_import)
+
+        else:
+
+            print('Efectuar Processo Update')
+
+
 
     if gl_opcion_process_to_ejecute == 2:
 
-        exportCsv.export_csv_steps(gl_begin_date_export_csv, gl_end_date_export_csv)
+        exportCsv.export_csv_steps(gl_academic_year_process, date_last_update)
         
         
 

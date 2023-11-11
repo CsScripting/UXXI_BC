@@ -136,17 +136,18 @@ def add_duration_event (df : DataFrame):
     return(df)
 
 
-def create_format_csv_uxxi (df : DataFrame, path_folder, path_type_folder):
+def create_format_csv_uxxi (df : DataFrame, path_folder : str, path_type_folder : str, first_csv : str):
 
     
-    df = df [[v_event_title_BC,v_mod_code, v_mod_name, v_id_uxxi, v_mod_typologie,v_section_name,
-           v_weeks, v_day, v_hourBegin, v_hourEnd,v_classroom_name, v_classroom_code ]].copy()
+
+    df = df [[v_mod_code, v_mod_name, 
+              v_plan_conector_bwp,v_curso_conector_bwp,
+              v_act_uxxi_conector_bwp,v_grupo_uxxi_conector_bwp,v_nr_grupo_uxxi_conector_bwp,
+              v_mod_typologie,
+              v_weeks, v_day, v_hourBegin, 
+              v_hourEnd,v_classroom_name, v_classroom_code ]].copy()
     
-    df.insert(0, v_tipologie_mod_uxxi,df [v_event_title_BC].str.split('_').str[1] )
-    df.insert(2, v_year, df[v_id_uxxi].str.split('_').str[1])
-    df.insert(3, v_activity_code, df[v_id_uxxi].str.split('_').str[2])
-    df.insert(4, v_student_group_code, df[v_id_uxxi].str.split('_').str[3])
-    df.insert(5, v_student_group, df[v_section_name].str.split(' ').str[1])
+    df.insert(0, v_tipologie_mod_uxxi,'T') ### FERNANDO DIZ QUE NÂO É IMPORTANTE ...DESCONSIDERADO EM IMPORTAçÂO
 
 
     #Manage Weeks
@@ -184,18 +185,19 @@ def create_format_csv_uxxi (df : DataFrame, path_folder, path_type_folder):
 
     df[v_duration] = (df[v_hourEnd] - df[v_hourBegin]).dt.total_seconds() / 3600
 
-    df[v_plan_csv] = df[v_id_uxxi].str.split('_').str[0]
 
     df[v_code_tipo_actividad_csv] = where(df[v_mod_typologie] == 'EB', '171', '172')
 
     
-    df = df [[v_mod_code, v_mod_name, v_year,v_code_tipo_actividad_csv,v_mod_typologie, v_activity_code,v_student_group_code,v_student_group,
-              v_week_begin, v_week_end, v_day,v_hourBegin_split,v_minute_begin_split, v_hourEnd_split,v_minute_end_split, v_classroom_code,v_classroom_name,
-              v_tipologie_mod_uxxi,v_plan_csv]].copy()
+    df = df [[v_mod_code, v_mod_name, v_curso_conector_bwp,v_code_tipo_actividad_csv,v_mod_typologie, 
+              v_act_uxxi_conector_bwp,v_grupo_uxxi_conector_bwp,v_nr_grupo_uxxi_conector_bwp,
+              v_week_begin, v_week_end, v_day,v_hourBegin_split,v_minute_begin_split, v_hourEnd_split,v_minute_end_split, 
+              v_classroom_code,v_classroom_name,
+              v_tipologie_mod_uxxi,v_plan_conector_bwp]].copy()
 
     path_file = path_folder + '/'
     
-    genFile.create_csv_file(df, path_file)
+    genFile.create_csv_file(df, path_file, first_csv)
     
     return(df)
 
