@@ -4,13 +4,14 @@ from PackLibrary.librarys import (
   DataFrame,
   ast,
   where,
-  nan
+  nan,
+  concat
 )
 
 import PackUpdateData.exceptions_match_schedules as exceptMatch
 import PackManageData.bussiness_rules_best as rulesBest
 import PackManageData.join_tuples_data as manData
-import PackGeneralProcedures.files as genFile
+
 
 
 ### INSERIR EM README REGRAS ASSOCIADAS A UPDATES
@@ -139,26 +140,44 @@ def reasign_values_id_uxxi_to_send_uxxi (df : DataFrame):
 
     return(df)
 
-def extract_id_bd_to_delete (df : DataFrame, process_path : str):
+def extract_id_bd_to_delete (df : DataFrame, actiontype):
 
     columns_filter = [v_plan_conector_bwp,v_curso_conector_bwp,
                       v_mod_code, v_mod_name,v_mod_typologie,
                       v_act_uxxi_conector_bwp, v_grupo_uxxi_conector_bwp, 
                       v_nr_grupo_uxxi_conector_bwp, v_id_db_check_update_uxxi]
                       
-
-
     df = df [columns_filter].copy()
+    if actiontype == v_updated_event:
+
+        df[v_type_action] = v_updated_event
+
+    else:
+
+        df[v_type_action] = v_deleted_event
+
+    
     df = manData.split_by_rows(df,v_id_db_check_update_uxxi, sep = ',')
 
     df.drop_duplicates(keep= 'first',inplace=True)
 
-    file_name = 'UXXI_ID_TO_DELETE.xlsx'
-    sheet = 'DATOS'
-
-    genFile.create_file_process_csv(df,process_path, file_name, sheet)
 
     return (df)
+
+def adicionanl_fields_event_deleted (df : DataFrame):
+
+    df[v_mod_code] = ''
+    df[v_mod_name] = ''
+    df[v_mod_typologie] = ''
+
+
+    return(df)
+
+def merge_values_ids_to_delete_uxxi (df_update : DataFrame, df_delete : DataFrame):
+
+    df_all = concat([df_update, df_delete], ignore_index= True)
+
+    return(df_all)
 
 
 

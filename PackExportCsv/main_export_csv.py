@@ -1,5 +1,6 @@
 import PackControllerRequest.event_request as eventRequest
 import PackControllerRequest.academic_year_request as acadYearRequest
+import PackControllerRequest.audit_log_request as audiRequest
 import PackControllerRequest.controller_dto as dtObj
 import PackManageApi.global_variable_process_request as gl_v_request
 import PackDfFromJson.EventsDf as eventDf
@@ -9,6 +10,7 @@ import PackManageData.bussiness_rules_best as rulesBest
 
 import PackManageData.bussiness_rules_uxxi as rulesUXXI
 import PackRulesExport.bussiness_rules_export as rulesExport
+import PackGeneralProcedures.files as genFile
 
 
 
@@ -52,8 +54,23 @@ def export_csv_steps(academic_year : str, last_date_update : str):
   df_events_best = rulesExport.extract_values_conector_planificacion (df_events_best)
 
   if not first_csv:
-
       
+      #SEARCH EVENT DELETED
+
+      data_object_search = dtObj.create_dto_search_filter_audit_log (v_resource_type_name, v_resource_event,
+                                                                     v_resource_type_action_type,v_action_delete,
+                                                                     v_action_create, last_date_update)
+      
+
+      data_event_deleted = audiRequest.post_search_filter_audit_log (gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_audit_log_controller, data_object_search)
+      df_event_deleted, event_deleted = eventDf.parse_list_events_to_df_from_audit_log (data_event_deleted)
+      
+      if event_deleted:
+         
+        df_event_deleted = rulesExport.extract_values_conector_planificacion(df_event_deleted)
+        df_event_deleted = rulesExport.adicionanl_fields_event_deleted(df_event_deleted)
+
+         
       df_events_best = rulesExport.extract_values_conector_check_update (df_events_best)
 
       #Verificar Formato de conector ...
@@ -75,14 +92,27 @@ def export_csv_steps(academic_year : str, last_date_update : str):
         df_events_best = rulesExport.reasign_values_id_uxxi_to_send_uxxi (df_events_best)
 
         ## format CSV ###
-        df_manage_id_uxxi_to_delete = df_events_best.copy()
+        df_manage_id_uxxi_to_delete_from_update = df_events_best.copy()
         
 
         rulesUXXI.create_format_csv_uxxi(df_events_best, glVarProcess.gl_process_folder, glVarProcess.gl_process_code,first_csv) 
 
-        rulesExport.extract_id_bd_to_delete(df_manage_id_uxxi_to_delete, glVarProcess.gl_process_folder)
-       
+        df_manage_id_uxxi_to_delete_from_update = rulesExport.extract_id_bd_to_delete(df_manage_id_uxxi_to_delete_from_update, v_updated_event)
 
+        if event_deleted:
+          df_event_deleted = rulesExport.extract_id_bd_to_delete(df_event_deleted, v_deleted_event)
+
+          df_manage_id_uxxi_to_delete_from_update = rulesExport.merge_values_ids_to_delete_uxxi(df_manage_id_uxxi_to_delete_from_update, df_event_deleted)
+
+
+
+        file_name = 'UXXI_ID_TO_DELETE.xlsx'
+        sheet = 'DATOS'
+
+        genFile.create_file_process_csv(df_manage_id_uxxi_to_delete_from_update,glVarProcess.gl_process_folder, file_name, sheet)
+
+        
+        
       
       else:
         

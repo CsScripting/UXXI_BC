@@ -3,6 +3,7 @@ DataFrame,
 ast
 )
 from mod_variables import *
+import PackRulesExport.bussiness_rules_export as rulesExport
 
 
 def events_df_from_json(events : list):
@@ -256,3 +257,50 @@ def parse_list_events_to_df (events : list):
 
 
     return(df)
+
+
+def parse_list_events_to_df_from_audit_log (events_dict : list):
+
+    events_deleted = False
+    new_list = []
+    new_list_2 = []
+
+    
+
+    new_list = [i[v_resourceTypaData_dto]for i in events_dict]
+
+    for value_string in new_list:
+
+        value_string = value_string.split('"WLSSectionConnector":')[1]
+        value_string = value_string.split(',"NumStudents"')[0]
+        my_dict = ast.literal_eval(value_string)
+
+        if my_dict != '':
+
+            new_list_2.append(my_dict)
+
+    if new_list_2 != []:
+
+        events_deleted = True
+
+        df = DataFrame(new_list_2, columns= [v_id_uxxi])
+
+        df =  rulesExport.manage_conector_id_parse_to_dict (df)
+
+        df[v_id_db_check_update_uxxi] =  df[v_id_uxxi].apply(lambda x: x.get(v_id_conector_bwp) if x is not None else '')
+        df [v_id_db_check_update_uxxi] =  df [v_id_db_check_update_uxxi].agg(lambda x: ','.join(map(str, x)))
+
+    else:
+
+        df = DataFrame(columns=[v_id_uxxi])
+    
+
+    return(df, events_deleted)
+    
+
+
+        
+
+
+
+    print('NONE')

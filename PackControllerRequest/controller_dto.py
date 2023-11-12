@@ -205,3 +205,40 @@ def create_dto_collection_event (event_data : list):
 
 
         return(data)
+
+
+def create_dto_search_filter_audit_log (path1 : str, value1 : str, path2 : str,value2 : str,path3 : str,value3 :str):
+     
+
+     data = {
+
+                "filters": 
+                [
+                        {
+                        "and": False,
+                        "type": 0,
+                        "path": path1,
+                        "Value": value1
+
+                        },
+
+                        {
+                        "and": True,
+                        "type": 0,
+                        "path": path2,
+                        "Value": value2
+
+                        },
+                        {
+                        "and": True,
+                        "type": 8,
+                        "path": path3,
+                        "Value": value3
+
+                        }
+                
+                ]
+        }
+     
+
+     return(data)

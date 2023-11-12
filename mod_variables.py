@@ -198,6 +198,7 @@ v_scientif_area_id_dto = 'scientificAreaIdentifier'
 v_active_dto = 'active'
 v_is_admin_dto = 'isAdmin'
 v_acad_year_dto = 'academicYear'
+v_resourceTypaData_dto = 'resourceTypeData'
 
 
 # from typologieDTO
@@ -325,6 +326,7 @@ v_event_controller = 'Events'
 v_event_create_collection_controller = 'Events/create/delete/collection'
 v_user_controller = 'Users'
 v_acad_year_controller = 'AcademicYear'
+v_audit_log_controller = 'AuditLog'
 
 
 
@@ -443,6 +445,21 @@ v_app_bwp_to_uxxi = 'BWP_UXXI'
 
 first_csv_export = 'first_export_csv'
 uptade_csv_export = 'update_export_csv'
+
+
+# Search Variable Audit log
+
+v_resource_type_name = 'ResourceTypeName'
+v_resource_event = 'Event'
+v_resource_type_action_type = 'ResourceTypeActionType'
+v_action_delete = 'Delete'
+v_action_create = 'Created'
+
+# Type Update
+
+v_type_action = 'ActionType'
+v_updated_event = 'Updated_Event'
+v_deleted_event = 'Deleted_Event'
 
 
 

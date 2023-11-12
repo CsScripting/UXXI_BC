@@ -285,7 +285,7 @@ def opciones_choice_export_csv ():
     names_inserted_vars[3].delete(0, 'end')
 
     names_inserted_vars[2].insert(0, '2023_24 Primer')
-    names_inserted_vars[3].insert(0, 'yyyy-mm-dd')
+    names_inserted_vars[3].insert(0, '2023-11-10')
 
     
 
