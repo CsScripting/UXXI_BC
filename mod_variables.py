@@ -327,6 +327,7 @@ v_event_create_collection_controller = 'Events/create/delete/collection'
 v_user_controller = 'Users'
 v_acad_year_controller = 'AcademicYear'
 v_audit_log_controller = 'AuditLog'
+v_event_controller_basic = 'Events/updatebasicinformation'
 
 
 

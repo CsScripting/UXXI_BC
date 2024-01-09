@@ -53,9 +53,11 @@ def get_inserted_values_settings():
     name_process_to_import = names_inserted_vars[1].get()
     academic_year_process = names_inserted_vars[2].get()
     date_last_update = names_inserted_vars[3].get()
+
+    check_opcion_first_import = radio_button_vars[1].get()
     
 
-    return (opcion_process_to_ejecute, name_file_uxxi, name_process_to_import,academic_year_process, date_last_update)
+    return (opcion_process_to_ejecute, name_file_uxxi, name_process_to_import,academic_year_process, date_last_update,check_opcion_first_import)
 
     
 

@@ -11,6 +11,7 @@ import PackManageData.bussiness_rules_best as rulesBest
 import PackManageData.bussiness_rules_uxxi as rulesUXXI
 import PackRulesExport.bussiness_rules_export as rulesExport
 import PackGeneralProcedures.files as genFile
+import PackUpdateSchedules.update_schedules_functions as updateSched
 
 
 
@@ -22,11 +23,11 @@ from PackLibrary.librarys import (
 )
 
 
-def export_csv_steps(academic_year : str, last_date_update : str):
+def export_csv_steps(academic_year : str, last_date_update : str, first_update):
     
   #Manage ---> First CSV or Update CSV
 
-  if last_date_update == 'yyyy-mm-dd':
+  if first_update == 1:
 
     first_csv = True
 
@@ -47,7 +48,7 @@ def export_csv_steps(academic_year : str, last_date_update : str):
   events_best = eventRequest.get_events_all(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_event_controller, first_week_schedules, last_week_schedules)
 
   # df_events_best = eventDf.events_df_from_json(events_best)
-  df_events_best = eventDf.parse_list_events_to_df (events_best)
+  df_events_best = eventDf.parse_list_events_to_df (events_best, process_update=True)
 
   df_events_best = rulesExport.filter_by_acad_year(df_events_best, academic_year)
   df_events_best =  rulesExport.manage_conector_id_parse_to_dict (df_events_best)
@@ -56,6 +57,9 @@ def export_csv_steps(academic_year : str, last_date_update : str):
   if not first_csv:
       
       #SEARCH EVENT DELETED
+
+      # EVENTOS COM CONECTOR INVALIDO NÂO SERÁ CONSIDERADO
+      # EVENTOS SEM CONECTOR NÃO SERÃO CONSIDERADOS ... VER METODO DE 8_parse_list_events_to_df_from_audit_log
 
       data_object_search = dtObj.create_dto_search_filter_audit_log (v_resource_type_name, v_resource_event,
                                                                      v_resource_type_action_type,v_action_delete,
@@ -88,8 +92,17 @@ def export_csv_steps(academic_year : str, last_date_update : str):
 
         #ATRIBUIR VALORES COM UPDATE PARA ENVIAR A UXXI
         df_events_best = rulesExport.filter_to_reasign_values_id_uxxi_to_send_uxxi (df_events_best)
-        df_events_best = rulesExport.extract_values_conector_planificacion (df_events_best)
-        df_events_best = rulesExport.reasign_values_id_uxxi_to_send_uxxi (df_events_best)
+        
+        
+        # # UPDATE CONECTOR EVENT TO UPDATE ON BWP
+        df_data_update_conector = df_events_best.copy()
+        df_data_update_conector = updateSched.select_columns_update_conector(df_data_update_conector)
+        df_data_update_conector = rulesBest.add_event_connector(df_data_update_conector, csv_process=True)
+
+        updateSched.iterate_events_and_update_single_event(df_data_update_conector)
+
+        
+
 
         ## format CSV ###
         df_manage_id_uxxi_to_delete_from_update = df_events_best.copy()
@@ -100,6 +113,7 @@ def export_csv_steps(academic_year : str, last_date_update : str):
         df_manage_id_uxxi_to_delete_from_update = rulesExport.extract_id_bd_to_delete(df_manage_id_uxxi_to_delete_from_update, v_updated_event)
 
         if event_deleted:
+
           df_event_deleted = rulesExport.extract_id_bd_to_delete(df_event_deleted, v_deleted_event)
 
           df_manage_id_uxxi_to_delete_from_update = rulesExport.merge_values_ids_to_delete_uxxi(df_manage_id_uxxi_to_delete_from_update, df_event_deleted)
@@ -111,18 +125,15 @@ def export_csv_steps(academic_year : str, last_date_update : str):
 
         genFile.create_file_process_csv(df_manage_id_uxxi_to_delete_from_update,glVarProcess.gl_process_folder, file_name, sheet)
 
-        
-        
-      
       else:
-        
-        print ('SinUpdates')
 
+        print('SinUpdates')     
+        
+   
   else:
       
-      ## format CSV ###
-      rulesUXXI.create_format_csv_uxxi(df_events_best, glVarProcess.gl_process_folder, glVarProcess.gl_process_code,first_csv) 
-
+    ## format CSV ###
+    rulesUXXI.create_format_csv_uxxi(df_events_best, glVarProcess.gl_process_folder, glVarProcess.gl_process_code,first_csv) 
 
 
   return()

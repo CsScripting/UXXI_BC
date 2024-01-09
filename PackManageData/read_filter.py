@@ -21,6 +21,7 @@ def read_data_file (name_file : str):
 
     # values_modules = ['504011','902019' ]
     # df = df[df[v_mod_code].isin(values_modules)].copy()
+    # df = df[( df[v_activity_code] == '40238') & (df[v_student_group_code] == '78451')].copy()
 
     return(df)
 

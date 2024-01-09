@@ -66,13 +66,26 @@ def put_data_to_entity_collection (url : str , header_request : str, controller 
 
         data_to_present = data_message
 
-    # else:
+    else:
+
+        print('STOP')
 
     #     data_errors : json = dict_data_section['errors'][0]['detail']
 
     #     data_to_present = data_errors
 
     return ()
+
+def put_data_event_basic_information (url : str , header_request : str, controller : str, body_data : dict, id_event : str):
+
+    url = url + controller + '/' + id_event
+
+    response = requests.put(url, headers = header_request, json = body_data)
+    
+
+    dict_data_section = json.loads(response.content)
+
+    return(dict_data_section)
 
 
 

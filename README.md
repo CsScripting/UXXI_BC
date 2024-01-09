@@ -101,6 +101,10 @@ Ver dados importados Ultimos de alunos reais na UPO
 
 [] join_tuples_data
 
+    * [] manage_weeks
+        --> melhorar performance de Add Weeks
+            passar para itertuples em vez de iterRows
+
     * [x] manage_weeks
 
         --> Caso de eventos que tem dois intervalos de Datas: id com 1562822 [2023-10-16 ; 2023-10-29] e 1562827 [2023-11-06 ; 2023-12-03]

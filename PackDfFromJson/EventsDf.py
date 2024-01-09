@@ -145,7 +145,7 @@ def events_df_from_json(events : list):
     return(df)
 
 
-def parse_list_events_to_df (events : list):
+def parse_list_events_to_df (events : list, process_update = False):
 
 
     df = DataFrame(events)
@@ -216,6 +216,7 @@ def parse_list_events_to_df (events : list):
 
     #AcademicYear
     df[v_academic_year] = df[v_acad_year_dto].apply(lambda x: x.get(v_name_dto) if x is not None else '')
+    df[v_id_academic_year] = df[v_acad_year_dto].apply(lambda x: x.get(v_id_dto) if x is not None else '')
     
     #DropColumnsObjects
 
@@ -249,9 +250,18 @@ def parse_list_events_to_df (events : list):
 
     df.rename(columns=columns_to_rename, inplace = True)
 
-    columns_df = [v_id_best, v_event_Id_BC, v_event_title_BC, v_mod_name, v_mod_code,v_mod_typologie,v_mod_id_typologie, v_section_name, v_day,
-                  v_hourBegin, v_hourEnd, v_duration, v_student_group_name, v_students_number,v_id_uxxi,v_weeks, v_event_type,v_id_event_type,
-                  v_classroom_name,v_classroom_code, v_academic_year]
+    if process_update:
+
+        ### MAIS TARDE TER O CUIDADO DE PASSAR AS ANOTAÇÔES E O VALOR DE UNIT
+
+        columns_df = [v_id_best, v_event_Id_BC, v_event_title_BC, v_mod_name, v_mod_code,v_mod_id, v_mod_typologie,v_mod_id_typologie, v_section_name, v_day,
+                      v_hourBegin, v_hourEnd, v_duration, v_student_group_name, v_students_number,v_id_uxxi,v_weeks, v_event_type,v_id_event_type,
+                      v_classroom_name,v_classroom_code, v_academic_year, v_id_academic_year]
+    else:
+
+        columns_df = [v_id_best, v_event_Id_BC, v_event_title_BC, v_mod_name, v_mod_code,v_mod_typologie,v_mod_id_typologie, v_section_name, v_day,
+                    v_hourBegin, v_hourEnd, v_duration, v_student_group_name, v_students_number,v_id_uxxi,v_weeks, v_event_type,v_id_event_type,
+                    v_classroom_name,v_classroom_code, v_academic_year]
     
     df = df[columns_df]
 
@@ -287,6 +297,8 @@ def parse_list_events_to_df_from_audit_log (events_dict : list):
 
         df =  rulesExport.manage_conector_id_parse_to_dict (df)
 
+        df = df[df[v_id_db_check_update_uxxi] != 'InvalidConector' ].copy()
+
         df[v_id_db_check_update_uxxi] =  df[v_id_uxxi].apply(lambda x: x.get(v_id_conector_bwp) if x is not None else '')
         df [v_id_db_check_update_uxxi] =  df [v_id_db_check_update_uxxi].agg(lambda x: ','.join(map(str, x)))
 
@@ -296,11 +308,3 @@ def parse_list_events_to_df_from_audit_log (events_dict : list):
     
 
     return(df, events_deleted)
-    
-
-
-        
-
-
-
-    print('NONE')

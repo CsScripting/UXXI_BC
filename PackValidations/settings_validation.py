@@ -26,7 +26,7 @@ def validation_settings_steps():
 
     
         # - GET DATA INSERTED UI - #
-        opcion_process_to_ejecute, name_file_uxxi, name_process_to_import,academic_year_process, date_last_update = settValFunct.get_inserted_values_settings()
+        opcion_process_to_ejecute, name_file_uxxi, name_process_to_import,academic_year_process, date_last_update, check_opcion_first_import = settValFunct.get_inserted_values_settings()
         
         global gl_opcion_process_to_ejecute
         gl_opcion_process_to_ejecute = opcion_process_to_ejecute
@@ -38,6 +38,9 @@ def validation_settings_steps():
         gl_academic_year_process = academic_year_process
         global gl_date_last_update
         gl_date_last_update = date_last_update
+        global gl_check_opcion_first_import
+        gl_check_opcion_first_import = check_opcion_first_import
+
 
     
 

@@ -35,6 +35,7 @@ def start_settings_window():
     #Containers to distinct grid
     top_WindowGrid = tk.Frame(objectState.settings_window)
     doubleEntry_windowGrid = tk.Frame(objectState.settings_window)
+    doubleEntry_windowGrid_botton = tk.Frame(objectState.settings_window)
     tripleEntry_windowGrid = tk.Frame(objectState.settings_window)
     final_WindowGrid = tk.Frame(objectState.settings_window)
 
@@ -42,6 +43,7 @@ def start_settings_window():
     top_WindowGrid.pack(side="top", fill="x", expand=False)
     doubleEntry_windowGrid.pack(side="top", fill="both", expand=True)
     tripleEntry_windowGrid.pack(side="top", fill="both", expand=True)
+    doubleEntry_windowGrid_botton.pack(side="top", fill="both", expand=True)
     final_WindowGrid.pack(side="bottom", fill="both", expand=False)
     
     
@@ -69,7 +71,7 @@ def start_settings_window():
     #Config textInsertion
     names_inserted_vars[0] = tk.Entry(doubleEntry_windowGrid,borderwidth=0,highlightbackground = '#d3d3d3',highlightthickness=1,highlightcolor='#ffb84d', width=23,justify='left',font=("Segoe 8"),background="#FFFFFF", disabledbackground="#d1e0e0")
     #Default Value (only for DEV !!!)
-    objectState.names_inserted_vars[0].insert(0, 'horarios_2023_24_Primer_Last.csv')
+    objectState.names_inserted_vars[0].insert(0, 'horarios_2023_24_pruebas.csv')
 
 
     #Config label File Data UXXI
@@ -84,10 +86,17 @@ def start_settings_window():
     
 
     data_pack = tk.Frame(doubleEntry_windowGrid)
-    objectState.names_inserted_vars[2] = tk.Entry(data_pack,borderwidth=0,highlightbackground = '#d3d3d3',highlightthickness=1,highlightcolor='#ffb84d', width=10,justify='left',font=("Segoe 8"),background="#FFFFFF", disabledbackground="#d1e0e0")
+    objectState.names_inserted_vars[2] = tk.Entry(data_pack,borderwidth=0,highlightbackground = '#d3d3d3',highlightthickness=1,highlightcolor='#ffb84d', width=11,justify='left',font=("Segoe 8"),background="#FFFFFF", disabledbackground="#d1e0e0")
     objectState.names_inserted_vars[2].insert(0, 'Acad. year')
-    objectState.names_inserted_vars[3] = tk.Entry(data_pack,borderwidth=0,highlightbackground = '#d3d3d3',highlightthickness=1,highlightcolor='#ffb84d', width=10,justify='left',font=("Segoe 8"),background="#FFFFFF", disabledbackground="#d1e0e0")
+    objectState.names_inserted_vars[3] = tk.Entry(data_pack,borderwidth=0,highlightbackground = '#d3d3d3',highlightthickness=1,highlightcolor='#ffb84d', width=11,justify='left',font=("Segoe 8"),background="#FFFFFF", disabledbackground="#d1e0e0")
     objectState.names_inserted_vars[3].insert(0, 'Last Update')
+
+     #(Opcion First Import):
+    objectState.firstImportProcess = tk.Label(doubleEntry_windowGrid_botton, text='First Import:', font="Helvetica 8", foreground="#000000") 
+    objectState.radio_button_first_import = tk.Checkbutton (doubleEntry_windowGrid_botton, variable = radio_button_vars[1]) 
+
+
+
     
     #When Start State
     objectState.opciones_choice_check_data()
@@ -106,33 +115,36 @@ def start_settings_window():
 
      #Position Objects inside Grid 
     
-    opciones_process.grid(row=0, column=0, sticky=tk.W, pady=3,padx=3)
+    opciones_process.grid(row=0, column=0, sticky=tk.W, pady=0,padx=3)
     
-    objectState.fileLabel.grid(row=1, column=0, sticky=tk.W, pady=3,padx=3 )
+    objectState.fileLabel.grid(row=1, column=0, sticky=tk.W, pady=3,padx=[3,10] )
     objectState.names_inserted_vars[0].grid(row=1, column=1, sticky='w')
     
-    objectState.processImportLabel.grid(row=2, column=0, sticky=tk.W, pady=3,padx=3 )
+    objectState.processImportLabel.grid(row=2, column=0, sticky=tk.W, pady=3,padx=[3,10] )
     names_inserted_vars[1].grid(row=2, column=1, sticky='w')
     
-    objectState.exportLabel.grid(row=3, column=0, sticky=tk.W, pady=3,padx=3 )
-    data_pack.grid(row=3, column=1, sticky='w')
+    objectState.exportLabel.grid(row=3, column=0, sticky=tk.W, pady=[3,0],padx=[3,0] )
+    data_pack.grid(row=3, column=1, sticky='w',pady=[3,0], padx=[0,0])
+
+    objectState.firstImportProcess.grid(row=4, column=0, sticky=tk.W, pady=[0,0],padx=[3,2] )
+    objectState.radio_button_first_import.grid(row=4, column=1, sticky=tk.W, pady=[0,0],padx=[2,0] )
    
 
-    objectState.object_validation.grid(row=4, column=1, sticky=tk.W)
+    objectState.object_validation.grid(row=5, column=1, sticky=tk.W)
 
 
     #Pack Values TopGrid --- opciones
     objectState.check_data_opcion.pack(side=tk.LEFT,)
     objectState.import_data_opcion.pack(side=tk.LEFT, padx=6)
-    objectState.csv_opcion.pack(side=tk.LEFT, padx=6)
+    objectState.csv_opcion.pack(side=tk.LEFT)
     
 
-    objectState.names_inserted_vars[2].pack(side=tk.LEFT, padx = 2)
-    objectState.names_inserted_vars[3].pack(side=tk.LEFT, padx = 10)
+    objectState.names_inserted_vars[2].pack(side=tk.LEFT)
+    objectState.names_inserted_vars[3].pack(side=tk.LEFT, padx = [3,0])
  
 
-    objectState.link_edit.pack(side=tk.LEFT,padx = [0,36], pady = [5,5])
-    objectState.button_validation.pack(side=tk.LEFT, ipady=0, ipadx=9, padx = [0,18], pady = [5,5])
+    objectState.link_edit.pack(side=tk.LEFT,padx = [0,42], pady = [0,12])
+    objectState.button_validation.pack(side=tk.LEFT, ipady=0, ipadx=9, padx = [0,10], pady = [0,12])
 
     #Minimize Window
     # main_window.wm_state('iconic')

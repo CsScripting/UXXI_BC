@@ -51,7 +51,6 @@ def add_event_connector (df : DataFrame, csv_process = False):
     # df[v_plan_dominant] = df[v_course_code].str.split('#').str[0] + '_' + df[v_year].str.split('#').str[0] 
     # df[v_id_uxxi] = df[v_plan_dominant] + '_' + df[v_activity_code] + '_' + df[v_student_group_code]
 
-    # After
 
     if not csv_process:
 
@@ -88,7 +87,7 @@ def add_event_connector (df : DataFrame, csv_process = False):
                         ',"Hour":' +  '"' + df[v_hourBegin] + '-' + df[v_hourEnd] + '"' + \
                         ',"Class":'   +  '"' + df[v_classroom_name] + '"' +\
                         ',"Week":' +  '[' + df[v_number_weeks]  +']' + \
-                        ',"Id":'   +  '[' + df[v_id_db] + ']' +\
+                        ',"Id":'   +  '[]' +\
                         '}'
     
     

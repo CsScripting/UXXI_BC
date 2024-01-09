@@ -70,33 +70,18 @@ def filter_events_need_update (df:DataFrame):
 
     need_update = False
 
-    df_validation = df.copy()
-
-    #Remove columns Update Don´t have values to update
-    df_columns_to_drop = df_validation[[v_day_check_update, v_hour_check_update,v_number_weeks_check_update,v_classroom_name_check_update]].loc[:, (df_validation == '').all()]
-    columns_to_drop = df_columns_to_drop.columns.values.tolist()
     
-    df_validation.drop(columns=columns_to_drop, inplace=True)
 
-    # Verify id have columns Names to Update ---> pass above to decide if need to Write file Update 
-    verify_columns_values_update = df_validation.columns[df_validation.columns.str.contains(v_suffix_check_update_best)]
+    df_validation = df[(df[v_day_check_update] != '') | (df[v_number_weeks_check_update] != '') |
+                       (df[v_hour_check_update] != '') | (df[v_classroom_name_check_update] != '')].copy()
+    
 
-    if len(verify_columns_values_update) != 0:
-        
+    if not df_validation.empty:
+
         need_update = True
-        columns_update_to_manage = [col for col in df.columns if v_suffix_check_update_best in col]
-
-        #Select only rows need Update
-
-        df.replace("", nan, inplace=True)
-
-        df = df.dropna(axis=0, how='all',subset=columns_update_to_manage,).copy()
-
-        df.replace(nan, "", inplace=True)
 
 
-
-    return (df, need_update)
+    return (df_validation, need_update)
 
 
 def filter_to_reasign_values_id_uxxi_to_send_uxxi (df : DataFrame):
@@ -128,17 +113,6 @@ def extract_values_conector_planificacion (df : DataFrame):
     return (df)
 
 
-def reasign_values_id_uxxi_to_send_uxxi (df : DataFrame):
-
-
-    df [v_id_db] = ''
-
-    df = df.applymap(str)
-
-    df = rulesBest.add_event_connector(df, csv_process=True)
-
-
-    return(df)
 
 def extract_id_bd_to_delete (df : DataFrame, actiontype):
 
@@ -178,6 +152,9 @@ def merge_values_ids_to_delete_uxxi (df_update : DataFrame, df_delete : DataFram
     df_all = concat([df_update, df_delete], ignore_index= True)
 
     return(df_all)
+
+
+
 
 
 

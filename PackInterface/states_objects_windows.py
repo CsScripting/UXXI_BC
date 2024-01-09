@@ -6,7 +6,8 @@ from PackLibrary.librarys import (
 
 from PackInterface.global_object_window import (
     main_window,
-    names_inserted_vars
+    names_inserted_vars,
+    radio_button_vars
 
 )
 
@@ -31,6 +32,8 @@ global check_data_opcion
 global import_data_opcion
 global csv_opcion
 global object_validation
+global firstImportProcess
+global radio_button_first_import
 
 #WINDOW USER BWP
 global user_window
@@ -226,9 +229,10 @@ def status_running (name, start_process):
             
     
     main_window.after(0, update_status_running) 
-
+    
+    # start_process execute exeProc.exe_process_steps
     valid_process = start_process(settval.gl_opcion_process_to_ejecute, settval.gl_name_file_uxxi,settval.gl_name_process_to_import, 
-                                 settval.gl_academic_year_process, settval.gl_date_last_update)
+                                  settval.gl_academic_year_process, settval.gl_date_last_update, settval.gl_check_opcion_first_import)
 
     on_stop()
    
@@ -245,13 +249,15 @@ def status_running (name, start_process):
 def opciones_choice_check_data ():
 
     fileLabel.config (font="Helvetica 8", foreground="#000000")
-    exportLabel.config (font="Segoe 8 italic", foreground="#009999")
-    processImportLabel.config (font="Segoe 8 italic", foreground="#009999")
+    exportLabel.config (font="Segoe 8", foreground="#009999")
+    processImportLabel.config (font="Segoe 8", foreground="#009999")
+    firstImportProcess.config (font="Segoe 8", foreground="#009999")
     
     names_inserted_vars[1].config(state = 'disable')
     names_inserted_vars[2].config(state = 'disable')
     names_inserted_vars[3].config(state = 'disable')
     names_inserted_vars[0].config(state = 'normal')
+    radio_button_first_import.config(state = 'disable')
 
     
 
@@ -259,13 +265,15 @@ def opciones_choice_check_data ():
 def opciones_choice_import_data ():
 
     processImportLabel.config (font="Helvetica 8", foreground="#000000")
-    exportLabel.config (font="Segoe 8 italic", foreground="#009999")
-    fileLabel.config (font="Segoe 8 italic", foreground="#009999")
+    firstImportProcess.config (font="Helvetica 8", foreground="#000000")
+    exportLabel.config (font="Segoe 8", foreground="#009999")
+    fileLabel.config (font="Segoe 8", foreground="#009999")
     
     names_inserted_vars[0].config(state = 'disable')
     names_inserted_vars[2].config(state = 'disable')
     names_inserted_vars[3].config(state = 'disable')
     names_inserted_vars[1].config(state = 'normal')
+    radio_button_first_import.config(state = 'normal')
 
     
 
@@ -273,8 +281,9 @@ def opciones_choice_import_data ():
 def opciones_choice_export_csv ():
 
     exportLabel.config (font="Helvetica 8", foreground="#000000")
-    fileLabel.config (font="Segoe 8 italic", foreground="#009999")
-    processImportLabel.config (font="Segoe 8 italic", foreground="#009999")
+    firstImportProcess.config (font="Helvetica 8", foreground="#000000")
+    fileLabel.config (font="Segoe 8", foreground="#009999")
+    processImportLabel.config (font="Segoe 8", foreground="#009999")
     
     names_inserted_vars[0].config(state = 'disable')
     names_inserted_vars[1].config(state = 'disable')
@@ -284,8 +293,10 @@ def opciones_choice_export_csv ():
     names_inserted_vars[2].delete(0, 'end')
     names_inserted_vars[3].delete(0, 'end')
 
+    radio_button_first_import.config(state = 'normal')
+
     names_inserted_vars[2].insert(0, '2023_24 Primer')
-    names_inserted_vars[3].insert(0, '2023-11-10')
+    names_inserted_vars[3].insert(0, 'yyyy-mm-dd')
 
     
 

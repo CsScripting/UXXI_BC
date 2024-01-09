@@ -22,14 +22,34 @@ def group_entities(df, list_series, sep = ',', sort_flag = True):
 
 def weekly_date (df, series_dates):
 
-	for val in series_dates:
-	
-		df[val] = to_datetime(df[val], dayfirst = True)
-		df['week_day_temp'] = df[val].apply(lambda x: x.weekday())
-		df[val] = df[val] - df['week_day_temp'] * timedelta(days=1) 
-		df.drop (['week_day_temp'], axis = 1,inplace = True)
+    df[v_day] = df[v_day].astype(int)
+
+    for val in series_dates:
+
+        df[val] = to_datetime(df[val], dayfirst = True)
+        
+
+        if val == v_week_begin:
+
+            df['week_day_temp_begin'] = df[val].apply(lambda x: x.weekday())
+            df['day_week_uxxi'] = df[v_day] - 1 # add one to compare values days with UXXI Values (UXXI : Segunda: 1, Terça: 2 )
+            df[val] = df[val] - df['week_day_temp_begin'] * timedelta(days=1)  
+            df[val] = where(df['week_day_temp_begin'] > df['day_week_uxxi'],df[val] + timedelta(days = 7), df[val] )
+            df.drop (['week_day_temp_begin'], axis = 1,inplace = True)
+
+        else:
+
+            df['week_day_temp_end'] = df[val].apply(lambda x: x.weekday()) 
+            df[val] = df[val] - df['week_day_temp_end'] * timedelta(days=1)
+            df[val] = where(df['week_day_temp_end'] < df['day_week_uxxi'],df[val] - timedelta(days = 7), df[val] )
+            df.drop (['week_day_temp_end', 'day_week_uxxi'], axis = 1,inplace = True)
+
+
+    df[v_day] = df[v_day].astype(str)
+
     
-	return df
+
+    return df
 
 def asign_weeks (df, begin_date, end_date, name_new_serie = 'WEEKS_EVENT'):
     

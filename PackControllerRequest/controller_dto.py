@@ -14,7 +14,6 @@ def create_dto_courses (name : str, code : str, acronym : str):
             }
 
 
-
     return(data)
 
 def create_dto_planes (name : str, code : str, year : str, course_id):
@@ -26,7 +25,6 @@ def create_dto_planes (name : str, code : str, year : str, course_id):
             v_year_dto : year,
             v_active_dto : True
             }
-
 
 
     return(data)
@@ -44,7 +42,6 @@ def create_dto_groups (name : str, code : str, plan_id : str, students_number : 
             v_curricular_plan_identifier_dto : plan_id,
             v_active_dto : True
             }
-
 
 
     return(data)
@@ -242,3 +239,53 @@ def create_dto_search_filter_audit_log (path1 : str, value1 : str, path2 : str,v
      
 
      return(data)
+
+
+def create_dto_update_event_basic (event_data : Series):
+     
+        #Manage typologies
+        typologie = getattr (event_data, v_mod_id_typologie).split(',')
+        list_typologies =[]
+
+        for k in range (len(typologie)):
+
+                k = int(k)
+
+                list_typologies.append({ 
+                                                "model": {
+                                                        "identifier": int(typologie[k])
+                                                         },
+                                                        "status": 0
+                                        }) 
+
+        id_to_send = getattr (event_data, v_id_best)
+        id_to_send = int(id_to_send)
+
+        id_type_event_to_send = getattr (event_data, v_id_event_type)
+        id_type_event_to_send= int(id_type_event_to_send)
+
+        module_id = getattr (event_data, v_mod_id)
+        module_id= int(module_id)
+
+        acad_year_id = getattr (event_data, v_id_academic_year)
+        acad_year_id= int(acad_year_id)
+
+        section_name = getattr(event_data, v_section_name)
+        
+
+        data = {
+                        
+                        v_id_dto : id_to_send,
+                        v_name_dto : getattr (event_data,v_event_title_BC),
+                        v_code_dto : getattr (event_data,v_event_Id_BC),
+                        v_event_type_id_event_dto : id_type_event_to_send,
+                        v_mod_id_event_dto : module_id,
+                        v_acad_year_id_event_dto : acad_year_id,
+                        v_section_name_event_dto: section_name,
+                        v_conector_name_event_dto : getattr (event_data,v_id_uxxi),
+                        v_typologies_event_dto : list_typologies,
+                        
+
+                        }
+
+        return(data)
