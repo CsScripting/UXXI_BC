@@ -9,54 +9,83 @@ import PackExportCsv.main_export_csv as exportCsv
 
 
 def exe_process_steps (gl_opcion_process_to_ejecute : int, gl_name_file_uxxi: str,
-                       gl_name_process_to_import : str, gl_academic_year_process : str, gl_date_last_update : str, gl_check_opcion_first_import : int):
+                       gl_name_process_to_import : str, gl_academic_year_process : str, gl_date_last_update : str, gl_check_opcion_process : int):
 
     valid_process = False
+
+    # OPCIONES gl_opcion_process_to_ejecute:
+
+    # Check Data: 0
+    # Import: 1
+    # CSV: 2
+
+    ### Estados Eventos:
+    
+    # UXXI --> Implica que ja esta atualizado na duas Ferramentas
+    # BWP --> Novos Eventos Onde foi Inserido conector desde este processo
+    # BWP_To_UXXI_Updated (Estado Temporario --> Apenas quando envia horarios a UXXI --> Fica neste estado) --> Eventos Provenientes de UXXI
+    # BWP_To_UXXI_Inserted (Estado Temporario --> Apenas quando envia horarios a UXXI --> Fica neste estado) --> Eventos Novos Criados no BWP
+    # Sem Conector 
+
 
     if gl_opcion_process_to_ejecute == 0:
 
         first_week_schedules, last_week_schedules, df_info_events, df_events_import  = managData.manage_data_uxxi_steps(gl_name_file_uxxi)
 
-        #UPDATE DATA -- RELATIVO A ENTIDADES DE HORARIOS
+        #UPDATE DATA -- RELATIVO A ENTIDADES DE HORARIOS --> Importante Update de Dados e não de Horarios !!!
         updateData.update_data_steps(first_week_schedules, last_week_schedules, df_info_events,df_events_import)
 
     if gl_opcion_process_to_ejecute == 1:
 
-        if gl_check_opcion_first_import == 1:
+        # Processo dependente se é primeira importação HORARIOS UXXI
 
+        if gl_check_opcion_process == 1: #First Import
+
+            # Importa dados Relativos a Horarios de Processo Executado Anteriormente:
             importData.import_data_steps(gl_name_process_to_import)
 
         else:
 
+            # Atualiza Conectores(por causa de novos ID's de Base de dados de UXXI)
+            # Podem ter sido enviados eventos para UXXI, por CSV de processo abaixo, que agora tem novos ID's
+            
+            # UM PROCESSO:
+            # ESTADO "BWP_To_UXXI" ---> ESTADO "UXXI" 
+
             updateSchedules.update_schedules_steps(gl_name_process_to_import)
             
-            # DOIS PROCESSOS:
-
-            # CASO 1 # UPDATE CONECTOR DE EVENTOS SEM CONECTOR --- Procura sem Conector e Atribui ESTADO "BWP"
-            # ESTADO "Conector em Branco" --->  ESTADO "BWP"
-            # VERIFICAÇÂO EM FICHEIRO DE CONECTORES
-
-
-            # CASO 2 # UPDATE DE EVENTOS ENVIADOS A UXXI QUE AINDA NÂO TEM ID de BASE DADOS DE UXXI 
-            # ESTADO "BWP_UXXI" ---> ESTADO "UXXI"
-            # VERIFICAÇÂO EM FICHEIRO DE HORARIOS
-
-            ### Estado BWP  
 
 
     if gl_opcion_process_to_ejecute == 2:
 
-        exportCsv.export_csv_steps(gl_academic_year_process, gl_date_last_update, gl_check_opcion_first_import)
+        if gl_check_opcion_process == 1: # + Conector
 
-        # NO MOMENTO DE EXPORT CSV:
-        
-        # DOIS PROCESSOS
-        
-        # CASO 1 # EVENTOS COM UPDATE...ESTADO UXXI:
-        # ESTADO UXXI  ---> ESTADO "BWP_UXXI"
 
-        # CASO 2 # EVENTOS COM ESTADO BWP :
-        # ESTADO BWP  ---> ESTADO "BWP_UXXI"
+            # If Add Conector Só Disponivel
+            print('test')
+
+        
+        # CASO 1:
+        # Sem Conector  ---> ESTADO "BWP"
+
+        else:
+
+        # CASO 1:
+        # "BWP"  ---> ESTADO "BWP_To_UXXI_Insert" --> Cria CSV
+            
+        # CASO 2:
+        #EVENTOS COM UPDATE...ESTADO "UXXI":
+        # ESTADO "UXXI"  ---> ESTADO "BWP_Updated_UXXI" --> Cria CSV
+
+        # CASO 3:
+        # BWP_To_UXXI_Update --> Cria CSV
+    
+        # CASO 4:
+        # BWP_To_UXXI_Insert --> Cria CSV
+
+            exportCsv.export_csv_steps(gl_academic_year_process, gl_date_last_update, gl_check_opcion_process)
+
+        
         
         
 

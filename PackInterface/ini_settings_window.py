@@ -20,7 +20,7 @@ def start_settings_window():
 
     objectState.settings_window = tk.Toplevel()
     objectState.settings_window.title('Settings')
-    objectState.settings_window.geometry ("230x150") ##Geometry (230x214) --With Iten Separator
+    objectState.settings_window.geometry ("230x155") ##Geometry (230x214) --With Iten Separator
     objectState.settings_window.resizable(0, 0)
     objectState.settings_window.iconbitmap(path_icon + '/log.ico')
 
@@ -60,7 +60,7 @@ def start_settings_window():
     opciones_process = tk.Frame(top_WindowGrid)
     objectState.check_data_opcion= tk.Radiobutton(opciones_process, text = 'Check Data',font="Helvetica 8", cursor="hand2", variable=radio_button_vars[0], value=0, command=objectState.opciones_choice_check_data)
     objectState.import_data_opcion= tk.Radiobutton(opciones_process, text = 'Import', font="Helvetica 8", cursor="hand2",variable=radio_button_vars[0], value=1,command=objectState.opciones_choice_import_data)
-    objectState.csv_opcion= tk.Radiobutton(opciones_process, text = 'CSV', font="Helvetica 8", cursor="hand2",variable=radio_button_vars[0], value=2, command=objectState.opciones_choice_export_csv)
+    objectState.csv_opcion= tk.Radiobutton(opciones_process, text = 'Export', font="Helvetica 8", cursor="hand2",variable=radio_button_vars[0], value=2, command=objectState.opciones_choice_export_csv)
     objectState.check_data_opcion.select()
     
     
@@ -91,11 +91,14 @@ def start_settings_window():
     objectState.names_inserted_vars[3] = tk.Entry(data_pack,borderwidth=0,highlightbackground = '#d3d3d3',highlightthickness=1,highlightcolor='#ffb84d', width=11,justify='left',font=("Segoe 8"),background="#FFFFFF", disabledbackground="#d1e0e0")
     objectState.names_inserted_vars[3].insert(0, 'Last Update')
 
-     #(Opcion First Import):
+    #(Opcion First Import):
     objectState.firstImportProcess = tk.Label(doubleEntry_windowGrid_botton, text='First Import:', font="Helvetica 8", foreground="#000000") 
-    objectState.radio_button_first_import = tk.Checkbutton (doubleEntry_windowGrid_botton, variable = radio_button_vars[1]) 
+    objectState.radio_button_first_import = tk.Checkbutton (doubleEntry_windowGrid_botton, variable = radio_button_vars[1], command=objectState.opciones_choice_first_import_and_first_export) 
 
+    #(Opcion Add Conector):
 
+    objectState.opcionImportConector = tk.Label(doubleEntry_windowGrid_botton, text='Add Conector:', font="Helvetica 8", foreground="#000000")
+    objectState.radio_button_import_conector = tk.Checkbutton (doubleEntry_windowGrid_botton, variable = radio_button_vars[2], command=objectState.remove_opciones_import_schedules) 
 
     
     #When Start State
@@ -126,8 +129,11 @@ def start_settings_window():
     objectState.exportLabel.grid(row=3, column=0, sticky=tk.W, pady=[3,0],padx=[3,0] )
     data_pack.grid(row=3, column=1, sticky='w',pady=[3,0], padx=[0,0])
 
-    objectState.firstImportProcess.grid(row=4, column=0, sticky=tk.W, pady=[0,0],padx=[3,2] )
-    objectState.radio_button_first_import.grid(row=4, column=1, sticky=tk.W, pady=[0,0],padx=[2,0] )
+    objectState.firstImportProcess.grid(row=4, column=0, sticky=tk.W, pady=[0,2],padx=[3,2] )
+    objectState.radio_button_first_import.grid(row=4, column=1, sticky=tk.W, pady=[0,3],padx=[2,0] )
+
+    objectState.opcionImportConector.grid(row=4, column=3, sticky=tk.W, pady=[0,2],padx=[26,0] )
+    objectState.radio_button_import_conector.grid(row=4, column=4, sticky=tk.W, pady=[0,2],padx=[0,0] )
    
 
     objectState.object_validation.grid(row=5, column=1, sticky=tk.W)

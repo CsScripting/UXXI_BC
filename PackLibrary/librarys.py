@@ -3,6 +3,7 @@ import traceback
 import os
 import sys
 from tkinter import messagebox
+from tkinter import END
 import configparser as cp
 
 

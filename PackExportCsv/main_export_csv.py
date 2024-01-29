@@ -23,11 +23,11 @@ from PackLibrary.librarys import (
 )
 
 
-def export_csv_steps(academic_year : str, last_date_update : str, first_update):
+def export_csv_steps(academic_year : str, last_date_update : str, first_import):
     
   #Manage ---> First CSV or Update CSV
 
-  if first_update == 1:
+  if first_import == 1:
 
     first_csv = True
 
