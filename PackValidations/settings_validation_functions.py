@@ -30,11 +30,19 @@ class FileNameNotInserted (Exception):
 class FileDataUxxiNotInserted (Exception):
     pass
 
+# validation_data_conectores_exist_on_folder()
+class FileConectoresNotInserted (Exception):
+    pass
+
 
 # check_extension_file()
 class FileNameErrorExtensionXlsx(Exception):
     def __init__(self, error_value):
         self.error_value = error_value
+    pass
+
+# check_event_name_exist
+class EventNameNotExist (Exception):
     pass
 
 
@@ -51,13 +59,14 @@ def get_inserted_values_settings():
     opcion_process_to_ejecute = radio_button_vars[0].get()
     name_file_uxxi = names_inserted_vars[0].get()
     name_process_to_import = names_inserted_vars[1].get()
-    academic_year_process = names_inserted_vars[2].get()
+    event_type_process = names_inserted_vars[2].get()
     date_last_update = names_inserted_vars[3].get()
 
     check_opcion_first_import = radio_button_vars[1].get()
+    check_opcion_conector = radio_button_vars[2].get()
     
 
-    return (opcion_process_to_ejecute, name_file_uxxi, name_process_to_import,academic_year_process, date_last_update,check_opcion_first_import)
+    return (opcion_process_to_ejecute, name_file_uxxi, name_process_to_import,event_type_process, date_last_update,check_opcion_first_import, check_opcion_conector)
 
     
 
@@ -89,6 +98,13 @@ def validation_data_uxxi_exist_on_folder(file_inserted):
     path_to_file_config = './' + v_folder_data_uxxi + '/' + file_inserted
     if not os.path.exists(path_to_file_config):
         raise FileDataUxxiNotInserted
+    
+def validation_conector_exist_on_folder ():
+
+    path_to_file_conector = './' + v_folder_data_uxxi + '/' + v_file_conectores + '.xlsx'
+    if not os.path.exists(path_to_file_conector):
+        raise FileConectoresNotInserted
+
 
 
     
@@ -112,5 +128,15 @@ def validation_process_exist_on_folder (process_name_inserted : str):
         
     else:
         raise ValidationFolderUpdateData (process_name_inserted)
+    
+
+def verify_name_event_type(total_records_event_name_bd : int):
+
+    if total_records_event_name_bd == 0:
+
+        raise EventNameNotExist()
+    
+
+ 
 
 

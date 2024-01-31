@@ -60,4 +60,57 @@ def verify_sheet_and_columns_name_file_uxxi(file_to_check : str):
     load_file.close()
 
 
-    return
+    return ()
+
+
+def verify_sheet_and_columns_name_file_conector(file_to_check : str):
+
+    path_to_file = './' + v_folder_data_uxxi + '/' + file_to_check
+    
+    # - Check Sheet - #
+    file_read = ExcelFile(path_to_file)
+    sheets_file = file_read.sheet_names
+
+    sheet_original = [v_sheet_file_conectores]
+
+    check_sheets_name =  all(elem in sheets_file for elem in sheet_original)
+
+    if not check_sheets_name:
+        
+        file_read.close()
+        raise ErrorSheetFileGeneral()
+    
+    # - Check Columns Names - #
+
+    load_file = openpyxl.load_workbook(filename= path_to_file, read_only=True)
+
+    sheet = load_file[v_sheet_file_conectores] 
+    columns_original = [v_asign_fileconect,
+                        v_grupo_fileconect,
+                        v_cod_act_fileconect,
+                        v_grupo_fileconect
+                        ]
+
+    columns_file = []
+
+    for cell in sheet[1]:
+
+        columns_file.append(cell.value) 
+
+    check_columns_names =  all(elem in columns_file for elem in columns_original)
+
+    if not check_columns_names:
+
+        error_exception = "Concat Names columns"
+        load_file.close()
+        raise WrongColumsGeneral(error_exception)
+
+    load_file.close()
+
+
+    return ()
+
+
+
+
+

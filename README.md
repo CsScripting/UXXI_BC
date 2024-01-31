@@ -148,3 +148,14 @@ Ver dados importados Ultimos de alunos reais na UPO
 * Colocar o Separador como variavel Geral...neste caso seria necessario apenas alterar a variavel !!!!
 
 * Verificar se existem dados tanto no managment como no Import
+
+[] Add Conector
+
+    * Ficheiro Fica com Nome ConectoresUXXI.xlsx
+
+
+
+== PackExportData ==
+
+
+[] Verificar se se Saca eventos por Academic Term ou por Tipo de Evento

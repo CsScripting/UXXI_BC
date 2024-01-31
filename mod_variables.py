@@ -7,6 +7,18 @@ v_file_horarios = 'HorariosUXXI_Insert'
 v_file_horarios_dates = 'HorariosUXXI_Dates'
 v_file_horarios_update = 'HorariosUXXI_Update'
 
+#File Conectores
+
+v_file_conectores = 'ConectoresUXXI'
+v_sheet_file_conectores = 'Asig-Grupo-CodActiv-CodGrupo'
+
+#Columns File Conector
+
+v_asign_fileconect = 'ASIGNATURA'
+v_grupo_fileconect = 'GRUPO'
+v_cod_act_fileconect = 'COD_ACTIVIDAD'
+v_cod_grupo_fileconet = 'COD_GRUPO' 
+
 
 # Folders Names App
 v_folder_data_uxxi = 'DataUXXI'
@@ -199,6 +211,7 @@ v_active_dto = 'active'
 v_is_admin_dto = 'isAdmin'
 v_acad_year_dto = 'academicYear'
 v_resourceTypaData_dto = 'resourceTypeData'
+v_total_records_dto = 'totalRecords'
 
 
 # from typologieDTO
@@ -325,7 +338,6 @@ v_event_academic_controller = 'EventsAcademic'
 v_event_controller = 'Events'
 v_event_create_collection_controller = 'Events/create/delete/collection'
 v_user_controller = 'Users'
-v_acad_year_controller = 'AcademicYear'
 v_audit_log_controller = 'AuditLog'
 v_event_controller_basic = 'Events/updatebasicinformation'
 

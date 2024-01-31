@@ -16,8 +16,9 @@ import PackValidations.settings_validation as settval
 
 from mod_variables import v_version
 import PackInterface.ini_user_window as iniciatUser
-import PackInterface.ini_settings_window as iniciateSettings
 import PackValidations.exe_process_validation as exeProc
+
+
 
 
 global settings_window
@@ -37,6 +38,7 @@ global firstImportProcess
 global opcionImportConector
 global radio_button_first_import
 global radio_button_import_conector
+
 
 
 #WINDOW USER BWP
@@ -236,7 +238,7 @@ def status_running (name, start_process):
     
     # start_process execute exeProc.exe_process_steps
     valid_process = start_process(settval.gl_opcion_process_to_ejecute, settval.gl_name_file_uxxi,settval.gl_name_process_to_import, 
-                                  settval.gl_academic_year_process, settval.gl_date_last_update, settval.gl_check_opcion_process)
+                                  settval.gl_event_type_process, settval.gl_date_last_update, settval.gl_check_opcion_process)
 
     on_stop()
    
@@ -276,10 +278,6 @@ def opciones_choice_check_data ():
 
     
 
-    
-
-    
-
 
 def opciones_choice_import_data ():
 
@@ -290,7 +288,8 @@ def opciones_choice_import_data ():
     exportLabel.config (font="Segoe 8", foreground="#009999")
     fileLabel.config (font="Segoe 8", foreground="#009999")
     opcionImportConector.config (font="Helvetica 8", foreground="#000000")
-    
+    processImportLabel.config(text = 'Process ID:')
+
     names_inserted_vars[0].delete(0, END)
     names_inserted_vars[2].delete(0, END)
     names_inserted_vars[3].delete(0, END)
@@ -299,13 +298,28 @@ def opciones_choice_import_data ():
     names_inserted_vars[2].config(state = 'disable')
     names_inserted_vars[3].config(state = 'disable')
     names_inserted_vars[1].config(state = 'normal')
-    radio_button_first_import.config(state = 'normal')
-    radio_button_import_conector.config(state = 'normal')
 
-    radio_button_first_import.deselect()
-    radio_button_import_conector.deselect()
+   
 
+    opcion_radio_button_add_conector= radio_button_vars[2].get()
     
+    if opcion_radio_button_add_conector == 1:
+
+        processImportLabel.grid(pady=3,padx=[3,8] )
+        processImportLabel.config(text = 'Event Type:')
+        radio_button_first_import.deselect()
+        radio_button_first_import.config(state = 'disable')
+        
+        radio_button_import_conector.config(state = 'normal')
+        radio_button_import_conector.select()
+
+    else:
+    
+        radio_button_first_import.config(state = 'normal')
+        radio_button_first_import.select()
+        radio_button_import_conector.config(state = 'disable')
+        radio_button_import_conector.deselect()
+
 
 
 def opciones_choice_export_csv ():
@@ -344,8 +358,10 @@ def all_opciones_disables_after_submit():
     names_inserted_vars[3].config(state = 'disable')
     check_data_opcion.config(state = 'disable')
     import_data_opcion.config(state = 'disable')
+    firstImportProcess.config (font="Segoe 8", foreground="#009999")
     opcionImportConector.config (font="Segoe 8", foreground="#009999")
     radio_button_import_conector.config(state = 'disable')
+    radio_button_first_import.config(state = 'disable')
 
     csv_opcion.config(state = 'disable')
     enable_link_edit()
@@ -447,6 +463,8 @@ def opciones_choice_first_import_and_first_export (): # CHECK COMPORTAMENTOS DIS
         names_inserted_vars[3].config(state = 'normal')
         names_inserted_vars[3].insert(0, 'yyyy-mm-dd')
         
+
+    
 
         
 
