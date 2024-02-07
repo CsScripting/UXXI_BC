@@ -176,47 +176,49 @@ def parse_list_events_to_df (events : list, process_update = False):
 
     ## - SingleValues Dict: - ##
 
-    
+    ## Valores em DICT guardados com NONE para permitir filtragens por nan
 
     #Module
-    df[v_mod_name] =  df[v_module_event_dto].apply(lambda x: x.get(v_name_dto) if x is not None else '')
-    df[v_mod_code] =  df[v_module_event_dto].apply(lambda x: x.get(v_code_dto) if x is not None else '')
-    df[v_mod_id] =  df[v_module_event_dto].apply(lambda x: x.get(v_id_dto) if x is not None else '')
+    df[v_mod_name] =  df[v_module_event_dto].apply(lambda x: x.get(v_name_dto) if x is not None else None)
+    df[v_mod_code] =  df[v_module_event_dto].apply(lambda x: x.get(v_code_dto) if x is not None else None)
+    df[v_mod_id] =  df[v_module_event_dto].apply(lambda x: x.get(v_id_dto) if x is not None else None)
     
     #Event Type
-    df[v_event_type] = df [v_event_type_event_dto].apply(lambda x: x.get(v_name_dto)if x is not None else '')
-    df[v_id_event_type] = df [v_event_type_event_dto].apply(lambda x: x.get(v_id_dto)if x is not None else '')
+    df[v_event_type] = df [v_event_type_event_dto].apply(lambda x: x.get(v_name_dto)if x is not None else None)
+    df[v_id_event_type] = df [v_event_type_event_dto].apply(lambda x: x.get(v_id_dto)if x is not None else None)
 
 
     ## - NestedValues Dict: - ##
 
     #weeks
     df[v_weeks] = df[v_weeks_event_dto].apply(lambda x: [d[v_start_date_dto][0:10] for d in x])
-    df[v_weeks] = df[v_weeks].agg(lambda x: ','.join(map(str, x)))
+    # df[v_weeks] = df[v_weeks].transform(lambda x: ','.join(map(str, x)))
     
     #Typologies
     df[v_mod_id_typologie] = df[v_typologies_event_dto].apply(lambda x: [d[v_id_dto]for d in x])
     df[v_mod_typologie] = df[v_typologies_event_dto].apply(lambda x: [d[v_name_dto] for d in x])
-    df[v_mod_typologie] = df[v_mod_typologie].agg(lambda x: ','.join(map(str, x)))
-    df[v_mod_id_typologie] = df[v_mod_id_typologie].agg(lambda x: ','.join(map(str, x)))
+    # df[v_mod_typologie] = df[v_mod_typologie].transform(lambda x: list(x))  ### NOME PODE TER , 
+    # df[v_mod_id_typologie] = df[v_mod_id_typologie].transform(lambda x: ','.join(map(str, x)))
 
     #Classrooms
     df[v_classroom_name] = df[v_classrooms_event_dto].apply(lambda x: [d[v_name_dto] for d in x])
     df[v_classroom_code] = df[v_classrooms_event_dto].apply(lambda x: [d[v_code_dto] for d in x])
     df[v_id_classroom] = df[v_classrooms_event_dto].apply(lambda x: [d[v_id_dto] for d in x])
-    df[v_classroom_name] = df[v_classroom_name].agg(lambda x: ','.join(map(str, x)))
-    df[v_classroom_code] = df[v_classroom_code].agg(lambda x: ','.join(map(str, x)))
-    df[v_id_classroom] = df[v_id_classroom].agg(lambda x: ','.join(map(str, x)))
+    # df[v_classroom_name] = df[v_classroom_name].transform(lambda x: list(x)) ### NOME PODE TER , 
+    # df[v_classroom_code] = df[v_classroom_code].transform(lambda x: list(x)) ### NOME PODE TER , 
+    # df[v_id_classroom] = df[v_id_classroom].transform(lambda x: ','.join(map(str, x)))
 
     #Student Groups
     df[v_student_group_name] = df[v_groups_event_dto].apply(lambda x: [d[v_name_dto] for d in x])
     df[v_student_group_id] = df[v_groups_event_dto].apply(lambda x: [d[v_id_dto] for d in x])
-    df[v_student_group_name] = df[v_student_group_name].agg(lambda x: ','.join(map(str, x)))
-    df[v_student_group_id] = df[v_student_group_id].agg(lambda x: ','.join(map(str, x)))
+    # df[v_student_group_name] = df[v_student_group_name].transform(lambda x: list(x)) ### NOME PODE TER , 
+    # df[v_student_group_id] = df[v_student_group_id].transform(lambda x: ','.join(map(str, x)))
 
     #AcademicYear
-    df[v_academic_year] = df[v_acad_year_dto].apply(lambda x: x.get(v_name_dto) if x is not None else '')
-    df[v_id_academic_year] = df[v_acad_year_dto].apply(lambda x: x.get(v_id_dto) if x is not None else '')
+    df[v_academic_year] = df[v_acad_year_dto].apply(lambda x: x.get(v_name_dto) if x is not None else None)
+    df[v_id_academic_year] = df[v_acad_year_dto].apply(lambda x: x.get(v_id_dto) if x is not None else None)
+
+    #Conector É uma STRING, em CASO DE NÂO TER ESTÁ COM VALOR DE ''
     
     #DropColumnsObjects
 
@@ -260,8 +262,8 @@ def parse_list_events_to_df (events : list, process_update = False):
     else:
 
         columns_df = [v_id_best, v_event_Id_BC, v_event_title_BC, v_mod_name, v_mod_code,v_mod_typologie,v_mod_id_typologie, v_section_name, v_day,
-                    v_hourBegin, v_hourEnd, v_duration, v_student_group_name, v_students_number,v_id_uxxi,v_weeks, v_event_type,v_id_event_type,
-                    v_classroom_name,v_classroom_code, v_academic_year]
+                      v_hourBegin, v_hourEnd, v_duration, v_student_group_name, v_students_number,v_id_uxxi,v_weeks, v_event_type,v_id_event_type,
+                      v_classroom_name,v_classroom_code, v_academic_year]
     
     df = df[columns_df]
 
@@ -300,7 +302,7 @@ def parse_list_events_to_df_from_audit_log (events_dict : list):
         df = df[df[v_id_db_check_update_uxxi] != 'InvalidConector' ].copy()
 
         df[v_id_db_check_update_uxxi] =  df[v_id_uxxi].apply(lambda x: x.get(v_id_conector_bwp) if x is not None else '')
-        df [v_id_db_check_update_uxxi] =  df [v_id_db_check_update_uxxi].agg(lambda x: ','.join(map(str, x)))
+        df [v_id_db_check_update_uxxi] =  df [v_id_db_check_update_uxxi].transform(lambda x: ','.join(map(str, x)))
 
     else:
 

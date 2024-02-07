@@ -1,6 +1,7 @@
 v_version = '0.0'
 
 
+
 #File Horarios Generated
 
 v_file_horarios = 'HorariosUXXI_Insert'
@@ -18,6 +19,14 @@ v_asign_fileconect = 'ASIGNATURA'
 v_grupo_fileconect = 'GRUPO'
 v_cod_act_fileconect = 'COD_ACTIVIDAD'
 v_cod_grupo_fileconet = 'COD_GRUPO' 
+v_plan_fileconet = 'PLAN'
+v_curso_fileconet = 'CURSO'
+
+# Errores File Conectores
+
+v_column_error_conector = 'ERROR_TYPE'
+v_conect_sin_fields = 'NULL_VALUES'
+v_conect_wrong_section_name = 'WRONG_TYPE'
 
 
 # Folders Names App
@@ -37,6 +46,7 @@ v_process_manage_data = 'ManageData'
 v_process_update_data = 'UpdateData'
 v_process_import_data = 'ImportData'
 v_process_export_data_csv  = 'CsvFiles'
+v_main_folder_conector = 'Conect'
 
 
 # Name config
@@ -95,6 +105,7 @@ v_variables_process = 'VariablesProcess'
 v_variables_values = 'Values'
 v_variable_start_day = 'StartDay'
 v_variable_end_day = 'EndDay'
+
 
 
 # - Variables File UXXI -#
@@ -212,6 +223,7 @@ v_is_admin_dto = 'isAdmin'
 v_acad_year_dto = 'academicYear'
 v_resourceTypaData_dto = 'resourceTypeData'
 v_total_records_dto = 'totalRecords'
+v_event_user_role_dto = 'eventUsersRole'
 
 
 # from typologieDTO
@@ -451,6 +463,7 @@ v_id_conector_bwp = 'Id'
 # ESTADOS IMPORT
 
 v_app_uxxi = "UXXI"
+v_app_bwp = "BWP"
 v_app_bwp_to_uxxi = 'BWP_UXXI'
 
 

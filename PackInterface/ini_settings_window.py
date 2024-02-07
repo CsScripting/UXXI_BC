@@ -87,7 +87,7 @@ def start_settings_window():
 
     data_pack = tk.Frame(doubleEntry_windowGrid)
     objectState.names_inserted_vars[2] = tk.Entry(data_pack,borderwidth=0,highlightbackground = '#d3d3d3',highlightthickness=1,highlightcolor='#ffb84d', width=11,justify='left',font=("Segoe 8"),background="#FFFFFF", disabledbackground="#d1e0e0")
-    objectState.names_inserted_vars[2].insert(0, 'Acad. year')
+    objectState.names_inserted_vars[2].insert(0, 'Acad. Year')
     objectState.names_inserted_vars[3] = tk.Entry(data_pack,borderwidth=0,highlightbackground = '#d3d3d3',highlightthickness=1,highlightcolor='#ffb84d', width=11,justify='left',font=("Segoe 8"),background="#FFFFFF", disabledbackground="#d1e0e0")
     objectState.names_inserted_vars[3].insert(0, 'Last Update')
 

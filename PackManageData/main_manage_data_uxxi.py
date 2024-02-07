@@ -82,7 +82,7 @@ def manage_data_uxxi_steps(name_file_inserted : str):
     df_uxxi = rulesBest.add_event_section_name(df_uxxi)
     df_uxxi = rulesBest.add_number_week(df_uxxi)
     df_uxxi = rulesBest.manage_hours(df_uxxi)
-    df_uxxi = rulesBest.add_event_connector(df_uxxi)
+    df_uxxi = rulesBest.add_event_connector_json(df_uxxi, v_app_uxxi)
     df_uxxi = rulesUxxi.add_duration_event(df_uxxi)
 
     df_uxxi = rulesUxxi.select_type_module_uuxi(df_uxxi)
@@ -107,7 +107,7 @@ def manage_data_uxxi_steps(name_file_inserted : str):
 
     genFiles.create(df_uxxi_to_manage_data,process_folder, process_code,v_file_horarios,v_sheet_data_uxxi,v_process_manage_data)
 
-    #INSERT DATA TO MANAGE ACADEMIC YEAR.
+    #INSERT DATA TO MANAGE Acad. Year.
 
     genFiles.create(df_info_events,process_folder, process_code,v_file_horarios_dates,v_sheet_data_uxxi_dates,v_process_manage_data)
 

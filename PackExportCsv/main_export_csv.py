@@ -38,7 +38,7 @@ def export_csv_steps(academic_year : str, last_date_update : str, first_import):
   # Create Folder Process
   glVarProcess.gl_process_folder, glVarProcess.gl_process_code = folderProcessCsv.create_csv_folder_export_process()
 
-  # Get DATES ACADEMIC YEAR
+  # Get DATES Acad. Year
 
 
   data_object_search = dtObj.create_dto_simple_search_filter (v_search_name, academic_year)
@@ -97,7 +97,7 @@ def export_csv_steps(academic_year : str, last_date_update : str, first_import):
         # # UPDATE CONECTOR EVENT TO UPDATE ON BWP
         df_data_update_conector = df_events_best.copy()
         df_data_update_conector = updateSched.select_columns_update_conector(df_data_update_conector)
-        df_data_update_conector = rulesBest.add_event_connector(df_data_update_conector, csv_process=True)
+        df_data_update_conector = rulesBest.add_event_connector_json(df_data_update_conector, v_app_bwp_to_uxxi)
 
         updateSched.iterate_events_and_update_single_event(df_data_update_conector)
 

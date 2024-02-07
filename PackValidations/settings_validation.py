@@ -2,8 +2,9 @@ import PackValidations.settings_validation_functions as settValFunct
 import PackValidations.data_uxxi_validation as dataValFunct
 import PackInterface.states_objects_windows as stateObj
 import PackControllerRequest.controller_dto as dtObj
-import PackControllerRequest.event_type_request as eventTypeRequest
+import PackControllerRequest.academic_year_request as acadYearRequest
 import PackManageApi.global_variable_process_request as gl_v_request
+import PackGeneralProcedures.global_variable_process_procedures as glVarProcess
 from PackLibrary.librarys import (
     messagebox,
     traceback,
@@ -71,11 +72,17 @@ def validation_settings_steps():
                 event_type = name_process_to_import
             
                 settValFunct.check_filling_entry_box(name_process_to_import)
-                #VERIFY IF NAME EVENT EXISTE
+                #VERIFICAR SE ACADEMIC YEAR EXISTE
                 data_object_search = dtObj.create_dto_simple_search_filter (v_search_name, event_type)
-                validacion_event_type = eventTypeRequest.get_data_event_type_search (gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_event_type_controller, data_object_search)
-                settValFunct.verify_name_event_type(validacion_event_type)
-
+                validacion_event_type, begin_date_acad_year, end_date_acad_year = acadYearRequest.get_data_academic_year_search (gl_v_request.gl_url_api,gl_v_request.gl_header_request, 
+                                                                                                                                 v_acad_year_controller, data_object_search)
+                
+                settValFunct.verify_name_acad_year_exist(validacion_event_type)
+                
+                #GUARDADO PARA USAR EM EXECUÇÂO DE PROCESSO
+                glVarProcess.gl_begin_date_acad_year = begin_date_acad_year
+                glVarProcess.gl_end_date_acad_year = end_date_acad_year
+                
                 #VERIFICAR SE FICHEIRO DE CONECTORES EXISTE
                 settValFunct.validation_conector_exist_on_folder()
                 
@@ -84,8 +91,6 @@ def validation_settings_steps():
                 file_name = v_file_conectores + '.xlsx'
                 dataValFunct.verify_sheet_and_columns_name_file_conector(file_name)
 
-
-            
 
             else:
             
@@ -126,11 +131,11 @@ def validation_settings_steps():
 
         elif ( opcion_process_to_ejecute == 1) & (check_opcion_conector == 1) :
 
-            messagebox.showerror('Event Type', 'Insert Event Type Name !!')
+            messagebox.showerror('Acad. Year', 'Insert Acad. Year Name !!')
 
     except settValFunct.EventNameNotExist:
 
-        messagebox.showerror('Event Type',event_type +  ' not exist !!')
+        messagebox.showerror('Acad. Year',event_type +  ' not exist !!')
 
     except settValFunct.FileNameErrorExtensionXlsx as e:
 

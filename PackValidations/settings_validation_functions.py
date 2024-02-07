@@ -130,7 +130,7 @@ def validation_process_exist_on_folder (process_name_inserted : str):
         raise ValidationFolderUpdateData (process_name_inserted)
     
 
-def verify_name_event_type(total_records_event_name_bd : int):
+def verify_name_acad_year_exist(total_records_event_name_bd : int):
 
     if total_records_event_name_bd == 0:
 

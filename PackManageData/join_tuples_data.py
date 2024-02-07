@@ -10,13 +10,13 @@ from PackLibrary.librarys import (
 
 from mod_variables import *
 
-def group_entities(df, list_series, sep = ',', sort_flag = True):
+def group_entities(df : DataFrame, list_series, sep = ',', sort_flag = True):
     
     #Por vezes valores numericos tem o . (No entanto não se pode tratar aqui, pode haver campos com o .)
     # df = df.applymap(str).replace('\.0', '', regex=True)
     df.set_index (list_series, inplace=True)
     df = df.groupby (level = list_series, sort = sort_flag).agg(sep.join)
-    df.reset_index(inplace=True)
+    df = df.reset_index()
     return df
 
 

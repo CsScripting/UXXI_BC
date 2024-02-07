@@ -3,6 +3,7 @@ import PackUpdateData.main_update_data as updateData
 import PackImportData.main_import_data as importData
 import PackUpdateSchedules.main_update_schedules as updateSchedules
 import PackExportCsv.main_export_csv as exportCsv
+import PackConector.main_add_conector as addConect
 
 
 
@@ -57,8 +58,7 @@ def exe_process_steps (gl_opcion_process_to_ejecute : int, gl_name_file_uxxi: st
             
         else: # Inserção de Conectores de Eventos Provenientes BTT
 
-            print("Processo Inserção Conectores")
-
+            addConect.add_conector_steps(gl_name_process_to_import) # VARIAVEL ENVIADA PODE GUARDAR NOME DE PROCESSO A EXECUTAR ou NOME DE ANO ACADEMICO
 
 
     if gl_opcion_process_to_ejecute == 2:
@@ -78,7 +78,7 @@ def exe_process_steps (gl_opcion_process_to_ejecute : int, gl_name_file_uxxi: st
         # BWP_To_UXXI_Insert --> Cria CSV
 
 
-        # Neste Momento Está EXPORTAR por Academic YEAR --- > NO FUTURO FAZER POR TIPO DE EVENTO !!
+        # Neste Momento Está EXPORTAR por Acad. Year --- > NO FUTURO FAZER POR TIPO DE EVENTO !!
         exportCsv.export_csv_steps(gl_event_type_process, gl_date_last_update, gl_check_opcion_process) ## EM METODO VERIFICA SE PRIMEIRA IMPORTAÇÂO OU NÂO # VALIDAR PROCESSO DE DATA
 
 

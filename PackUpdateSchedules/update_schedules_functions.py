@@ -32,7 +32,17 @@ def select_columns_update_conector (df : DataFrame):
     
     df = df[columns_to_update_conector].copy()
 
-    df = df.applymap(str) # To Create Event Conector
+  
+
+    df = df.applymap(str)
+    #QUANDO CONVERT INT PARA STRING FICA 1233.0
+    #RESOLVER CASO ACIMA PARA NÂO TER PROBLEMAS EM CRIAÇÂO DE JSON:
+
+    df[v_id_best] = df[v_id_best].str.split('.').str[0]
+    df[v_mod_id] = df[v_mod_id].str.split('.').str[0]
+    df[v_id_event_type] = df[v_id_event_type].str.split('.').str[0]
+    df[v_id_academic_year] = df[v_id_academic_year].str.split('.').str[0]
+    
 
     return(df)
 

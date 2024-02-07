@@ -238,7 +238,7 @@ def status_running (name, start_process):
     
     # start_process execute exeProc.exe_process_steps
     valid_process = start_process(settval.gl_opcion_process_to_ejecute, settval.gl_name_file_uxxi,settval.gl_name_process_to_import, 
-                                  settval.gl_event_type_process, settval.gl_date_last_update, settval.gl_check_opcion_process)
+                                  settval.gl_event_type_process, settval.gl_date_last_update, settval.gl_check_opcion_process, settval.gl_opcion_conector)
 
     on_stop()
    
@@ -305,8 +305,8 @@ def opciones_choice_import_data ():
     
     if opcion_radio_button_add_conector == 1:
 
-        processImportLabel.grid(pady=3,padx=[3,8] )
-        processImportLabel.config(text = 'Event Type:')
+        # processImportLabel.grid(pady=3,padx=[3,12] )
+        processImportLabel.config(text = 'Acad. Year:')
         radio_button_first_import.deselect()
         radio_button_first_import.config(state = 'disable')
         
@@ -342,7 +342,7 @@ def opciones_choice_export_csv ():
     
     radio_button_first_import.config(state = 'normal')
     radio_button_first_import.select()
-    names_inserted_vars[2].insert(0, 'Event Type')
+    names_inserted_vars[2].insert(0, 'Acad. Year')
     opcionImportConector.config (font="Segoe 8", foreground="#009999")
     radio_button_import_conector.config(state = 'disable')
     radio_button_import_conector.deselect()
@@ -417,8 +417,9 @@ def remove_opciones_import_schedules():
 
         names_inserted_vars[1].delete(0, END)
         radio_button_first_import.config(state = 'disable')
-        processImportLabel.grid(pady=3,padx=[3,8] )
-        processImportLabel.config(text = 'Event Type:')
+        # processImportLabel.grid(pady=3,padx=[3,12] )
+        processImportLabel.config(text = 'Acad. Year:')
+        names_inserted_vars[1].insert(0, '2023_24 Segun') ## ONLY TO DEBUG
         
         
 
@@ -448,6 +449,7 @@ def opciones_choice_first_import_and_first_export (): # CHECK COMPORTAMENTOS DIS
        
         radio_button_import_conector.config(state = 'normal')
         opcionImportConector.config (font="Helvetica 8", foreground="#000000")
+        
 
 
     elif ((verifiy_opcion_process == 2) & (verifiy_opcion_first_import == 1)): #SE EXPORT E OPÇÂO FIRST EXPORT Selecionado

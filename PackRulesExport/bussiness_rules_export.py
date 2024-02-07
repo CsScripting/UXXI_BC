@@ -19,7 +19,7 @@ import PackManageData.join_tuples_data as manData
    
    # DISCIPLINAS
    # GRUPOS ???
-   # CONECTOR
+   # CONECTOR ???
    
 
 def filter_by_acad_year (df : DataFrame, name_acad_year : str):

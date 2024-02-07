@@ -39,7 +39,7 @@ def create (df : DataFrame, process_folder : str, process_code : str, file_name 
 
 def create_file_process_csv (df : DataFrame, process_folder : str, file_name : str, sheet_name : str):
     
-    df.to_excel(process_folder + '/' + file_name, sheet_name, index = False,freeze_panes=(1,0))
+    df.to_excel(process_folder + '/' + file_name, sheet_name = sheet_name, index = False,freeze_panes=(1,0))
 
     return()
 
@@ -91,3 +91,28 @@ def create_csv_file (df : DataFrame, path : str, first_importacion):
     df.to_csv(path_to_file, index=False, encoding='iso8859-1', sep=';', na_rep='')
 
     return()
+
+def read_file_conectores ():
+
+    # Manage values Blank
+    val_null = ['NULL', 'null', '', None]
+
+    name_file = v_file_conectores + '.xlsx'
+    path_file_name = './' + v_folder_data_uxxi + '/' + name_file
+    
+
+    df_conect = read_excel (path_file_name, v_sheet_file_conectores, dtype = 'str', keep_default_na=False, na_values=val_null)
+
+
+
+    return (df_conect)
+
+
+def filter_file_no_null_values( df : DataFrame):
+
+
+    df_valid_data = df.dropna(axis=0).copy()
+
+
+    return(df_valid_data)
+

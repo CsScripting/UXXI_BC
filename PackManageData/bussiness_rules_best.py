@@ -45,14 +45,15 @@ def add_number_week (df : DataFrame):
 
     return(df)
 
-def add_event_connector (df : DataFrame, csv_process = False):
+def add_event_connector_json (df : DataFrame, state_import):
 
     # Before ID's BD
     # df[v_plan_dominant] = df[v_course_code].str.split('#').str[0] + '_' + df[v_year].str.split('#').str[0] 
     # df[v_id_uxxi] = df[v_plan_dominant] + '_' + df[v_activity_code] + '_' + df[v_student_group_code]
 
+    
 
-    if not csv_process:
+    if state_import == v_app_uxxi:
 
         df[v_plan_dominant] = df[v_course_code].str.split('#').str[0] + '_' + df[v_year].str.split('#').str[0] 
 
@@ -71,7 +72,7 @@ def add_event_connector (df : DataFrame, csv_process = False):
                         ',"Id":'   +  '[' + df[v_id_db] + ']' +\
                         '}'
 
-    else:
+    elif state_import == v_app_bwp_to_uxxi:
 
         state_data = v_app_bwp_to_uxxi
 
@@ -89,10 +90,26 @@ def add_event_connector (df : DataFrame, csv_process = False):
                         ',"Week":' +  '[' + df[v_number_weeks]  +']' + \
                         ',"Id":'   +  '[]' +\
                         '}'
+        
+    elif state_import == v_app_bwp:
+
+        state_data = v_app_bwp
+
+        # Manter sempre dados de PLANIFICAÇÂO UXXI - PLAN ; CURSO ; ACT ; GRUPO UXXI
+
+        df[v_id_uxxi] = '{"App":' + '"'+ state_data +'"' \
+                        ',"Plan":' +  '"' + df[v_plan_conector_bwp] + '"' + \
+                        ',"Cur":'  +  df[v_curso_conector_bwp] + \
+                        ',"Act":'  +  df[v_act_uxxi_conector_bwp] + \
+                        ',"Gr":'   +  df[v_grupo_uxxi_conector_bwp] + \
+                        ',"NrGr":'   +  df[v_nr_grupo_uxxi_conector_bwp] + \
+                        ',"Day":'  +  df[v_day] + \
+                        ',"Hour":' +  '"' + df[v_hourBegin] + '-' + df[v_hourEnd] + '"' + \
+                        ',"Class":'   +  df[v_classroom_name] +\
+                        ',"Week":' +  '[' + df[v_number_weeks]  +']' + \
+                        ',"Id":'   +  '[]' +\
+                        '}'
     
-    
-    
-  
 
     return(df)
 

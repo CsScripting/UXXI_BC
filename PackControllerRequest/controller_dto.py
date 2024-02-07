@@ -279,6 +279,7 @@ def create_dto_update_event_basic (event_data : Series):
                         v_name_dto : getattr (event_data,v_event_title_BC),
                         v_code_dto : getattr (event_data,v_event_Id_BC),
                         v_event_type_id_event_dto : id_type_event_to_send,
+                        v_event_user_role_dto : [],
                         v_mod_id_event_dto : module_id,
                         v_acad_year_id_event_dto : acad_year_id,
                         v_section_name_event_dto: section_name,
