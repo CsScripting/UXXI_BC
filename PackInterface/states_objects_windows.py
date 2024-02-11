@@ -308,8 +308,18 @@ def opciones_choice_import_data ():
    
 
     opcion_radio_button_add_conector= radio_button_vars[2].get()
+    check_opcion_planificacion = radio_button_vars[3].get()
+
+    if check_opcion_planificacion == 0: ###VALUE 0 --> Valor de Seleccionado Schedule -- > VALUE 1
+
+        radio_button_first_import.select()
+        radio_button_first_import.config(state = 'disable')
+
+        radio_button_import_conector.config(state = 'disable')
+        radio_button_import_conector.deselect()
+
     
-    if opcion_radio_button_add_conector == 1:
+    if opcion_radio_button_add_conector == 1 and check_opcion_planificacion != 0:
 
         # processImportLabel.grid(pady=3,padx=[3,12] )
         processImportLabel.config(text = 'Acad. Year:')
@@ -319,7 +329,7 @@ def opciones_choice_import_data ():
         radio_button_import_conector.config(state = 'normal')
         radio_button_import_conector.select()
 
-    else:
+    elif opcion_radio_button_add_conector != 1 and check_opcion_planificacion != 0 :
     
         radio_button_first_import.config(state = 'normal')
         radio_button_first_import.select()
@@ -483,6 +493,7 @@ def main_process_planning_opciones ():
 def main_process_schedules_opciones ():
 
     export_opcion.config(state = 'active')
+    opciones_choice_check_data()
 
     return()
 
