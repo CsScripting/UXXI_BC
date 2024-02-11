@@ -10,7 +10,8 @@ import PackInterface.states_objects_windows as objectState
 import PackValidations.settings_validation as settValid
 
 from PackLibrary.librarys import (
-    tk
+    tk,
+    ttk
 )
 
 def start_settings_window():
@@ -20,7 +21,7 @@ def start_settings_window():
 
     objectState.settings_window = tk.Toplevel()
     objectState.settings_window.title('Settings')
-    objectState.settings_window.geometry ("230x155") ##Geometry (230x214) --With Iten Separator
+    objectState.settings_window.geometry ("230x175") ##Geometry (230x214) --With Iten Separator
     objectState.settings_window.resizable(0, 0)
     objectState.settings_window.iconbitmap(path_icon + '/log.ico')
 
@@ -33,6 +34,8 @@ def start_settings_window():
     objectState.settings_window.geometry("+{}+{}".format(positionRight, positionDown))
 
     #Containers to distinct grid
+    top_WindowGrid_main_rules = tk.Frame(objectState.settings_window)
+    top_WindowGrid_separator = tk.Frame(objectState.settings_window)
     top_WindowGrid = tk.Frame(objectState.settings_window)
     doubleEntry_windowGrid = tk.Frame(objectState.settings_window)
     doubleEntry_windowGrid_botton = tk.Frame(objectState.settings_window)
@@ -40,7 +43,9 @@ def start_settings_window():
     final_WindowGrid = tk.Frame(objectState.settings_window)
 
     #Pack Containers Grid
-    top_WindowGrid.pack(side="top", fill="x", expand=False)
+    top_WindowGrid_main_rules.pack(fill="x", expand=True)
+    top_WindowGrid_separator.pack( side="top", fill="both", expand=True)
+    top_WindowGrid.pack(side="top", fill="both", expand=True)
     doubleEntry_windowGrid.pack(side="top", fill="both", expand=True)
     tripleEntry_windowGrid.pack(side="top", fill="both", expand=True)
     doubleEntry_windowGrid_botton.pack(side="top", fill="both", expand=True)
@@ -48,9 +53,24 @@ def start_settings_window():
     
     
     #Proportions Window
-    top_WindowGrid.grid_columnconfigure(0, weight=1)
+    top_WindowGrid_separator.grid_columnconfigure(0, weight=5)
     top_WindowGrid.grid_columnconfigure(1, weight=3)
     final_WindowGrid.grid_columnconfigure(0, weight=3)
+
+    #CONFIGURAÇÔES MAIN PROCESS
+
+    opciones_main_process = tk.Frame(top_WindowGrid_main_rules)
+
+    objectState.planificacion_opcion= tk.Radiobutton(opciones_main_process, text = 'PLANNING',font="Helvetica 7 bold", cursor="hand2", variable=radio_button_vars[3], value=0, command=objectState.main_process_planning_opciones)
+    objectState.schedules_opcion= tk.Radiobutton(opciones_main_process, text = 'SCHEDULES', font="Helvetica 7 bold", cursor="hand2",variable=radio_button_vars[3], value=1, command=objectState.main_process_schedules_opciones)
+
+
+
+    #SEPARADOR PARA PROCESSO GERAL
+
+    separator_process_opcion = tk.Frame(top_WindowGrid_separator)
+    objectState.separator_process = ttk.Separator(separator_process_opcion, orient='horizontal')
+    objectState.separator_process.pack(fill = tk.X, expand = True)
 
 
     #Objects inside topGrid Window:
@@ -60,7 +80,8 @@ def start_settings_window():
     opciones_process = tk.Frame(top_WindowGrid)
     objectState.check_data_opcion= tk.Radiobutton(opciones_process, text = 'Check Data',font="Helvetica 8", cursor="hand2", variable=radio_button_vars[0], value=0, command=objectState.opciones_choice_check_data)
     objectState.import_data_opcion= tk.Radiobutton(opciones_process, text = 'Import', font="Helvetica 8", cursor="hand2",variable=radio_button_vars[0], value=1,command=objectState.opciones_choice_import_data)
-    objectState.csv_opcion= tk.Radiobutton(opciones_process, text = 'Export', font="Helvetica 8", cursor="hand2",variable=radio_button_vars[0], value=2, command=objectState.opciones_choice_export_csv)
+    objectState.export_opcion= tk.Radiobutton(opciones_process, text = 'Export', font="Helvetica 8", cursor="hand2",variable=radio_button_vars[0], value=2, command=objectState.opciones_choice_export_csv)
+    objectState.export_opcion.config(state='disable')
     objectState.check_data_opcion.select()
     
     
@@ -116,33 +137,41 @@ def start_settings_window():
     
 
 
-     #Position Objects inside Grid 
+     #Position Objects inside Grid
     
-    opciones_process.grid(row=0, column=0, sticky=tk.W, pady=0,padx=3)
-    
-    objectState.fileLabel.grid(row=1, column=0, sticky=tk.W, pady=3,padx=[3,10] )
-    objectState.names_inserted_vars[0].grid(row=1, column=1, sticky='w')
-    
-    objectState.processImportLabel.grid(row=2, column=0, sticky=tk.W, pady=3,padx=[3,10] )
-    names_inserted_vars[1].grid(row=2, column=1, sticky='w')
-    
-    objectState.exportLabel.grid(row=3, column=0, sticky=tk.W, pady=[3,0],padx=[3,0] )
-    data_pack.grid(row=3, column=1, sticky='w',pady=[3,0], padx=[0,0])
+    opciones_main_process.grid(row=0, column=0, sticky=tk.W, pady=0,padx=3)
+    separator_process_opcion.grid(row=1, sticky= 'ew', pady=0,padx=8) 
 
-    objectState.firstImportProcess.grid(row=4, column=0, sticky=tk.W, pady=[0,2],padx=[3,2] )
-    objectState.radio_button_first_import.grid(row=4, column=1, sticky=tk.W, pady=[0,3],padx=[2,0] )
+    opciones_process.grid(row=2, column=0, sticky=tk.W, pady=0,padx=3)
+    
+    objectState.fileLabel.grid(row=3, column=0, sticky=tk.W, pady=3,padx=[3,10] )
+    objectState.names_inserted_vars[0].grid(row=3, column=1, sticky='w')
+    
+    objectState.processImportLabel.grid(row=4, column=0, sticky=tk.W, pady=3,padx=[3,10] )
+    names_inserted_vars[1].grid(row=4, column=1, sticky='w')
+    
+    objectState.exportLabel.grid(row=5, column=0, sticky=tk.W, pady=[3,0],padx=[3,0] )
+    data_pack.grid(row=5, column=1, sticky='w',pady=[3,0], padx=[0,0])
 
-    objectState.opcionImportConector.grid(row=4, column=3, sticky=tk.W, pady=[0,2],padx=[26,0] )
-    objectState.radio_button_import_conector.grid(row=4, column=4, sticky=tk.W, pady=[0,2],padx=[0,0] )
+    objectState.firstImportProcess.grid(row=6, column=0, sticky=tk.W, pady=[0,2],padx=[3,2] )
+    objectState.radio_button_first_import.grid(row=6, column=1, sticky=tk.W, pady=[0,3],padx=[2,0] )
+
+    objectState.opcionImportConector.grid(row=6, column=3, sticky=tk.W, pady=[0,2],padx=[26,0] )
+    objectState.radio_button_import_conector.grid(row=6, column=4, sticky=tk.W, pady=[0,2],padx=[0,0] )
    
 
-    objectState.object_validation.grid(row=5, column=1, sticky=tk.W)
+    objectState.object_validation.grid(row=7, column=1, sticky=tk.W)
 
+
+    #Pack Values TopGrid_Main_Process
+
+    objectState.planificacion_opcion.pack(side=tk.LEFT,padx=18)
+    objectState.schedules_opcion.pack(side=tk.LEFT)
 
     #Pack Values TopGrid --- opciones
     objectState.check_data_opcion.pack(side=tk.LEFT,)
     objectState.import_data_opcion.pack(side=tk.LEFT, padx=6)
-    objectState.csv_opcion.pack(side=tk.LEFT)
+    objectState.export_opcion.pack(side=tk.LEFT)
     
 
     objectState.names_inserted_vars[2].pack(side=tk.LEFT)

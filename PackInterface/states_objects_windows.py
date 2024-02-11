@@ -32,12 +32,15 @@ global exportLabel
 global button_validation
 global check_data_opcion
 global import_data_opcion
-global csv_opcion
+global export_opcion
 global object_validation
 global firstImportProcess
 global opcionImportConector
 global radio_button_first_import
 global radio_button_import_conector
+global separator_process
+global planificacion_opcion
+global schedules_opcion
 
 
 
@@ -254,6 +257,7 @@ def status_running (name, start_process):
 
 def opciones_choice_check_data ():
 
+    check_data_opcion.select()
     fileLabel.config (font="Helvetica 8", foreground="#000000")
     exportLabel.config (font="Segoe 8", foreground="#009999")
     processImportLabel.config (font="Segoe 8", foreground="#009999")
@@ -281,8 +285,10 @@ def opciones_choice_check_data ():
 
 def opciones_choice_import_data ():
 
+
+    
     processImportLabel.config (font="Helvetica 8", foreground="#000000")
-    firstImportProcess.grid(row=4, column=0, sticky=tk.W, pady=[0,0],padx=[3,2] )
+    firstImportProcess.grid(row=6, column=0, sticky=tk.W, pady=[0,0],padx=[3,2] )
     firstImportProcess.config(text = 'First Import:',font="Helvetica 8", foreground="#000000")
     opcionImportConector.config (font="Helvetica 8", foreground="#000000")
     exportLabel.config (font="Segoe 8", foreground="#009999")
@@ -327,7 +333,7 @@ def opciones_choice_export_csv ():
     exportLabel.config (font="Helvetica 8", foreground="#000000")
     fileLabel.config (font="Segoe 8", foreground="#009999")
     processImportLabel.config (font="Segoe 8", foreground="#009999")
-    firstImportProcess.grid(row=4, column=0, sticky=tk.W, pady=[0,0],padx=[3,0] )
+    firstImportProcess.grid(row=6, column=0, sticky=tk.W, pady=[0,0],padx=[3,0] )
     firstImportProcess.config(text = 'First Export:',font="Helvetica 8", foreground="#000000")
 
     names_inserted_vars[0].delete(0, END)
@@ -363,7 +369,7 @@ def all_opciones_disables_after_submit():
     radio_button_import_conector.config(state = 'disable')
     radio_button_first_import.config(state = 'disable')
 
-    csv_opcion.config(state = 'disable')
+    export_opcion.config(state = 'disable')
     enable_link_edit()
 
 
@@ -384,7 +390,7 @@ def edit_opciones_window_settings():
 
     check_data_opcion.config(state = 'normal')    
     import_data_opcion.config(state = 'normal')
-    csv_opcion.config(state = 'normal')
+    export_opcion.config(state = 'normal')
     disable_button_start()
     enable_button_submit()
     disable_link_edit()
@@ -417,8 +423,8 @@ def remove_opciones_import_schedules():
 
         names_inserted_vars[1].delete(0, END)
         radio_button_first_import.config(state = 'disable')
-        # processImportLabel.grid(pady=3,padx=[3,12] )
-        processImportLabel.config(text = 'Acad. Year:')
+        processImportLabel.grid(pady=3,padx=[3,9] )
+        processImportLabel.config(text = 'Acad Year:')
         names_inserted_vars[1].insert(0, '2023_24 Segun') ## ONLY TO DEBUG
         
         
@@ -464,6 +470,23 @@ def opciones_choice_first_import_and_first_export (): # CHECK COMPORTAMENTOS DIS
 
         names_inserted_vars[3].config(state = 'normal')
         names_inserted_vars[3].insert(0, 'yyyy-mm-dd')
+
+
+def main_process_planning_opciones ():
+
+    export_opcion.config(state = 'disable')
+    opciones_choice_check_data()
+
+    return()
+
+
+def main_process_schedules_opciones ():
+
+    export_opcion.config(state = 'active')
+
+    return()
+
+
         
 
     

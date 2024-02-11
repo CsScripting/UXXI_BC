@@ -66,7 +66,13 @@ def add_conector_from_file_uxxi (df_event : DataFrame, df_conector  : DataFrame)
 def verify_unique_typology_event (df : DataFrame):
 
     #Ainda por implementar
-    df[v_section_name] = df[v_section_name].apply(lambda x: x[0])
+    df['number_types'] = df[v_mod_typologie].apply(lambda x : len(x))
+    df_invalid = df [df['number_types'] > 1].copy()
+    df_valid = df [df['number_types'] == 1].copy()
+    df_valid = df_valid.drop(columns='number_types')
+    df_invalid = df_invalid.drop(columns='number_types')
+
+    return(df_valid,df_invalid)
 
 
 
@@ -111,20 +117,6 @@ def verify_name_section (df : DataFrame):
     return(df_valid_section_name, df_invalid_section_name)
 
 
-def filter_event_best_with_conector (df : DataFrame):
-
-    df_to_filter = df.copy()
-
-    df_with_conector = df_to_filter[df_to_filter[v_merge] == 'both'].copy()
-    df_without_conector = df_to_filter[df_to_filter[v_merge] != 'both'].copy()
-
-    df_with_conector = df_with_conector.drop(columns=v_merge)
-    df_without_conector = df_without_conector.drop(columns=v_merge) 
-
-
-
-
-    return(df_with_conector, df_without_conector)
 
 def update_file_columns_and_parse_data_to_filter(df : DataFrame):
 
@@ -169,9 +161,15 @@ def manage_file_error_conector (df : DataFrame, name_error : str):
     return(df)
 
 
-def create_df_errores_conect (df_error_1, df_error_2):
+def create_df_errores_conect (df_error_1 : DataFrame, df_error_2 : DataFrame, df_error_3 : DataFrame, df_error_4 : DataFrame):
 
     df_error_1_2 = (df_error_1.copy() if df_error_2.empty else df_error_2.copy() if df_error_1.empty
                    else concat([df_error_1, df_error_2]))
+    
+    df_error_1_2_3  = (df_error_1_2.copy() if df_error_3.empty else df_error_3.copy() if df_error_1_2.empty
+                       else concat([df_error_1_2, df_error_3]))
+    
+    df_error_1_2_3_4  = (df_error_1_2_3.copy() if df_error_4.empty else df_error_4.copy() if df_error_1_2_3.empty
+                       else concat([df_error_1_2_3, df_error_4]))
 
-    return(df_error_1_2)
+    return(df_error_1_2_3_4)

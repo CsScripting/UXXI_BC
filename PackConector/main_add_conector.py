@@ -18,7 +18,7 @@ from mod_variables import *
 def add_conector_steps (name_academic_year):
 
     #CRIAR PASTA CONECTOR
-    path_folder_conector = folderImport.create_folder_add_conectores()
+    path_folder_conector, id_process = folderImport.create_folder_add_conectores()
     
     #LER FICHEIRO UXXI CONECTORES
     df_conect = genFiles.read_file_conectores()
@@ -52,6 +52,7 @@ def add_conector_steps (name_academic_year):
     #2º# - PASSAR EMPTY LIST TO nan
 
     df_events_best = rulesUxxiBest.pass_empy_list_to_nan(df_events_best)
+    
 
     #3º# - AO IR BUSCAR EVENTOS FILTRA POR DATAS DE ACAD. YEAR:
     # NO ENTANTO PODE SACAR EVENTOS QUE NÂO ESTÂO ASSOCIADOS A ACAD. YEAR
@@ -64,11 +65,12 @@ def add_conector_steps (name_academic_year):
     df_events_best, df_invalid_fields_events_best = rulesUxxiBest.filter_data_best_mandatory_fields(df_events_best)
     df_invalid_fields_events_best = rulesUxxiBest.manage_file_error_conector(df_invalid_fields_events_best,v_conect_sin_fields)
 
+
+    #5º# FILTRAR POR TIPOLOGIA UNICA ou Sem Tipologia
+
+    df_events_best, df_invalid_typologiy_events_best = rulesUxxiBest.verify_unique_typology_event(df_events_best)
+    df_invalid_typologiy_events_best = rulesUxxiBest.manage_file_error_conector(df_invalid_typologiy_events_best, v_conect_wrong_typologie)
     
-
-    #5º# FILTRAR POR TIPOLOGIA UNICA
-
-
 
     #6º# VERIFICAR PADRÂO NOME SECTION
 
@@ -77,31 +79,47 @@ def add_conector_steps (name_academic_year):
 
 
 
-    #5º# - GUARDAR FICHEIRO EVENTOS SEM CONECTOR; QUE NÂO CUMPREM TODAS AS REGRAS DE ATRIBUIÇÃO
-
-    df_errores_conect = rulesUxxiBest.create_df_errores_conect(df_invalid_fields_events_best,
-                                                           df_invalid_section_events_best)
-    
-    genFiles.create_file_process_csv(df_errores_conect,'./DataProcess', 'file2.xlsx', 'Data') #APAGAR
-
 
 
     if not df_events_best.empty:
 
-        df_events_best = rulesUxxiBest.add_conector_from_file_uxxi(df_events_best, df_conect)
+        df_events_best_to_add_conector, df_invalid_no_conector_events_best = rulesUxxiBest.add_conector_from_file_uxxi(df_events_best, df_conect)
 
-        df_events_best_to_add_conector, df_invalid_no_conector_events_best = rulesUxxiBest.filter_event_best_with_conector(df_events_best)
+        
         df_events_best_to_add_conector = rulesUxxiBest.update_file_columns_and_parse_data_to_filter (df_events_best_to_add_conector)
+        df_invalid_section_events_best = rulesUxxiBest.manage_file_error_conector(df_invalid_section_events_best, v_conect_without_conector_uxxi)
+
         df_events_best_to_add_conector = rulesBest.add_number_week(df_events_best_to_add_conector)
         df_events_best_to_add_conector= updateSched.select_columns_update_conector(df_events_best_to_add_conector)
-        df_events_best_to_add_conector, df_events_sin_conector = rulesBest.add_event_connector_json(df_events_best_to_add_conector, v_app_bwp)
+        df_events_best_to_add_conector = rulesBest.add_event_connector_json(df_events_best_to_add_conector, v_app_bwp)
+    
 
         
         updateSched.iterate_events_and_update_single_event(df_events_best_to_add_conector)
 
+        df_errores_conect = rulesUxxiBest.create_df_errores_conect(df_invalid_fields_events_best,
+                                                                   df_invalid_section_events_best,
+                                                                   df_invalid_typologiy_events_best,
+                                                                   df_invalid_no_conector_events_best)
+        
 
-
+        genFiles.create_file_xlsx(df_errores_conect,
+                                  path_folder_conector + '/'+ v_name_file_error_conect + id_process + '.xlsx', 
+                                  v_sheet_error_conect)
+        
+        
     else:
+
+        df_errores_conect = rulesUxxiBest.create_df_errores_conect(df_invalid_fields_events_best,
+                                                                   df_invalid_section_events_best,
+                                                                   df_invalid_typologiy_events_best,
+                                                                   df_events_best)
+        
+
+        genFiles.create_file_xlsx(df_errores_conect,
+                                  path_folder_conector,
+                                  v_name_file_error_conect + id_process + '.xlsx', 
+                                  v_sheet_error_conect)
 
         messagebox.showerror('Add Conector', 'No Events To Insert Connector')
 

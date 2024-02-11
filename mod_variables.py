@@ -24,9 +24,14 @@ v_curso_fileconet = 'CURSO'
 
 # Errores File Conectores
 
+v_name_file_error_conect = 'ErrorsConector'
+v_sheet_error_conect = 'Errors'
+
 v_column_error_conector = 'ERROR_TYPE'
 v_conect_sin_fields = 'NULL_VALUES'
-v_conect_wrong_section_name = 'WRONG_TYPE'
+v_conect_wrong_section_name = 'WRONG_SECTION'
+v_conect_wrong_typologie = 'WRONG_TYPOLOGIE'
+v_conect_without_conector_uxxi = 'NO_CONECTOR_UXXI'
 
 
 # Folders Names App

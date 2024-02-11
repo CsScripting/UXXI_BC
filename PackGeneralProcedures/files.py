@@ -37,7 +37,7 @@ def create (df : DataFrame, process_folder : str, process_code : str, file_name 
 
     return()
 
-def create_file_process_csv (df : DataFrame, process_folder : str, file_name : str, sheet_name : str):
+def create_file_xlsx (df : DataFrame, process_folder : str, file_name : str, sheet_name : str):
     
     df.to_excel(process_folder + '/' + file_name, sheet_name = sheet_name, index = False,freeze_panes=(1,0))
 
@@ -115,4 +115,6 @@ def filter_file_no_null_values( df : DataFrame):
 
 
     return(df_valid_data)
+
+
 

@@ -26,4 +26,4 @@ def create_folder_add_conectores ():
         
         os.mkdir(path_folder_conector)
 
-    return(path_folder_conector)
+    return(path_folder_conector, timestr)

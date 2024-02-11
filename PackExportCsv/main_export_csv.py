@@ -123,7 +123,7 @@ def export_csv_steps(academic_year : str, last_date_update : str, first_import):
         file_name = 'UXXI_ID_TO_DELETE.xlsx'
         sheet = 'DATOS'
 
-        genFile.create_file_process_csv(df_manage_id_uxxi_to_delete_from_update,glVarProcess.gl_process_folder, file_name, sheet)
+        genFile.create_file_xlsx(df_manage_id_uxxi_to_delete_from_update,glVarProcess.gl_process_folder, file_name, sheet)
 
       else:
 
