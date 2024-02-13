@@ -29,7 +29,7 @@ def validation_settings_steps():
 
     
         # - GET DATA INSERTED UI - #
-        opcion_process_to_ejecute, name_file_uxxi, name_process_to_import,event_type_process, \
+        opcion_main_process ,opcion_process_to_ejecute, name_file_uxxi, name_process_to_import,event_type_process, \
         date_last_update, check_opcion_process,check_opcion_conector = settValFunct.get_inserted_values_settings()
         
         global gl_opcion_process_to_ejecute
@@ -46,62 +46,69 @@ def validation_settings_steps():
         gl_check_opcion_process = check_opcion_process
         global gl_opcion_conector
         gl_opcion_conector = check_opcion_conector
+        #MAIN PROCESS
+        global gl_check_main_process
+        gl_check_main_process = opcion_main_process
+
+        if opcion_main_process == 1: 
+
+            # - Verify Folder to Insert Data From UXXI
+            settValFunct.validation_folder_uxxi()
+
+            if opcion_process_to_ejecute == 0:  # OPCION CHECK DATA
+    
+                # Validation Data UXXI (insercion UI)
+                settValFunct.check_filling_entry_box(name_file_uxxi)
+                settValFunct.check_extension_file(name_file_uxxi)
+                settValFunct.validation_data_uxxi_exist_on_folder(name_file_uxxi)
+
+                # Validation Data UXXI (file) --- VERIFICAR COMO VALIDAR NOMES COLUNAS CSV 
+                # dataValFunct.verify_sheet_and_columns_name_file_uxxi(name_file_uxxi)
 
 
-        # - Verify Folder to Insert Data From UXXI
-        settValFunct.validation_folder_uxxi()
 
-        if opcion_process_to_ejecute == 0:  # OPCION CHECK DATA
- 
-            # Validation Data UXXI (insercion UI)
-            settValFunct.check_filling_entry_box(name_file_uxxi)
-            settValFunct.check_extension_file(name_file_uxxi)
-            settValFunct.validation_data_uxxi_exist_on_folder(name_file_uxxi)
-
-            # Validation Data UXXI (file) --- VERIFICAR COMO VALIDAR NOMES COLUNAS CSV 
-            # dataValFunct.verify_sheet_and_columns_name_file_uxxi(name_file_uxxi)
+            elif (opcion_process_to_ejecute == 1): #OPCION IMPORT
 
 
-
-        elif (opcion_process_to_ejecute == 1): #OPCION IMPORT
-
-
-            if check_opcion_conector == 1:
+                if check_opcion_conector == 1:
 
 
-                event_type = name_process_to_import
-            
-                settValFunct.check_filling_entry_box(name_process_to_import)
-                #VERIFICAR SE ACADEMIC YEAR EXISTE
-                data_object_search = dtObj.create_dto_simple_search_filter (v_search_name, event_type)
-                validacion_event_type, begin_date_acad_year, end_date_acad_year = acadYearRequest.get_data_academic_year_search (gl_v_request.gl_url_api,gl_v_request.gl_header_request, 
-                                                                                                                                 v_acad_year_controller, data_object_search)
+                    event_type = name_process_to_import
                 
-                settValFunct.verify_name_acad_year_exist(validacion_event_type)
+                    settValFunct.check_filling_entry_box(name_process_to_import)
+                    #VERIFICAR SE ACADEMIC YEAR EXISTE
+                    data_object_search = dtObj.create_dto_simple_search_filter (v_search_name, event_type)
+                    validacion_event_type, begin_date_acad_year, end_date_acad_year = acadYearRequest.get_data_academic_year_search (gl_v_request.gl_url_api,gl_v_request.gl_header_request, 
+                                                                                                                                    v_acad_year_controller, data_object_search)
+                    
+                    settValFunct.verify_name_acad_year_exist(validacion_event_type)
+                    
+                    #GUARDADO PARA USAR EM EXECUÇÂO DE PROCESSO
+                    glVarProcess.gl_begin_date_acad_year = begin_date_acad_year
+                    glVarProcess.gl_end_date_acad_year = end_date_acad_year
+                    
+                    #VERIFICAR SE FICHEIRO DE CONECTORES EXISTE
+                    settValFunct.validation_conector_exist_on_folder()
+                    
+                    #VERIFICAR SE CUMPRE OS REQUISITOS O FICHEIRO
+
+                    file_name = v_file_conectores + '.xlsx'
+                    dataValFunct.verify_sheet_and_columns_name_file_conector(file_name)
+
+
+                else:
                 
-                #GUARDADO PARA USAR EM EXECUÇÂO DE PROCESSO
-                glVarProcess.gl_begin_date_acad_year = begin_date_acad_year
-                glVarProcess.gl_end_date_acad_year = end_date_acad_year
-                
-                #VERIFICAR SE FICHEIRO DE CONECTORES EXISTE
-                settValFunct.validation_conector_exist_on_folder()
-                
-                #VERIFICAR SE CUMPRE OS REQUISITOS O FICHEIRO
-
-                file_name = v_file_conectores + '.xlsx'
-                dataValFunct.verify_sheet_and_columns_name_file_conector(file_name)
+                    settValFunct.check_filling_entry_box(name_process_to_import)
+                    settValFunct.validation_process_exist_on_folder(name_process_to_import)
 
 
-            else:
-            
-                settValFunct.check_filling_entry_box(name_process_to_import)
-                settValFunct.validation_process_exist_on_folder(name_process_to_import)
+            else: # OPCION EXPORT ---> verify validaciones
 
+                print ('Verify Validaciones Export - Ver Excepções Abaixo')
 
-        else: # OPCION EXPORT ---> verify validaciones
+        else: # VALIDACIONES PLANIFICACION
 
-            print ('Verify Validaciones Export - Ver Excepções Abaixo')
-
+            print ('Validaciones PLANIFICACION')
 
         # After all Validation
 
@@ -161,7 +168,7 @@ def validation_settings_steps():
         
         else:
 
-            sheet_error = v_sheet_data_uxxi
+            sheet_error = v_sheet_schedules_data_uxxi
             error_header = 'UXXI'
 
         messagebox.showerror('Check Data '+ error_header, 'Mandatory Sheet Name:\n\n' + sheet_error)
@@ -171,7 +178,7 @@ def validation_settings_steps():
         if gl_opcion_conector == 1:
 
             error_header = 'Conectores UXXI'
-            columns_file = v_asign_fileconect + ' - ' + v_grupo_fileconect + '\n' +  \
+            columns_file = v_mod_code_fileconect + ' - ' + v_grupo_fileconect + '\n' +  \
                            v_cod_act_fileconect+ ' - ' + v_cod_grupo_fileconet 
             
         else:

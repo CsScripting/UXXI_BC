@@ -240,7 +240,7 @@ def status_running (name, start_process):
     main_window.after(0, update_status_running) 
     
     # start_process execute exeProc.exe_process_steps
-    valid_process = start_process(settval.gl_opcion_process_to_ejecute, settval.gl_name_file_uxxi,settval.gl_name_process_to_import, 
+    valid_process = start_process(settval.gl_check_main_process,settval.gl_opcion_process_to_ejecute, settval.gl_name_file_uxxi,settval.gl_name_process_to_import, 
                                   settval.gl_event_type_process, settval.gl_date_last_update, settval.gl_check_opcion_process, settval.gl_opcion_conector)
 
     on_stop()

@@ -4,8 +4,8 @@ import PackManageData.read_filter as readFilter
 import PackManageData.join_tuples_data as joinData
 import PackManageData.bussiness_rules_uxxi as rulesUxxi
 import PackManageData.bussiness_rules_best as rulesBest
-import PackGeneralProcedures.global_variable_process_procedures as glVarProcess
 import PackManageData.data_uxxi as dataUxxi
+import PackGeneralProcedures.global_variable_process_procedures as glVarProcess
 import PackGeneralProcedures.files as genFiles
 from mod_variables import *
 
@@ -15,7 +15,7 @@ def manage_data_uxxi_steps(name_file_inserted : str):
     flag_file_validation_created = False
     
     # Create Folder Process
-    glVarProcess.gl_process_folder, glVarProcess.gl_process_code = folderProcess.create_main_folder_manage_process()
+    glVarProcess.gl_process_folder, glVarProcess.gl_process_code = folderProcess.create_main_folder_manage_process(v_process_schedules_sub_folder)
 
     process_folder = glVarProcess.gl_process_folder
     process_code = glVarProcess.gl_process_code
@@ -62,7 +62,7 @@ def manage_data_uxxi_steps(name_file_inserted : str):
 
     # Extract Curriculum From Schedules
     df_curriculum_uxxi = df_uxxi.copy()
-    dataUxxi.check_courses_uxxi (df_curriculum_uxxi, process_folder, process_code)
+    dataUxxi.check_courses_uxxi (df_curriculum_uxxi, process_folder, process_code, v_main_process_schedules)
     dataUxxi.check_planes_uxxi (df_curriculum_uxxi, process_folder, process_code)
     # dataUxxi.check_planes_modules (df_curriculum_uxxi, process_folder, process_code)
     dataUxxi.check_st_groups_uxxi (df_curriculum_uxxi, process_folder, process_code)
@@ -105,7 +105,7 @@ def manage_data_uxxi_steps(name_file_inserted : str):
 
     #Insert File On Folder Manage Data:
 
-    genFiles.create(df_uxxi_to_manage_data,process_folder, process_code,v_file_horarios,v_sheet_data_uxxi,v_process_manage_data)
+    genFiles.create(df_uxxi_to_manage_data,process_folder, process_code,v_file_horarios,v_sheet_schedules_data_uxxi,v_process_manage_data)
 
     #INSERT DATA TO MANAGE Acad. Year.
 

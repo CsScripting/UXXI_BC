@@ -12,7 +12,7 @@ def read_data_file (name_file : str):
     val_null = ['NULL', 'null', '']
 
     path_file_name = './' + v_folder_data_uxxi + '/' + name_file
-    sheet_name = v_sheet_data_uxxi
+    sheet_name = v_sheet_schedules_data_uxxi
 
 
     df = read_csv (path_file_name, sep= ';',encoding = 'UTF-8' , dtype = 'str')
@@ -22,6 +22,19 @@ def read_data_file (name_file : str):
     # values_modules = ['504011','902019' ]
     # df = df[df[v_mod_code].isin(values_modules)].copy()
     # df = df[( df[v_activity_code] == '40238') & (df[v_student_group_code] == '78451')].copy()
+
+    return(df)
+
+def read_data_file_xlsx (name_file :str):
+
+    # Manage values Blank
+    val_null = ['NULL', 'null', '']
+
+    path_file_name = './' + v_folder_data_uxxi + '/' + name_file
+    sheet_name = v_sheet_planning_data_uxxi
+
+
+    df = read_excel (path_file_name, sheet_name, dtype = 'str', keep_default_na=False, na_values=val_null)
 
     return(df)
 

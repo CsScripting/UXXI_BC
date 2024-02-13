@@ -64,9 +64,14 @@ def get_inserted_values_settings():
 
     check_opcion_first_import = radio_button_vars[1].get()
     check_opcion_conector = radio_button_vars[2].get()
+
+    check_opcion_main_process = radio_button_vars[3].get()
+
+
     
 
-    return (opcion_process_to_ejecute, name_file_uxxi, name_process_to_import,event_type_process, date_last_update,check_opcion_first_import, check_opcion_conector)
+    return (check_opcion_main_process, opcion_process_to_ejecute, name_file_uxxi, name_process_to_import,
+            event_type_process,date_last_update,check_opcion_first_import, check_opcion_conector)
 
     
 

@@ -24,8 +24,7 @@ def add_conector_steps (name_academic_year):
     df_conect = genFiles.read_file_conectores()
 
     #EXCLUIR VALORES NULOS DE FICHEIRO DE CONECTORES (PARA NÂO DAR PROBLEMAS NO GROUP BY)
-
-    df_conect = genFiles.filter_file_no_null_values(df_conect)
+    df_conect = genFiles.filter_file_not_null_values(df_conect)
  
 
     df_conect_to_agg = df_conect.copy()

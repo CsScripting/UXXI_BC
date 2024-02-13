@@ -55,7 +55,7 @@ def update_data_steps(first_week_schedules : str, last_week_schedules : str, df_
 
         if len (verify_columns_values_update) != 0:
            
-          genFiles.create(df_events_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,v_file_horarios_update,v_sheet_data_uxxi,v_process_update_data, False)
+          genFiles.create(df_events_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,v_file_horarios_update,v_sheet_schedules_data_uxxi,v_process_update_data, False)
 
 
 
@@ -65,7 +65,7 @@ def update_data_steps(first_week_schedules : str, last_week_schedules : str, df_
       df_uxxi_to_insert_data = matchSche.create_df_insert_data (df_events_to_import, True)
 
        
-    genFiles.create(df_uxxi_to_insert_data,glVarPro.gl_process_folder,glVarPro.gl_process_code,v_file_horarios,v_sheet_data_uxxi,v_process_update_data, False)
+    genFiles.create(df_uxxi_to_insert_data,glVarPro.gl_process_folder,glVarPro.gl_process_code,v_file_horarios,v_sheet_schedules_data_uxxi,v_process_update_data, False)
 
     
     

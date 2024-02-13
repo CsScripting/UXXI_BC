@@ -49,7 +49,7 @@ def read_data_files_update (main_folder_process : str, process_code : str,folder
     # Manage values Blank
     val_null = ['NULL', 'null', '']
 
-    name_folder_process = v_process_sub_folder + process_code
+    name_folder_process = v_process_schedules_sub_folder + process_code
     name_file_process = name_file + process_code + '.xlsx'
 
     path_file_name = './' + main_folder_process + '/' + name_folder_process + '/' + folder_type_process + '/' + name_file_process
@@ -108,7 +108,7 @@ def read_file_conectores ():
     return (df_conect)
 
 
-def filter_file_no_null_values( df : DataFrame):
+def filter_file_not_null_values( df : DataFrame):
 
 
     df_valid_data = df.dropna(axis=0).copy()

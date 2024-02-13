@@ -7,16 +7,27 @@ from mod_variables import *
 import PackGeneralProcedures.files as genFiles
 import PackManageData.join_tuples_data as tupleData 
 
-def check_courses_uxxi (df : DataFrame, process_folder : str, process_code : str):
+def check_courses_uxxi (df : DataFrame, process_folder : str, process_code : str, main_process : str):
 
-    df = df [[v_course_name, v_course_code]].copy()
-
-    df.drop_duplicates(inplace=True)
-    df[v_acronym_best] = df[v_course_code]
-
-    df.rename(columns={v_course_name : v_name_best,
-                       v_course_code : v_code_best}, inplace=True)
+    if main_process == v_main_process_schedules:
     
+        df = df [[v_course_name, v_course_code]].copy()
+
+        df.drop_duplicates(inplace=True)
+        df[v_acronym_best] = df[v_course_code]
+
+        df.rename(columns={v_course_name : v_name_best,
+                           v_course_code : v_code_best}, inplace=True)
+        
+    if main_process == v_main_process_planning:
+
+         df = df [[v_plan_fileconet, v_plan_name_fileconet]].copy()
+         df.drop_duplicates(inplace=True)
+         df.rename(columns={v_plan_fileconet : v_code_best,
+                            v_plan_name_fileconet : v_name_best}, inplace=True)
+
+         df[v_acronym_best] = df[v_code_best]
+ 
     df = df [[v_name_best, v_acronym_best, v_code_best]].copy()
 
     genFiles.create  (df,process_folder,process_code, v_file_curriculum_uxxi, v_sheet_courses, v_process_manage_data)

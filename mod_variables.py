@@ -1,6 +1,11 @@
 v_version = '0.0'
 
 
+#ManageMainProcess:
+
+v_main_process_planning = 'Planificacion'
+v_main_process_schedules = 'Schedules'
+
 
 #File Horarios Generated
 
@@ -15,11 +20,14 @@ v_sheet_file_conectores = 'Asig-Grupo-CodActiv-CodGrupo'
 
 #Columns File Conector
 
-v_asign_fileconect = 'ASIGNATURA'
+v_mod_code_fileconect = 'CODIGO_ASIGNATURA'
+v_mod_name_fileconect = 'NOMBRE_ASIGNATURA'
+
 v_grupo_fileconect = 'GRUPO'
 v_cod_act_fileconect = 'COD_ACTIVIDAD'
 v_cod_grupo_fileconet = 'COD_GRUPO' 
 v_plan_fileconet = 'PLAN'
+v_plan_name_fileconet = 'NOMBRE_PLAN'
 v_curso_fileconet = 'CURSO'
 
 # Errores File Conectores
@@ -44,7 +52,8 @@ v_folder_config_api = 'ConfigAPI'
 v_main_folder_process = 'DataProcess'
 v_main_folder_csv  = 'CsvFiles'
 
-v_process_sub_folder = 'Data'
+v_process_schedules_sub_folder = 'Schedules'
+v_process_planning_sub_folder = 'Planning'
 v_csv_sub_folder = 'Horarios'
 
 v_process_manage_data = 'ManageData'
@@ -67,7 +76,8 @@ v_client_id = 'client_id'
 v_client_secret = 'client_secret'
 
 # Name Sheet - Data UXXI 
-v_sheet_data_uxxi = 'DatosUXXI'
+v_sheet_planning_data_uxxi = 'ConectorPlanificacion'
+v_sheet_schedules_data_uxxi = 'DatosUXXI'
 v_sheet_data_uxxi_dates = 'WeeksSchedules'
 
 # Name File Validations

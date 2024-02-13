@@ -9,9 +9,12 @@ from mod_variables import *
 
 
 
-def create_main_folder_manage_process (): # Create processo folder and ManageData Folder
+def create_main_folder_manage_process (main_process : str): # Create processo folder and ManageData Folder
+
+    
 
     path_folder = './' + v_main_folder_process
+
 
     if not os.path.isdir(path_folder):
         
@@ -19,7 +22,7 @@ def create_main_folder_manage_process (): # Create processo folder and ManageDat
 
     timestr = t.strftime("_%Y%m%d_%H%M%S")
 
-    process_folder= path_folder + '/' + v_process_sub_folder + timestr
+    process_folder= path_folder + '/' + main_process + timestr
 
     if not os.path.isdir(process_folder):
         

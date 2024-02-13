@@ -91,7 +91,7 @@ def import_data_steps(name_folder_process):
     #Read Files to Import Data Events
 
     df_horarios = genFiles.read_data_files_import(v_main_folder_process,name_folder_process, v_process_update_data, 
-                                                  v_file_horarios,v_sheet_data_uxxi )
+                                                  v_file_horarios,v_sheet_schedules_data_uxxi )
     
     # Verify Events to Import (Opcion From User) --> Value 1 To Import
 

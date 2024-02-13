@@ -50,7 +50,7 @@ def filter_data_best_mandatory_fields (df : DataFrame):
 def add_conector_from_file_uxxi (df_event : DataFrame, df_conector  : DataFrame):
 
 
-    df_conector.rename(columns={v_asign_fileconect: v_mod_code}, inplace=True)
+    df_conector.rename(columns={v_mod_code_fileconect: v_mod_code}, inplace=True)
     values_to_merge = [v_mod_code,v_grupo_fileconect] 
 
     df_event = merge(left=df_event, right= df_conector, on = values_to_merge, how='left', indicator=True)
