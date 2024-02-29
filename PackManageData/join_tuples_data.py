@@ -19,6 +19,15 @@ def group_entities(df : DataFrame, list_series, sep = ',', sort_flag = True):
     df = df.reset_index()
     return df
 
+def group_entities_to_list(df, list_series, sep = ',', sort_flag = True):
+    
+    #Por vezes valores numericos tem o . (No entanto não se pode tratar aqui, pode haver campos com o .)
+    # df = df.applymap(str).replace('\.0', '', regex=True)
+    df.set_index (list_series, inplace=True)
+    df = df.groupby (level = list_series, sort = sort_flag).agg(list)
+    df = df.reset_index()
+    return df
+
 
 def weekly_date (df, series_dates):
 

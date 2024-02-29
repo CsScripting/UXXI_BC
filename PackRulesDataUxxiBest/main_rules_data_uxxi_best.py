@@ -122,9 +122,9 @@ def update_file_columns_and_parse_data_to_filter(df : DataFrame):
 
     df = df.rename(columns = {v_grupo_fileconect : v_nr_grupo_uxxi_conector_bwp,
                               v_cod_act_fileconect : v_act_uxxi_conector_bwp,
-                              v_cod_grupo_fileconet : v_grupo_uxxi_conector_bwp,
-                              v_plan_fileconet : v_plan_conector_bwp,
-                              v_curso_fileconet : v_curso_conector_bwp})
+                              v_cod_grupo_fileconect : v_grupo_uxxi_conector_bwp,
+                              v_plan_fileconect : v_plan_conector_bwp,
+                              v_curso_fileconect : v_curso_conector_bwp})
     
     
     # TO ADD NUMBER WEEKS NEXT

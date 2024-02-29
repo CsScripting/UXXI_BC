@@ -7,7 +7,7 @@ from PackLibrary.librarys import (
 
 def verify_common_conect (df : DataFrame ):
 
-    series_to_group = [v_cod_act_fileconect, v_cod_grupo_fileconet]
+    series_to_group = [v_cod_act_fileconect, v_cod_grupo_fileconect]
     df = manData.group_entities(df, series_to_group)
 
     return(df)

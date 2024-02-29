@@ -63,10 +63,9 @@ def manage_data_uxxi_steps(name_file_inserted : str):
     # Extract Curriculum From Schedules
     df_curriculum_uxxi = df_uxxi.copy()
     dataUxxi.check_courses_uxxi (df_curriculum_uxxi, process_folder, process_code, v_main_process_schedules)
-    dataUxxi.check_planes_uxxi (df_curriculum_uxxi, process_folder, process_code)
-    # dataUxxi.check_planes_modules (df_curriculum_uxxi, process_folder, process_code)
-    dataUxxi.check_st_groups_uxxi (df_curriculum_uxxi, process_folder, process_code)
-    dataUxxi.check_modules_uxxi (df_curriculum_uxxi, process_folder, process_code)
+    dataUxxi.check_planes_uxxi (df_curriculum_uxxi, process_folder, process_code, v_main_process_schedules) ### VERIFICAR EM IMPORTAÇÂO DE HORARIOS ...PASSAGEM DE DADOS DE UMA FUNÇÂO PARA OUTRA (ALTERADO PLANNING)
+    dataUxxi.check_st_groups_uxxi_schedules (df_curriculum_uxxi, process_folder, process_code)
+    dataUxxi.check_modules_uxxi (df_curriculum_uxxi, process_folder, process_code,v_main_process_schedules)
     dataUxxi.check_typologies_uxxi (df_curriculum_uxxi, process_folder, process_code)
 
     #New Code Classroom - On method check_classrooms_uxxi code saved with new Code (Concat CODIGO_AULA - (ID_AULA_UXXI))

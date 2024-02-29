@@ -25,14 +25,12 @@ def read_data_file (name_file : str):
 
     return(df)
 
-def read_data_file_xlsx (name_file :str):
+def read_data_file_xlsx (name_file :str, sheet_name : str):
 
     # Manage values Blank
     val_null = ['NULL', 'null', '']
 
     path_file_name = './' + v_folder_data_uxxi + '/' + name_file
-    sheet_name = v_sheet_planning_data_uxxi
-
 
     df = read_excel (path_file_name, sheet_name, dtype = 'str', keep_default_na=False, na_values=val_null)
 
@@ -105,3 +103,18 @@ def filter_by_activity_type (df : DataFrame):
 
     return (df_right_type, df_wrong_type)
       
+
+
+def select_columns_to_process_planning( df : DataFrame):
+
+    semestre_planificacion = df[v_periodo_fileconect].iloc[0]
+    df = df[[v_plan_name_fileconect,
+             v_plan_fileconect,
+             v_curso_fileconect,
+             v_mod_code_fileconect,
+             v_mod_name_fileconect,
+             v_grupo_fileconect,
+             v_cod_act_fileconect,
+             v_cod_grupo_fileconect]].copy()
+    
+    return(df, semestre_planificacion)

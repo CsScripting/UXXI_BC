@@ -65,7 +65,7 @@ def add_conector_steps (name_academic_year):
     df_invalid_fields_events_best = rulesUxxiBest.manage_file_error_conector(df_invalid_fields_events_best,v_conect_sin_fields)
 
 
-    #5º# FILTRAR POR TIPOLOGIA UNICA ou Sem Tipologia
+    #5º# FILTRAR POR TIPOLOGIA UNICA ou Sem Tipologia (VERIFICAR NO CASO DE NÂO TER TIPOLOGIA ????????????)
 
     df_events_best, df_invalid_typologiy_events_best = rulesUxxiBest.verify_unique_typology_event(df_events_best)
     df_invalid_typologiy_events_best = rulesUxxiBest.manage_file_error_conector(df_invalid_typologiy_events_best, v_conect_wrong_typologie)

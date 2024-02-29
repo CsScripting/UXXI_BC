@@ -33,7 +33,7 @@ def create (df : DataFrame, process_folder : str, process_code : str, file_name 
     
     else:
 
-        df.to_excel(path_more_filename, sheet_name, index = False,freeze_panes=(1,0))
+        df.to_excel(excel_writer=path_more_filename, sheet_name = sheet_name, index = False,freeze_panes=(1,0),)
 
     return()
 
@@ -110,9 +110,7 @@ def read_file_conectores ():
 
 def filter_file_not_null_values( df : DataFrame):
 
-
-    df_valid_data = df.dropna(axis=0).copy()
-
+    df_valid_data = df.dropna(axis=0,).copy()
 
     return(df_valid_data)
 

@@ -25,10 +25,13 @@ v_mod_name_fileconect = 'NOMBRE_ASIGNATURA'
 
 v_grupo_fileconect = 'GRUPO'
 v_cod_act_fileconect = 'COD_ACTIVIDAD'
-v_cod_grupo_fileconet = 'COD_GRUPO' 
-v_plan_fileconet = 'PLAN'
-v_plan_name_fileconet = 'NOMBRE_PLAN'
-v_curso_fileconet = 'CURSO'
+v_cod_grupo_fileconect = 'COD_GRUPO' 
+v_plan_fileconect = 'PLAN'
+v_plan_name_fileconect = 'NOMBRE_PLAN'
+v_curso_fileconect = 'CURSO'
+v_periodo_fileconect = 'PERIODO'
+
+
 
 # Errores File Conectores
 
@@ -77,6 +80,9 @@ v_client_secret = 'client_secret'
 
 # Name Sheet - Data UXXI 
 v_sheet_planning_data_uxxi = 'ConectorPlanificacion'
+v_sheet_credit_model = 'Modelos'
+v_sheet_model_module = 'Modelo-Asignatura'
+v_sheet_credit_model_criterion = 'Criterios-defecto'
 v_sheet_schedules_data_uxxi = 'DatosUXXI'
 v_sheet_data_uxxi_dates = 'WeeksSchedules'
 
@@ -96,6 +102,43 @@ v_file_curriculum_imported = 'CURRICULUM_IMPORTED'
 v_file_events_best = 'EVENTS_BEST'
 v_file_events_imported = 'EVENTS_IMPORTED'
 v_file_events_not_imported = 'EVENTS_NOT_IMPORTED'
+
+# Name File Mutual Modules
+
+v_file_mutual_modules = 'Mutual_Modules'
+v_sheet_mutual_modules = 'MutualModules'
+
+# New Columns Mutual Modules
+
+v_mod_code_dominant = 'CODIGO_ASIGNATURA_DOMINANT'
+v_mod_name_dominant = 'NOMBRE_ASIGNATURA_DOMINANT'
+v_grupo_dominant = 'GRUPO_DOMINANT'
+v_plan_dominant = 'PLAN_DOMINANT'
+v_plan_name_dominant = 'NOMBRE_PLAN_DOMINANT'
+v_curso_dominant = 'CURSO_DOMINANT'
+
+v_mod_code_dominated = 'CODIGO_ASIGNATURA_DOMINANTED'
+v_mod_name_dominated = 'NOMBRE_ASIGNATURA_DOMINANTED'
+v_grupo_dominated = 'GRUPO_DOMINANTED'
+v_plan_dominated = 'PLAN_DOMINANTED'
+v_plan_name_dominated = 'NOMBRE_PLAN_DOMINANTED'
+v_curso_dominated = 'CURSO_DOMINANTED'
+
+#Columns Modelos-Asignaturas
+v_cred_mod_code = 'ASIGNATURA'
+v_cred_model ='MODELO'
+
+#Columns Modelos-Asignaturas
+v_cred_credits = 'CREDITOS'
+v_cred_actividad = 'ACTIVIDAD'
+v_cred_weeks = 'SEMANAS'
+v_cred_hours = 'HORAS'
+v_cred_cod_center = 'CODIGO CENTRO'
+v_cred_plan = 'PLAN'
+v_cred_period = 'PERIODO'
+v_cred_week_EB = 'SEMANAS_EB'
+v_cred_week_EPD = 'SEMANAS_EPD'
+v_cred_week_AD = 'SEMANAS_AD'
 
 
 
@@ -501,6 +544,17 @@ v_action_create = 'Created'
 v_type_action = 'ActionType'
 v_updated_event = 'Updated_Event'
 v_deleted_event = 'Deleted_Event'
+
+v_number_sectiones_mod = 'NrSectiones' 
+v_number_groups_plan = 'NrGroupsPlan'
+
+v_hours_wload = 'SlotsSemana'
+v_slot_number = 'NrSlots'
+v_slot_number_rest = 'NrSlots_To_Asign'
+
+v_plan_linea = 'Linea_Plan'
+
+
 
 
 
