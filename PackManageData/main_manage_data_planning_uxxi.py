@@ -1,10 +1,10 @@
 import PackGeneralProcedures.global_variable_process_procedures as glVarProcess
 import PackGeneralProcedures.files as genFiles
-import PackManageData.join_tuples_data as manData
 import PackManageData.folders_process_manage as folderProcess
 import PackManageData.read_filter as readFilter
 import PackManageData.data_uxxi as dataUxxi
 import PackManageData.data_credits_uxxi as dataCredUxxi
+import PackManageData.bussiness_rules_best as rulesBest
 from mod_variables import *
 
 
@@ -82,6 +82,13 @@ def manage_data_planning_uxxi_steps (name_file_inserted : str):
 
     df_data_import = dataCredUxxi.hours_weeks_section(df_data_import)
     df_data_import = dataUxxi.add_groups_bullet(df_data_import, df_relacion_groups_plan)
+    df_data_import = rulesBest.filter_fiels_w_loads (df_data_import)
+    df_data_import = rulesBest.insert_name_section(df_data_import)
+    df_data_import = rulesBest.insert_name_wload (df_data_import)
+    df_data_import = rulesBest.agg_section_to_w_load(df_data_import)
+    df_data_import = rulesBest.count_sectiones_number(df_data_import)
+
+    dataUxxi.create_df_w_loads_to_file (df_data_import, process_folder, process_code)
 
 
 

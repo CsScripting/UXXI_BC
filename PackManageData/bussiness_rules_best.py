@@ -5,6 +5,7 @@ from PackLibrary.librarys import (
   
 )
 from datetime import datetime
+import PackManageData.join_tuples_data as manData
 
 from mod_variables import *
 
@@ -124,5 +125,61 @@ def manage_hours (df: DataFrame):
     df[v_hourEnd] = df[v_hourEnd_split] + ':' + df[v_minute_end_split]
 
     df.drop(columns=[v_hourBegin_split, v_hourEnd_split, v_minute_begin_split, v_minute_end_split], inplace=True)
+
+    return (df)
+
+def filter_fiels_w_loads (df : DataFrame):
+
+    columns = [  v_mod_code,
+                 v_student_group,
+                 v_mod_typologie,
+                 v_weeks,
+                 v_hours_wload,
+                 v_plan_linea,
+                 v_student_group_best ]
+    
+    df = df [columns].copy()
+    df[v_session_wload] = '1'
+
+    return(df)
+
+def insert_name_section (df : DataFrame):
+
+    df[v_section_name] = df[v_mod_typologie] + df[v_student_group]
+
+    return(df)
+
+def insert_name_wload (df : DataFrame):
+
+    prefix_w_load = 'L'
+
+    df[v_name_wload] = prefix_w_load + df[v_plan_linea] + '_' +  df[v_mod_typologie]
+
+    return (df)
+
+
+def agg_section_to_w_load (df : DataFrame):
+
+    columns_to_drop = [v_student_group,
+                       v_mod_typologie,
+                       v_plan_linea]
+    
+    df.drop(columns=columns_to_drop, inplace=True)
+
+    series_to_agg = [v_name_wload,
+                     v_mod_code,
+                     v_hours_wload,
+                     v_session_wload,
+                     v_weeks]
+
+
+    df = manData.group_entities_to_list(df, series_to_agg, sep = ';')
+
+    return(df)
+
+
+def count_sectiones_number (df :DataFrame):
+
+    df[v_section_number] = df[v_section_name].apply(lambda x: len(x))
 
     return (df)

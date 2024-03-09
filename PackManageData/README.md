@@ -39,9 +39,15 @@
 
         * Validar em conectores o Periodo academico, é unico?
 
+    [x] dataCredUxxi.hours_weeks_section
+
+        *Distribuição de horas nem sempre equitativa --> ver valores de variaveis Nr_Slots_To_Asign
+
 [] Em falta:
 
 
-    [] - Organizar as semanas no caso de PERIODO = 2C
+    [] - Neste momento cria conjunto de df com validações, será necessario apresentar estes ficheiros
+
+    [] - Validações antes de Gerar
 
     [] - verificar mesmo grupo de actividad e nomenclautra diferente grupo (ex: 21, 11)

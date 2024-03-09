@@ -466,6 +466,13 @@ def add_groups_bullet (df_conector : DataFrame, df_groups : DataFrame):
 
     return(df_conector)
 
+
+def create_df_w_loads_to_file (df : DataFrame,  process_folder : str, process_code : str):
+
+    genFiles.create  (df, process_folder, process_code, v_file_wloads, v_sheet_wloads, v_process_manage_data)
+
+    return()
+
     
 
 

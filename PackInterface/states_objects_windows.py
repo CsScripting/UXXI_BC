@@ -257,6 +257,7 @@ def status_running (name, start_process):
 
 def opciones_choice_check_data ():
 
+    fileLabel.config (text = "Data UXXI:" )
     check_data_opcion.select()
     fileLabel.config (font="Helvetica 8", foreground="#000000")
     exportLabel.config (font="Segoe 8", foreground="#009999")
@@ -286,31 +287,38 @@ def opciones_choice_check_data ():
 def opciones_choice_import_data ():
 
 
+    # VERIFICAR OPÇOES USER
+    opcion_radio_button_add_conector= radio_button_vars[2].get()
+    check_opcion_main_process = radio_button_vars[3].get()  #VALUE 0 --> Planning ; VALUE 1 --> schedules
+    check_opcion_sub_process =  radio_button_vars[0].get() #VALUE 0 --> Check Data ; VALUE 1 --> Import ; VALUE 2 --> Export
+
+
+    if  check_opcion_main_process == 1:
+
+        names_inserted_vars[0].delete(0, END)
+        names_inserted_vars[0].config(state = 'disable')
+        fileLabel.config (font="Segoe 8", foreground="#009999")
     
     processImportLabel.config (font="Helvetica 8", foreground="#000000")
     firstImportProcess.grid(row=6, column=0, sticky=tk.W, pady=[0,0],padx=[3,2] )
     firstImportProcess.config(text = 'First Import:',font="Helvetica 8", foreground="#000000")
     opcionImportConector.config (font="Helvetica 8", foreground="#000000")
     exportLabel.config (font="Segoe 8", foreground="#009999")
-    fileLabel.config (font="Segoe 8", foreground="#009999")
     opcionImportConector.config (font="Helvetica 8", foreground="#000000")
     processImportLabel.config(text = 'Process ID:')
 
-    names_inserted_vars[0].delete(0, END)
+    
     names_inserted_vars[2].delete(0, END)
     names_inserted_vars[3].delete(0, END)
     
-    names_inserted_vars[0].config(state = 'disable')
+    
     names_inserted_vars[2].config(state = 'disable')
     names_inserted_vars[3].config(state = 'disable')
     names_inserted_vars[1].config(state = 'normal')
 
    
 
-    opcion_radio_button_add_conector= radio_button_vars[2].get()
-    check_opcion_planificacion = radio_button_vars[3].get()
-
-    if check_opcion_planificacion == 0: ###VALUE 0 --> Valor de Seleccionado Schedule -- > VALUE 1
+    if check_opcion_main_process == 0 and check_opcion_sub_process == 0: 
 
         radio_button_first_import.select()
         radio_button_first_import.config(state = 'disable')
@@ -318,8 +326,17 @@ def opciones_choice_import_data ():
         radio_button_import_conector.config(state = 'disable')
         radio_button_import_conector.deselect()
 
-    
-    if opcion_radio_button_add_conector == 1 and check_opcion_planificacion != 0:
+    if check_opcion_main_process == 0 and check_opcion_sub_process == 1:
+
+        radio_button_first_import.select()
+        radio_button_first_import.config(state = 'disable')
+
+        radio_button_import_conector.config(state = 'disable')
+        radio_button_import_conector.deselect()
+
+        fileLabel.config (text = "Period BTT" )
+
+    if opcion_radio_button_add_conector == 1 and check_opcion_main_process != 0:
 
         # processImportLabel.grid(pady=3,padx=[3,12] )
         processImportLabel.config(text = 'Acad. Year:')
@@ -329,7 +346,7 @@ def opciones_choice_import_data ():
         radio_button_import_conector.config(state = 'normal')
         radio_button_import_conector.select()
 
-    elif opcion_radio_button_add_conector != 1 and check_opcion_planificacion != 0 :
+    elif opcion_radio_button_add_conector != 1 and check_opcion_main_process != 0 :
     
         radio_button_first_import.config(state = 'normal')
         radio_button_first_import.select()

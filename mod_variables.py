@@ -105,8 +105,13 @@ v_file_events_not_imported = 'EVENTS_NOT_IMPORTED'
 
 # Name File Mutual Modules
 
-v_file_mutual_modules = 'Mutual_Modules'
+v_file_mutual_modules = 'MUTUAL_MODULES'
 v_sheet_mutual_modules = 'MutualModules'
+
+# Name File Wloads 
+
+v_file_wloads = 'WEEK_LOADS'
+v_sheet_wloads = 'Week_Loads'
 
 # New Columns Mutual Modules
 
@@ -545,14 +550,20 @@ v_type_action = 'ActionType'
 v_updated_event = 'Updated_Event'
 v_deleted_event = 'Deleted_Event'
 
-v_number_sectiones_mod = 'NrSectiones' 
-v_number_groups_plan = 'NrGroupsPlan'
+v_number_sectiones_mod = 'NR_SECTIONES' 
+v_number_groups_plan = 'NR_GROUPS_PLAN'
 
-v_hours_wload = 'SlotsSemana'
-v_slot_number = 'NrSlots'
-v_slot_number_rest = 'NrSlots_To_Asign'
+v_hours_wload = 'SLOTS_WEEK'
+v_slot_number = 'NR_SLOTS'
+v_slot_number_rest = 'NR_SLOTS_TO_ASIGN'
 
-v_plan_linea = 'Linea_Plan'
+v_plan_linea = 'LINEA_PLAN'
+v_section_name = 'SECTION_NAME'
+v_section_number = 'SECTION_NUMBER'
+v_session_wload = 'SESSION'
+v_name_wload = 'NAME_WLOAD'
+
+
 
 
 
