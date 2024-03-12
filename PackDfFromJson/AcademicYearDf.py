@@ -16,10 +16,8 @@ def academic_year_df_from_json(academic_year : list):
         
 
 
-        df = df.append({v_id_best : id_academic_year,
-                        v_name_best : name_academic_year}, 
-                        ignore_index = True)    
+        df.loc[len(df), df.columns] =   id_academic_year, \
+                                        name_academic_year  
 
     
-
     return(df)

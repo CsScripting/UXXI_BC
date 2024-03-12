@@ -179,7 +179,7 @@ def validation_settings_steps():
 
             error_header = 'Conectores UXXI'
             columns_file = v_mod_code_fileconect + ' - ' + v_grupo_fileconect + '\n' +  \
-                           v_cod_act_fileconect+ ' - ' + v_cod_grupo_fileconet 
+                           v_cod_act_fileconect+ ' - ' + v_cod_grupo_fileconect
             
         else:
         

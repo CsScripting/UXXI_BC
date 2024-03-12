@@ -15,10 +15,7 @@ def event_type_df_from_json(event_type : list):
         name_event_type = event_type[i][v_name_dto]
         
 
-
-        df = df.append({v_id_best : id_event_type,
-                        v_name_best : name_event_type}, 
-                        ignore_index = True)    
+        df.loc[len(df), df.columns] = id_event_type, name_event_type
 
     
 

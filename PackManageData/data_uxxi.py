@@ -345,8 +345,8 @@ def check_date_begin_end_schedules (df: DataFrame):
     df[v_week_first] = df[v_weeks].str.split(',').str[0]
     df[v_week_last] = df[v_weeks].str.split(',').str[-1]
 
-    df[v_week_first] = to_datetime(df[v_week_first], dayfirst = True)
-    df[v_week_last] = to_datetime(df[v_week_last], dayfirst = True)
+    df[v_week_first] = to_datetime(df[v_week_first],format="%Y-%m-%d", dayfirst = True)
+    df[v_week_last] = to_datetime(df[v_week_last], format="%Y-%m-%d",dayfirst = True)
 
     value_minimum = df[v_week_first].min()
     value_higer = df[v_week_last].max()
@@ -362,13 +362,11 @@ def create_df_info_date_events (start_day : str, end_day : str):
 
     df_process = DataFrame(columns = [v_variables_process, v_variables_values])
 
-    #Insert StartDay
-    df_process = df_process.append({v_variables_process : v_variable_start_day, 
-                                    v_variables_values : start_day}, ignore_index = True)
+    #Insert StartDay ### APPEND DEPRECATED
+    df_process.loc[len(df_process), df_process.columns] = v_variable_start_day, start_day
+    #Insert EndDAy
+    df_process.loc[len(df_process), df_process.columns] = v_variable_end_day, end_day
 
-    #Insert EndDay
-    df_process = df_process.append({v_variables_process : v_variable_end_day, 
-                                    v_variables_values : end_day}, ignore_index = True)
 
 
 

@@ -44,12 +44,20 @@ def create_file_xlsx (df : DataFrame, process_folder : str, file_name : str, she
     return()
 
 
-def read_data_files_update (main_folder_process : str, process_code : str,folder_type_process : str, name_file : str, sheet_name : str):
+def read_data_files_update (main_folder_process : str, process_code : str,folder_type_process : str, name_file : str, sheet_name : str, value_main_process : int):
 
     # Manage values Blank
     val_null = ['NULL', 'null', '']
 
-    name_folder_process = v_process_schedules_sub_folder + process_code
+    if value_main_process == 1:
+
+        folder_process = v_process_schedules_sub_folder
+
+    else:
+
+        folder_process = v_process_planning_sub_folder
+
+    name_folder_process = folder_process + process_code
     name_file_process = name_file + process_code + '.xlsx'
 
     path_file_name = './' + main_folder_process + '/' + name_folder_process + '/' + folder_type_process + '/' + name_file_process

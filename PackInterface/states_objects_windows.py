@@ -396,6 +396,10 @@ def all_opciones_disables_after_submit():
     radio_button_import_conector.config(state = 'disable')
     radio_button_first_import.config(state = 'disable')
 
+    #Disable MaiProcess:
+    planificacion_opcion.config(state='disable')
+    schedules_opcion.config(state='disable')
+
     export_opcion.config(state = 'disable')
     enable_link_edit()
 
@@ -418,6 +422,8 @@ def edit_opciones_window_settings():
     check_data_opcion.config(state = 'normal')    
     import_data_opcion.config(state = 'normal')
     export_opcion.config(state = 'normal')
+    planificacion_opcion.config(state='normal')
+    schedules_opcion.config(state='normal')
     disable_button_start()
     enable_button_submit()
     disable_link_edit()

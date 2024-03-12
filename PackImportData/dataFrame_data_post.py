@@ -136,15 +136,17 @@ def iterate_df_groups_and_post (df : DataFrame):
                 response_code = code_response_search_id_plan
                 message_to_present = 'StGroupNotInserted'
 
-            df_st_groups_imported = df_st_groups_imported.append({v_name_best : name_group, 
-                                                                  v_code_best : code_group,
-                                                                  v_plan_code_best : plan_code,
-                                                                  v_students_number_best : students_number,
-                                                                  v_daily_limit_best : v_daily_limit_default_best,
-                                                                  v_consecutive_limit_best : v_consecutiv_limit_default_best,
-                                                                  v_code_request : response_code,
-                                                                  v_message_request : message_to_present}, 
-                                                                  ignore_index = True)
+            
+            df_st_groups_imported.loc[len(df_st_groups_imported), df_st_groups_imported.columns] =  name_group, \
+                                                                                                    code_group, \
+                                                                                                    plan_code, \
+                                                                                                    students_number, \
+                                                                                                    v_daily_limit_default_best, \
+                                                                                                    v_consecutiv_limit_default_best, \
+                                                                                                    response_code, \
+                                                                                                    message_to_present
+
+
 
 
     return(df_st_groups_imported)

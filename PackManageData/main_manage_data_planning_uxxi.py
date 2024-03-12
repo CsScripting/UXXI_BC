@@ -90,8 +90,4 @@ def manage_data_planning_uxxi_steps (name_file_inserted : str):
 
     dataUxxi.create_df_w_loads_to_file (df_data_import, process_folder, process_code)
 
-
-
-
-   
     return()
