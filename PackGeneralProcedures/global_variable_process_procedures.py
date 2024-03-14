@@ -2,3 +2,4 @@ global gl_process_code
 global gl_process_folder 
 global gl_begin_date_acad_year
 global gl_end_date_acad_year
+global gl_data_academic_year

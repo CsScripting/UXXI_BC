@@ -216,7 +216,7 @@ def student_group (df_event : DataFrame, df_horarios_invalid : DataFrame):
                 
                 else:
 
-                    values_id_to_insert.append(value_id.iloc[0][0])
+                    values_id_to_insert.append(value_id.iloc[0,0])
 
 
         values_id_to_insert = [str(i) for i in values_id_to_insert]
@@ -279,7 +279,7 @@ def classrooms (df_event : DataFrame, df_horarios_invalid : DataFrame):
                 
                 else:
 
-                    values_id_to_insert.append(value_id.iloc[0][0])
+                    values_id_to_insert.append(value_id.iloc[0,0])
 
 
             values_id_to_insert = [str(i) for i in values_id_to_insert]
@@ -337,7 +337,7 @@ def weeks (df_event : DataFrame, df_horarios_invalid : DataFrame):
             
             else:
 
-                values_id_to_insert.append(value_id.iloc[0][0])
+                values_id_to_insert.append(value_id.iloc[0,0])
 
 
         values_id_to_insert = [str(i) for i in values_id_to_insert]

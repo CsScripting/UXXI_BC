@@ -169,6 +169,7 @@ def create_dto_event (event_data : Series):
                 v_mod_id_event_dto : getattr (event_data,v_mod_id_dominant),
                 v_acad_year_id_event_dto :getattr ( event_data,v_id_academic_year),
                 v_students_number_dto : getattr (event_data,v_students_number),
+                v_event_user_role_dto : [],
                 v_weeks_event_dto: list_weeks,
                 v_groups_event_dto : list_groups,
                 v_teachers_event_dto : list_teachers,

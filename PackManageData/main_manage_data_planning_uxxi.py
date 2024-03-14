@@ -60,7 +60,7 @@ def manage_data_planning_uxxi_steps (name_file_inserted : str):
     #ESCREVER RELAÇÂO DE PLANIFICAÇÂO A IMPORTAR EM BTT EM PASTA DE MANAGE DATA
     df_data_to_btt = dataUxxi.plans_to_btt_extract_only_dominant_modules(df_data_to_btt)
     dataUxxi.check_modules_uxxi (df_data_to_btt, process_folder, process_code, v_main_process_planning)
-    dataUxxi.check_planes_modules (df_data_to_btt, process_folder, process_code) 
+    df_relacion_plan_module = dataUxxi.check_planes_modules (df_data_to_btt, process_folder, process_code) 
     
     df_planning = dataUxxi.check_typologies_uxxi_from_file_conector(df_planning)
     dataUxxi.check_typologies_uxxi (df_planning, process_folder, process_code)
@@ -88,6 +88,6 @@ def manage_data_planning_uxxi_steps (name_file_inserted : str):
     df_data_import = rulesBest.agg_section_to_w_load(df_data_import)
     df_data_import = rulesBest.count_sectiones_number(df_data_import)
 
-    dataUxxi.create_df_w_loads_to_file (df_data_import, process_folder, process_code)
+    dataUxxi.create_df_w_loads_to_file (df_data_import, process_folder, process_code, v_process_manage_data)
 
-    return()
+    return(df_data_import, df_relacion_plan_module)

@@ -92,14 +92,15 @@ def start_settings_window():
     #Config textInsertion
     names_inserted_vars[0] = tk.Entry(doubleEntry_windowGrid,borderwidth=0,highlightbackground = '#d3d3d3',highlightthickness=1,highlightcolor='#ffb84d', width=23,justify='left',font=("Segoe 8"),background="#FFFFFF", disabledbackground="#d1e0e0")
     #Default Value (only for DEV !!!)
-    objectState.names_inserted_vars[0].insert(0, 'Planning_24_25_UXXI.xlsx')
+    objectState.names_inserted_vars[0].insert(0, 'Teste')
 
 
     #Config label File Data UXXI
     objectState.processImportLabel = tk.Label(doubleEntry_windowGrid, text='Process ID:', font="Segoe 8 italic", foreground="#009999")
     #Config textInsertion
     objectState.names_inserted_vars[1] = tk.Entry(doubleEntry_windowGrid,borderwidth=0,highlightbackground = '#d3d3d3',highlightthickness=1,highlightcolor='#ffb84d', width=23,justify='left',font=("Segoe 8"),background="#FFFFFF", disabledbackground="#d1e0e0")
-
+    #Default Value (only for DEV !!!)
+    objectState.names_inserted_vars[1].insert(0, 'Planning_20240314_144642')
 
     #(Opcion: export Data):
     

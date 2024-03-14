@@ -104,7 +104,7 @@ def manage_data_uxxi_steps(name_file_inserted : str):
 
     #Insert File On Folder Manage Data:
 
-    genFiles.create(df_uxxi_to_manage_data,process_folder, process_code,v_file_horarios,v_sheet_schedules_data_uxxi,v_process_manage_data)
+    genFiles.create(df_uxxi_to_manage_data,process_folder, process_code,v_file_horarios_info,v_sheet_schedules_data_uxxi,v_process_manage_data)
 
     #INSERT DATA TO MANAGE Acad. Year.
 

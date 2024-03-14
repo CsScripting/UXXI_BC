@@ -465,9 +465,18 @@ def add_groups_bullet (df_conector : DataFrame, df_groups : DataFrame):
     return(df_conector)
 
 
-def create_df_w_loads_to_file (df : DataFrame,  process_folder : str, process_code : str):
+def create_df_w_loads_to_file (df : DataFrame,  process_folder : str, process_code : str, sub_process : str):
 
-    genFiles.create  (df, process_folder, process_code, v_file_wloads, v_sheet_wloads, v_process_manage_data)
+    if sub_process == v_process_update_data:
+
+        file_name = v_file_wloads
+        df[v_data_to_import_new] = 1
+
+    else: ### NESTE CASO SERÁ O PROCESSO DE MANAGE DATA
+
+        file_name = v_file_wloads_info
+
+    genFiles.create  (df, process_folder, process_code, file_name, v_sheet_wloads, sub_process)
 
     return()
 

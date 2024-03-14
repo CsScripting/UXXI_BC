@@ -29,12 +29,12 @@ def iterate_df_courses_and_post (df : DataFrame):
             
             response_code, message_to_present = genRequest.post_data_to_entity(gl_v_request.gl_url_api, gl_v_request.gl_header_request, v_course_controller, data_object)
 
-            df_courses_imported = df_courses_imported.append({v_name_best : name_course, 
-                                                            v_acronym_best : acronym_course,
-                                                            v_code_best : code_course,
-                                                            v_code_request : response_code,
-                                                            v_message_request : message_to_present}, 
-                                                            ignore_index = True)
+
+            df_courses_imported.loc[len(df_courses_imported), df_courses_imported.columns] =    name_course, \
+                                                                                                acronym_course, \
+                                                                                                code_course, \
+                                                                                                response_code, \
+                                                                                                message_to_present
 
 
     return(df_courses_imported)
@@ -80,13 +80,14 @@ def iterate_df_planes_and_post (df : DataFrame):
                 response_code = code_response_search_id_course
                 message_to_present = 'CourseNotInserted'
 
-            df_planes_imported = df_planes_imported.append({v_name_best : name_plan, 
-                                                              v_code_best : code_plan,
-                                                              v_year_best : year_plan,
-                                                              v_course_code_best : course_code,
-                                                              v_code_request : response_code,
-                                                              v_message_request : message_to_present}, 
-                                                              ignore_index = True)
+
+            df_planes_imported.loc[len(df_planes_imported), df_planes_imported.columns] =   name_plan, \
+                                                                                            code_plan, \
+                                                                                            year_plan, \
+                                                                                            course_code, \
+                                                                                            response_code, \
+                                                                                            message_to_present
+
 
 
     return(df_planes_imported)
@@ -194,14 +195,15 @@ def iterate_df_modules_and_post (df : DataFrame):
                 response_code = code_response_search_id_acad_term
                 message_to_present = 'ModuleNotInserted'
 
-            df_modules_imported = df_modules_imported.append({v_name_best : name_mod, 
-                                                              v_code_best : code_mod,
-                                                              v_acronym_best : acron_mod,
-                                                              v_priority_mod_best : priority_mod,
-                                                              v_academic_area_best : area_mod,
-                                                              v_code_request : response_code,
-                                                              v_message_request : message_to_present}, 
-                                                              ignore_index = True)
+
+
+            df_modules_imported.loc[len(df_modules_imported), df_modules_imported.columns] =    name_mod, \
+                                                                                                code_mod, \
+                                                                                                acron_mod, \
+                                                                                                priority_mod, \
+                                                                                                area_mod, \
+                                                                                                response_code, \
+
 
 
     return(df_modules_imported)

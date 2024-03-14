@@ -1,4 +1,5 @@
 import PackValidations.settings_validation_functions as settValFunct
+import PackValidations.settings_validation_planning_functions as settValPlanFunct
 import PackValidations.data_uxxi_validation as dataValFunct
 import PackInterface.states_objects_windows as stateObj
 import PackControllerRequest.controller_dto as dtObj
@@ -99,7 +100,9 @@ def validation_settings_steps():
                 else:
                 
                     settValFunct.check_filling_entry_box(name_process_to_import)
-                    settValFunct.validation_process_exist_on_folder(name_process_to_import)
+                    settValFunct.validation_process_id(name_process_to_import)
+                    settValFunct.validation_sub_folder_data_process(name_process_to_import, v_process_update_data)
+                    settValFunct.validation_files_to_import_schedules(name_process_to_import)
 
 
             else: # OPCION EXPORT ---> verify validaciones
@@ -108,8 +111,25 @@ def validation_settings_steps():
 
         else: # VALIDACIONES PLANIFICACION
 
-            print ('Validaciones PLANIFICACION')
+            # - Verify Folder to Insert Data From UXXI
+            settValFunct.validation_folder_uxxi()
 
+            if opcion_process_to_ejecute  != 2: # VERIFICAR EM CHECK DATA E IMPORT
+                
+                settValFunct.check_filling_entry_box(name_file_uxxi)
+
+            if opcion_process_to_ejecute  == 1: 
+
+                settValFunct.check_filling_entry_box(name_process_to_import)
+                settValFunct.validation_process_id(name_process_to_import)
+                settValFunct.validation_sub_folder_data_process(name_process_to_import, v_process_update_data)
+                settValPlanFunct.validation_week_load_file_on_folder(name_process_to_import)
+                ## VERIFY ACADEMIC TERM
+                data_object_search = dtObj.create_dto_simple_search_filter (v_search_name, name_file_uxxi) ## name_file_uxxi GUARDA NOME DE ACADEMIC YEAR INSERTED ON PLANNING/IMPORT
+                settValPlanFunct.validation_academic_term_planning(data_object_search, name_file_uxxi)   ## name_file_uxxi GUARDA NOME DE ACADEMIC YEAR INSERTED ON PLANNING/IMPORT
+                
+
+            
         # After all Validation
 
         stateObj.enable_button_start()
@@ -128,18 +148,10 @@ def validation_settings_steps():
     
     except settValFunct.FileNameNotInserted:
 
-        if (opcion_process_to_ejecute == 0):
 
-            messagebox.showerror('Validation File', 'Fill box Data UXXI to submit !!')
+        messagebox.showerror('Validation File', 'Fill all fields to submit !!')
 
-        elif ( opcion_process_to_ejecute == 1) & (check_opcion_conector == 0) :
-
-            messagebox.showerror('Validation File', 'Fill box Process ID to submit !!')
-
-        elif ( opcion_process_to_ejecute == 1) & (check_opcion_conector == 1) :
-
-            messagebox.showerror('Acad. Year', 'Insert Acad. Year Name !!')
-
+        
     except settValFunct.EventNameNotExist:
 
         messagebox.showerror('Acad. Year',event_type +  ' not exist !!')
@@ -193,14 +205,47 @@ def validation_settings_steps():
 
     
 
-    except settValFunct.ValidationFolderUpdateData as e:
+    except settValFunct.ValidationFilesSchedulesUpdateData as e:
 
         data_process_code = e.error_value
 
-        message_info_config = 'DataProcess = '  + data_process_code 
-                       
+        
+        messagebox.showerror('UpdateData', 'Verify if files exist on Folder:\n\n' + 
+                                            v_file_curriculum_to_import + data_process_code + '.xlsx\n' + 
+                                            v_file_horarios + data_process_code + '.xlsx\n')
+        
+    except settValFunct.ValidationSubFolderDataProcess as e:
 
-        messagebox.showerror('DataProcess', 'Verify if Process Code Exist:\n' + message_info_config)
+        subfolder = e.error_value
+
+        messagebox.showerror('Process Folder', subfolder + ' Don´t Exist on Process Id!!')
+
+    except settValFunct.ValidationProcessId as e:
+
+        process_id = e.error_value
+
+        messagebox.showerror('Process ID', process_id + ' Don´t Exist on folder DataProcess' )
+
+
+    ### Exceções de PLANIFICACÇÂO ####
+        
+    except settValPlanFunct.ValidationFileWloads as e:
+
+        data_process_code = e.error_value
+
+        
+        messagebox.showerror('UpdateData', 'Verify if files exist on Folder:\n\n' + 
+                                            v_file_curriculum_to_import + data_process_code + '.xlsx\n' + 
+                                            v_file_wloads + data_process_code + '.xlsx\n')
+    
+
+    except settValPlanFunct.ValidationNameAcademicTerm as e:
+
+        name_inserted_acad_term = e.error_value
+
+        messagebox.showerror('Acad. Term', 'Period ' + name_inserted_acad_term + ' don´t exist on BTT')
+
+
 
     except:
         

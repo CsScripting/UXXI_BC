@@ -335,6 +335,7 @@ def opciones_choice_import_data ():
         radio_button_import_conector.deselect()
 
         fileLabel.config (text = "Period BTT" )
+        names_inserted_vars[0].config(state = 'normal')
 
     if opcion_radio_button_add_conector == 1 and check_opcion_main_process != 0:
 
@@ -411,9 +412,10 @@ def edit_opciones_window_settings():
 
         opciones_choice_check_data()
     
-    elif settval.gl_opcion_process_to_ejecute ==1:
+    elif (settval.gl_opcion_process_to_ejecute ==1):
 
         opciones_choice_import_data()
+
 
     else:
 

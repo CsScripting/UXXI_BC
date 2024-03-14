@@ -7,7 +7,7 @@ import PackExportCsv.main_export_csv as exportCsv
 import PackConector.main_add_conector as addConect
 
 
-
+from mod_variables import v_main_process_planning, v_main_process_schedules
 
 
 def exe_process_steps (gl_check_main_process, gl_opcion_process_to_ejecute : int, gl_name_file_uxxi: str,
@@ -51,7 +51,7 @@ def exe_process_steps (gl_check_main_process, gl_opcion_process_to_ejecute : int
             if (gl_check_opcion_process == 1) & (gl_check_opcion_process ==1): #First Import
 
                 # Importa dados Relativos a Horarios de Processo Executado Anteriormente:
-                importData.import_data_steps(gl_name_process_to_import)
+                importData.import_data_steps(gl_name_process_to_import, v_main_process_schedules)
 
             elif (gl_check_opcion_process == 1) & (gl_check_opcion_process ==0): # Update de Horarios Já Existentes --> Update relativo a Conectores que recebe de UXXI
 
@@ -94,8 +94,14 @@ def exe_process_steps (gl_check_main_process, gl_opcion_process_to_ejecute : int
 
         if gl_opcion_process_to_ejecute == 0:  #PROCESS PLANIFICACION ---> ChecK Data
 
-            managDataPlan.manage_data_planning_uxxi_steps(gl_name_file_uxxi)
-            updateData.update_data_steps(gl_check_main_process)
+            df_w_loads_insert, df_relacion_plan_modules = managDataPlan.manage_data_planning_uxxi_steps(gl_name_file_uxxi)
+            updateData.update_data_steps(gl_check_main_process, df_w_loads_insert,df_relacion_plan_modules)
+
+        if gl_opcion_process_to_ejecute == 1:
+
+            importData.import_data_steps(gl_name_process_to_import, v_main_process_planning)
+
+
 
     valid_process = True
 

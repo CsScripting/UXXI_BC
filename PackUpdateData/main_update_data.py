@@ -8,6 +8,7 @@ import PackDfFromJson.ModulesDf as modDf
 import PackDfFromJson.TypologiesDf as typeDf
 import PackDfFromJson.ClassroomsDf as classDf
 import PackDfFromJson.EventsDf as eventDf
+import PackManageData.data_uxxi as dataUxxi
 
 
 import PackManageApi.global_variable_process_request as gl_v_request
@@ -25,7 +26,7 @@ from PackLibrary.librarys import (
 
 from mod_variables import *
 
-def update_data_steps(main_process : str, first_week_schedules : str = '', last_week_schedules : str = '', df_info_events : DataFrame = [],
+def update_data_steps(main_process : str, df_weekload_insert : DataFrame, df_relacion_plan_module : DataFrame,  first_week_schedules : str = '', last_week_schedules : str = '', df_info_events : DataFrame = [],
                       df_events_to_import : DataFrame = []):
 
 
@@ -68,7 +69,9 @@ def update_data_steps(main_process : str, first_week_schedules : str = '', last_
             
         genFiles.create(df_uxxi_to_insert_data,glVarPro.gl_process_folder,glVarPro.gl_process_code,v_file_horarios,v_sheet_schedules_data_uxxi,v_process_update_data, False)
 
+    if main_process == 0:
 
+        dataUxxi.create_df_w_loads_to_file (df_weekload_insert, glVarPro.gl_process_folder,glVarPro.gl_process_code, v_process_update_data)
 
     ## - Extract Data from DataBase (API) to Check Data - ##
 
@@ -112,7 +115,8 @@ def update_data_steps(main_process : str, first_week_schedules : str = '', last_
     #Insert Typologies To Curriculum File
     genFiles.create (df_typologies_best,glVarPro.gl_process_folder,glVarPro.gl_process_code,
                         v_file_curriculum_best, v_sheet_typologies,v_process_update_data,flag_file_created)
-
+    
+    
     if main_process == 1: # SALAS APENAS APLICAVEL PARA O PROCESSO DE HORARIOS
 
             # # - Classrooms - #
@@ -193,5 +197,9 @@ def update_data_steps(main_process : str, first_week_schedules : str = '', last_
         df_classrooms_to_import = matchData.compare_classrooms_uxxi_db(df_classrooms_uxxi, df_classrooms_best)
         genFiles.create (df_classrooms_to_import, glVarPro.gl_process_folder,glVarPro.gl_process_code,
                             v_file_curriculum_to_import, v_sheet_classrooms,v_process_update_data, flag_file_to_import_created)
+        
+    # Insert Relacion Plan Modules
+    genFiles.create (df_relacion_plan_module, glVarPro.gl_process_folder,glVarPro.gl_process_code,
+                    v_file_curriculum_to_import, v_sheet_planes_modules,v_process_update_data, flag_file_to_import_created)
 
     return()

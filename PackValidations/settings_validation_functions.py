@@ -4,8 +4,7 @@ from PackInterface.global_object_window import (
 )
 
 from PackLibrary.librarys import (
-    os,
-    cp
+    os
 )
 from mod_variables import *
 
@@ -16,8 +15,18 @@ from mod_variables import *
 class ValidationFolderDataUxxi(Exception):
     pass
 
+class ValidationProcessId(Exception):
+    def __init__(self, error_value):
+        self.error_value = error_value
+    pass
+
+class ValidationSubFolderDataProcess(Exception):
+    def __init__(self, error_value):
+        self.error_value = error_value
+    pass
+
 # validation_folder_update_data_to_import()
-class ValidationFolderUpdateData(Exception):
+class ValidationFilesSchedulesUpdateData(Exception):
     def __init__(self, error_value):
         self.error_value = error_value
     pass
@@ -85,6 +94,25 @@ def validation_folder_uxxi():
         
         os.mkdir(check_directory)
         raise ValidationFolderDataUxxi
+    
+def validation_process_id(name_inserted):
+
+    check_directory = './' + v_main_folder_process + '/' + name_inserted
+
+    if not os.path.isdir(check_directory):
+        
+        raise ValidationProcessId(name_inserted)
+
+    
+def validation_sub_folder_data_process(id_process : str,subfolder:str):
+
+    check_directory = './' + v_main_folder_process +'/' + id_process +  '/' + subfolder
+
+    if not os.path.isdir(check_directory):
+        
+        raise ValidationSubFolderDataProcess(subfolder)
+
+
 
 def check_filling_entry_box(name_file_inserted : str):
 
@@ -111,11 +139,10 @@ def validation_conector_exist_on_folder ():
         raise FileConectoresNotInserted
 
 
-
     
 # - Validacion Import Data - # 
 
-def validation_process_exist_on_folder (process_name_inserted : str):
+def validation_files_to_import_schedules (process_name_inserted : str):
 
     code_process_verify_split  = process_name_inserted.split('_')
 
@@ -124,15 +151,23 @@ def validation_process_exist_on_folder (process_name_inserted : str):
         code_process = '_' + process_name_inserted.split('_')[1] + '_' + process_name_inserted.split('_')[2]
     
 
-        file_name_update = v_file_curriculum_to_import + code_process + '.xlsx'
+        file_name_curriculum_update = v_file_curriculum_to_import + code_process + '.xlsx'
+        file_name_schedules_update = v_file_horarios + code_process + '.xlsx'
 
-        path_to_file_config = './' + v_main_folder_process + '/' + process_name_inserted + '/' + v_process_update_data + '/' + \
-                            file_name_update
-        if not os.path.exists(path_to_file_config):
-            raise ValidationFolderUpdateData (process_name_inserted)
+        path_to_file_curriculum = './' + v_main_folder_process + '/' + process_name_inserted + '/' + v_process_update_data + '/' + \
+                            file_name_curriculum_update
         
+        path_to_file_schedules = './' + v_main_folder_process + '/' + process_name_inserted + '/' + v_process_update_data + '/' + \
+                            file_name_schedules_update
+        
+        if not os.path.exists(path_to_file_curriculum):
+            raise ValidationFilesSchedulesUpdateData (code_process)
+        
+        if not os.path.exists(path_to_file_schedules):
+            raise ValidationFilesSchedulesUpdateData (code_process)
     else:
-        raise ValidationFolderUpdateData (process_name_inserted)
+
+        raise ValidationFilesSchedulesUpdateData (code_process)
     
 
 def verify_name_acad_year_exist(total_records_event_name_bd : int):
@@ -140,6 +175,9 @@ def verify_name_acad_year_exist(total_records_event_name_bd : int):
     if total_records_event_name_bd == 0:
 
         raise EventNameNotExist()
+    
+
+
     
 
  

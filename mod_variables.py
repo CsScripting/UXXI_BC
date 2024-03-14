@@ -9,7 +9,8 @@ v_main_process_schedules = 'Schedules'
 
 #File Horarios Generated
 
-v_file_horarios = 'HorariosUXXI_Insert'
+v_file_horarios = 'SCHEDULES_INSERT'
+v_file_horarios_info = 'SCHEDULES_INFO'
 v_file_horarios_dates = 'HorariosUXXI_Dates'
 v_file_horarios_update = 'HorariosUXXI_Update'
 
@@ -110,7 +111,9 @@ v_sheet_mutual_modules = 'MutualModules'
 
 # Name File Wloads 
 
-v_file_wloads = 'WEEK_LOADS'
+v_file_wloads = 'WLOADS_INSERT'
+v_file_wloads_info = 'WLOADS_INFO'
+
 v_sheet_wloads = 'Week_Loads'
 
 # New Columns Mutual Modules
@@ -235,6 +238,13 @@ v_academic_year = 'ACADEMIC_YEAR'
 v_id_academic_year = 'ACADEMIC_YEAR_ID'
 v_plan_dominant = 'PLAN_DOMINANT_MODULE'
 
+v_acad_term_name = 'ACAD_TERM_NAME'
+v_acad_term_id = 'ACAD_TERM_ID'
+v_acad_term_star_time = 'ACAD_TERM_START_TIME'
+v_acad_term_end_time = 'ACAD_TERM_END_TIME'
+
+v_weeks_id = 'WEEKS_ID'
+
 #New Variables CSV
 v_plan_csv = 'PLAN'
 v_code_tipo_actividad_csv = 'CODIGO_TIPO'
@@ -348,6 +358,11 @@ v_event_type_event_dto = 'eventType'
 v_num_students_event_dto = 'numStudents'
 v_classrooms_event_dto = 'classrooms'
 v_module_event_dto = 'module'
+v_slot_dto = 'slot'
+v_start_time_acad_term_dto = 'startTime'
+v_end_time_acad_term_dto = 'endTime'
+v_weeks_acad_term_dto = 'weeks'
+
 
 
 ## - Variables DataFrames - ##
@@ -408,6 +423,7 @@ v_classrooms_controller = 'Classrooms'
 v_scientific_area_controller = 'ScientificAreas'
 v_event_type_controller = 'EventTypes'
 v_acad_year_controller = 'AcademicYear'
+v_acad_term_controller = 'AcademicTerm'
 v_weeks_controller = 'Weeks'
 v_event_academic_controller = 'EventsAcademic'
 v_event_controller = 'Events'

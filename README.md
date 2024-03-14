@@ -23,7 +23,7 @@ pyinstaller --noconsole --onefile --icon="log.ico" --add-data="log.ico;." UXXI_T
        [x]  2º - Se config.tx existe na Pasta
        [x]  2º - Se Formato de config.txt está correto
 
-       [] validation_process_exist_on_folder
+       [x] validation_process_exist_on_folder ---> Passou a chamar-se de validation_files_to_import
           
           * verificar se existe o ficheiro de importação de eventos em Manage Data, tal como no Update
           * melhorar a mensagem de erro...explicação de estrutura de pastas !!!
