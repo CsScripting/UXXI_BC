@@ -88,6 +88,20 @@ def put_data_event_basic_information (url : str , header_request : str, controll
     return(dict_data_section)
 
 
+def put_data_with_parameter (url : str , header_request : str, controller : str, body_data : dict, parameter_id : str):
+
+    url = url + controller + '/' + str(parameter_id)
+
+    response = requests.put(url, headers = header_request, json = body_data)
+
+    print(body_data)
+    
+
+    dict_data_section = json.loads(response.content)
+
+    return(dict_data_section)
+
+
 
 
 def post_data_search_filter (url : str , header_request : str, controller : str, body_data : dict):

@@ -189,6 +189,7 @@ v_mod_typologie =	'TIPO'
 v_mod_modalidad = 'TIPO_ASIGNATURA'
 v_mod_type_dominant = 'TIPO_ASIG_DOMINANT'
 v_mod_id_typologie =	'ID_TIPO'
+v_id_plan_best = 'ID_PLAN_BEST'
 
 v_student_group =	'GRUPO'
 v_activity_code =	'CODIGO_ACTIVIDAD'
@@ -217,7 +218,7 @@ v_hourEnd = 'HoraFin'
 v_id_event = 'ID'
 
 v_id_uxxi = 'CODIGO_UXXI'
-v_merge = '_merge'
+
 
 v_student_group_best = 'GrupoBest'
 
@@ -251,7 +252,7 @@ v_code_tipo_actividad_csv = 'CODIGO_TIPO'
 v_tipologie_mod_uxxi = 'CODIGO_TIPOLOGIA_ASIGNATURA'
 
 v_split_weeks = 'Split_Weeks'
-v_merge = '_merge'
+
 
 v_mod_dominante = 'ASIGNATURA PRINCIPAL'
 v_mod_dominada = 'ASIGNATURA HIJA'
@@ -315,6 +316,13 @@ v_students_number_dto = 'numStudents'
 v_daily_limit_dto = 'dayLimit'
 v_consecutive_limit_dto = 'consecutiveLimit'
 v_curricular_plan_identifier_dto = 'curricularPlanIdentifier' 
+
+# PlanModule Academic Term
+
+v_acad_term_id_dto = 'academicTermIdentifier'
+v_plan_modules_id_dto = 'curricularPlanModules'
+v_modules_list_dto = 'modules'
+v_delete_plans_dto = 'deleteAllDependencies'
 
 # to simple_search
 
@@ -431,6 +439,7 @@ v_event_create_collection_controller = 'Events/create/delete/collection'
 v_user_controller = 'Users'
 v_audit_log_controller = 'AuditLog'
 v_event_controller_basic = 'Events/updatebasicinformation'
+v_plan_module_controller = 'AcademicTermCurricularPlanModules'
 
 
 
@@ -470,6 +479,7 @@ v_error_id_event_type = 'EventTypeName'
 v_error_id_acad_year = 'AcademicYearName'
 v_error_id_week = 'WeekValue'
 v_error_id_classroom = 'Classroom'
+v_error_id_plan = 'CurricularPlan'
 
 
 #values dict UXXI_code

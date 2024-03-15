@@ -291,3 +291,46 @@ def create_dto_update_event_basic (event_data : Series):
                         }
 
         return(data)
+
+
+def create_dto_plan_module ( data_plan: Series, period_btt : str):
+
+        plan = getattr (data_plan,v_id_plan_best)
+        modules = getattr (data_plan,v_mod_id).split(',')
+
+        list_plan_modules = []
+        list_modules =[]
+
+        for k in range (len(modules)):
+
+                k = int(k)
+
+                list_modules.append({ 
+                                                "model": {
+                                                        "identifier": int(modules[k])
+                                                         },
+                                                        "status": 1
+                                        }) 
+                
+        data_plan_modules =     {
+                                        
+                                        v_curricular_plan_identifier_dto: int(plan),
+                                        v_modules_list_dto : list_modules
+
+
+
+                                }
+
+        list_plan_modules.append(data_plan_modules)
+
+        data = {
+                        
+                        v_acad_term_id_dto : int(period_btt),
+                        v_plan_modules_id_dto : list_plan_modules,
+                        v_delete_plans_dto : True,
+                        
+
+                }
+
+
+        return(data)

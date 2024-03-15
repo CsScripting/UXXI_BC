@@ -14,3 +14,11 @@
         [x] planning_import_data_steps ---> Em Elaboração
 
         [] schedules_import_data_steps
+
+
+[x] match_id_entities_events.py
+
+    [] Nas diferentes entidades/metodos verificar o ficheiro que cria df_invalid ...será necessario fazer drop columns [valor que buscava, _merge]
+        A implementação será na tal como em match_id_entities_planning.py para as diferentes entidades !!!
+        Pode-se testar alterando valores enquanto executa:
+        df.loc[df[v_code_best] == 'G12341', v_code_best ] = 'AV' ##ONLY TO TEST

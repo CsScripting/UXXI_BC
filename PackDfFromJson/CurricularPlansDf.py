@@ -3,7 +3,7 @@ DataFrame
 )
 from mod_variables import *
 
-def parse_list_plan_to_df (plan : list):
+def parse_list_plan_to_df (plan : list, flag_need_id : bool = False):
 
     df = DataFrame(plan)
 
@@ -35,7 +35,7 @@ def parse_list_plan_to_df (plan : list):
     df.drop(columns=columns_to_drop, inplace=True)
 
     columns_to_rename = {   
-                            
+                            v_id_dto : v_id_best,
                             v_name_dto : v_name_best, 
                             v_code_dto : v_code_best,
                             v_year_dto : v_year_best,
@@ -46,12 +46,27 @@ def parse_list_plan_to_df (plan : list):
     df.rename(columns=columns_to_rename, inplace = True)
     
 
-    order_columns_df = [ 
-                        v_name_best, 
-                        v_code_best,
-                        v_year_best,
-                        v_course_code_best
-                        ]
+    if not flag_need_id:
+
+
+      order_columns_df = [ 
+                          v_name_best, 
+                          v_code_best,
+                          v_year_best,
+                          v_course_code_best
+                          ]
+      
+    else:
+       
+       order_columns_df = [ 
+                          v_id_best,
+                          v_name_best, 
+                          v_code_best,
+                          v_year_best,
+                          v_course_code_best
+                          ]
+       
+
 
 
     df = df [order_columns_df].copy()
