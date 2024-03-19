@@ -33,7 +33,7 @@ def post_data_to_entity (url : str , header_request : str, controller : str, bod
     dict_data_section = json.loads(response.content)
 
 
-    if response.status_code == 201:
+    if( response.status_code == 201) | ( response.status_code == 200) :
 
         data_message : json = dict_data_section['message']
 
@@ -48,6 +48,36 @@ def post_data_to_entity (url : str , header_request : str, controller : str, bod
 
 
     return (response.status_code, data_to_present)
+
+
+def post_data_to_w_loads (url : str , header_request : str, controller : str, body_data : dict):
+
+    url = url + controller 
+
+    response = requests.post(url, headers = header_request, json = body_data)
+    
+
+    dict_data_section = json.loads(response.content)
+
+
+    if ( response.status_code == 200) :
+
+        data_message : json = dict_data_section['message']
+        datos_insertados : json = dict_data_section['data']
+
+        data_to_present = data_message
+
+    else:
+
+        data_errors : json = dict_data_section['errors'][0]['detail']
+
+        data_to_present = data_errors
+
+        datos_insertados = []
+
+
+
+    return (datos_insertados, response.status_code, data_to_present)
 
 
 def put_data_to_entity_collection (url : str , header_request : str, controller : str, body_data : dict):
@@ -80,6 +110,7 @@ def put_data_event_basic_information (url : str , header_request : str, controll
 
     url = url + controller + '/' + id_event
 
+
     response = requests.put(url, headers = header_request, json = body_data)
     
 
@@ -92,10 +123,8 @@ def put_data_with_parameter (url : str , header_request : str, controller : str,
 
     url = url + controller + '/' + str(parameter_id)
 
-    response = requests.put(url, headers = header_request, json = body_data)
-
-    print(body_data)
     
+    response = requests.put(url, headers = header_request, json = body_data)
 
     dict_data_section = json.loads(response.content)
 

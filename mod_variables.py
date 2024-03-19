@@ -366,10 +366,26 @@ v_event_type_event_dto = 'eventType'
 v_num_students_event_dto = 'numStudents'
 v_classrooms_event_dto = 'classrooms'
 v_module_event_dto = 'module'
+v_module_w_load_dto = 'module'
 v_slot_dto = 'slot'
 v_start_time_acad_term_dto = 'startTime'
 v_end_time_acad_term_dto = 'endTime'
 v_weeks_acad_term_dto = 'weeks'
+v_mod_id_list_dto = 'moduleIdentifiers'
+
+#DTO WEEKLOADS
+v_w_load_dto = 'wLoads'
+v_w_load_name_dto = 'wLoadName'
+v_w_load_nr_session_dto = 'numWLSessions'
+v_w_load_session_dto = 'wlSessions'
+v_w_load_nr_section_dto = 'numWLSSections'
+v_w_load_weeks_dto = 'weeksIdentifiers'
+v_w_load_typologie_dto = 'wLoadTypologies'
+v_w_load_typologie_id_dto = 'typologyIdentifier'
+v_w_load_slot_dto = 'numSlots'
+v_w_load_unit_dto = 'unit'
+v_typologie_data_dto = 'typology'
+
 
 
 
@@ -440,6 +456,7 @@ v_user_controller = 'Users'
 v_audit_log_controller = 'AuditLog'
 v_event_controller_basic = 'Events/updatebasicinformation'
 v_plan_module_controller = 'AcademicTermCurricularPlanModules'
+v_wloads_wlssections_controller = 'WLoads/wlssections'
 
 
 
@@ -588,6 +605,9 @@ v_section_name = 'SECTION_NAME'
 v_section_number = 'SECTION_NUMBER'
 v_session_wload = 'SESSION'
 v_name_wload = 'NAME_WLOAD'
+
+v_id_w_load = 'ID_WEEKLOAD'
+v_id_w_load_section = 'ID_SECTION'
 
 
 

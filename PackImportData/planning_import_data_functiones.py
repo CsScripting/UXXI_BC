@@ -89,3 +89,30 @@ def group_modules_plan (df : DataFrame):
     df_filter = manData.group_entities(df_filter, v_id_plan_best, sep=',')
 
     return(df_filter)
+
+def add_id_week (df : DataFrame, first_week_id : int):
+
+    df[v_weeks] = df [v_weeks].str.split(',').apply(lambda x: [(int(value) + first_week_id - 1 ) for value in x])
+    df[v_weeks] = df[v_weeks].agg(lambda x: ','.join(map(str, x)))
+
+    return(df)
+
+
+def select_w_load_sectiones_to_import(df :DataFrame):
+
+    df = df [df[v_data_to_import_new] == '1'].copy()
+    df.drop(columns=v_data_to_import_new, inplace=True)
+
+    return(df)
+
+def agg_weekloads_same_pattern (df : DataFrame):
+
+    df.drop(columns=[v_student_group_best, v_section_name], inplace=True)
+
+    df = df.map(str)
+    values_to_agg = [v_name_wload, v_mod_typologie,v_mod_id_typologie, v_hours_wload, v_session_wload, v_section_number, v_weeks]
+
+    df = manData.group_entities(df, values_to_agg, sep = ',')
+
+    return(df)
+

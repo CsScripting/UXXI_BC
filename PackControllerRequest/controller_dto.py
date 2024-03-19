@@ -334,3 +334,85 @@ def create_dto_plan_module ( data_plan: Series, period_btt : str):
 
 
         return(data)
+
+
+def create_dto_wloads_wlssectiones (data_weekload : Series, period_btt : str):
+      
+
+        modules = getattr (data_weekload,v_mod_id).split(',')
+        type_mod = getattr (data_weekload,v_mod_id_typologie).split(',')
+        weeks = getattr (data_weekload,v_weeks).split(',')
+        
+
+        list_modules =[]
+        list_w_load = []
+        list_typologies = []
+        list_weeks = []
+
+        for k in range (len(modules)):
+
+                k = int(k)
+
+                list_modules.append(int(modules[k]))
+
+
+        nr_slots = getattr (data_weekload,v_hours_wload)
+        nr_slots = int(nr_slots)
+
+        for e in range (len(type_mod)):
+
+                e = int(e)
+
+                list_typologies_values = { 
+                                                
+                                        v_w_load_typologie_id_dto: int(type_mod[e]),
+                                        v_w_load_slot_dto : nr_slots
+
+                                                                
+                                         }        
+                
+                list_typologies.append(list_typologies_values)
+                
+
+        for x in range (len(weeks)):
+
+                x = int(x)
+
+                list_weeks.append(int(weeks[x]))
+        
+
+        name_w_load = getattr (data_weekload,v_name_wload)
+        nr_sessiones = getattr (data_weekload,v_session_wload)
+        nr_sessiones = int(nr_sessiones)
+        nr_sectiones = getattr (data_weekload,v_section_number)
+        nr_sectiones = int(nr_sectiones)
+
+
+        data_json_wloads = {
+
+                        v_w_load_name_dto : name_w_load,
+                        v_w_load_nr_session_dto : nr_sessiones,
+                        v_w_load_nr_section_dto : nr_sectiones,
+                        v_w_load_weeks_dto : list_weeks,
+                        v_w_load_typologie_dto : list_typologies,
+                        v_w_load_unit_dto : ''
+
+
+                        }
+
+        list_w_load.append(data_json_wloads)
+        
+        data = {
+                        
+                        v_acad_term_id_dto : int(period_btt),
+                        v_mod_id_list_dto : list_modules,
+                        v_section_name_event_dto : 'Turno',
+                        v_w_load_dto : list_w_load
+
+                        
+
+                }
+
+
+
+        return(data)

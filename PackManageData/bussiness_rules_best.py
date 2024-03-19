@@ -161,13 +161,13 @@ def insert_name_wload (df : DataFrame):
 def agg_section_to_w_load (df : DataFrame):
 
     columns_to_drop = [v_student_group,
-                       v_mod_typologie,
                        v_plan_linea]
     
     df.drop(columns=columns_to_drop, inplace=True)
 
     series_to_agg = [v_name_wload,
                      v_mod_code,
+                     v_mod_typologie,
                      v_hours_wload,
                      v_session_wload,
                      v_weeks]

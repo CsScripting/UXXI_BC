@@ -64,3 +64,35 @@ def file_plan_modules_add_id_module (df_data_plan_mod : DataFrame, df_id_mod: Da
 
     
     return (df_data_plan_mod_with_id_mod, df_invalid)
+
+
+def file_wloads_add_mod_id (df_data_w_load_mod : DataFrame, df_id_mod: DataFrame):
+
+
+    df_id_mod_filter = df_id_mod[[v_id_best, v_code_best]].copy()
+    df_id_mod_filter.rename(columns = {v_code_best: v_mod_code }, inplace=True)
+
+    df_data_w_load_mod = merge(left=df_data_w_load_mod, right = df_id_mod_filter, on = v_mod_code, how='left', indicator = True)
+
+
+    df_data_w_load_mod = df_data_w_load_mod[df_data_w_load_mod[v_merge] == 'both'].copy() 
+    df_data_w_load_mod.drop(columns=v_merge, inplace=True)
+    df_data_w_load_mod.rename(columns={v_id_best : v_mod_id}, inplace= True)
+
+    return (df_data_w_load_mod)
+
+
+
+def file_wloads_add_mod_type_id (df_data_w_load_mod : DataFrame, df_id_mod_type: DataFrame):
+
+
+    df_id_mod_filter = df_id_mod_type[[v_id_best, v_name_best]].copy()
+    df_id_mod_filter.rename(columns = {v_name_best: v_mod_typologie }, inplace=True)
+
+    df_data_w_load_mod = merge(left=df_data_w_load_mod, right = df_id_mod_filter, on = v_mod_typologie, how='left', indicator = True)
+    df_data_w_load_mod = df_data_w_load_mod[df_data_w_load_mod[v_merge] == 'both'].copy() 
+
+    df_data_w_load_mod.drop(columns=v_merge, inplace=True)
+    df_data_w_load_mod.rename(columns={v_id_best : v_mod_id_typologie}, inplace=True)
+
+    return (df_data_w_load_mod)
