@@ -608,6 +608,14 @@ v_name_wload = 'NAME_WLOAD'
 
 v_id_w_load = 'ID_WEEKLOAD'
 v_id_w_load_section = 'ID_SECTION'
+v_id_st_group = 'ID_ST_GROUP'
+
+v_st_group_name_wl_temp  = 'NAME_ST_GROUP_TEMP'
+v_st_group_id_wl_temp  = 'ID_ST_GROUP_TEMP'
+
+v_st_group_add = 'ST_GROUP_ADD'
+v_st_group_remove = 'ST_GROUP_REMOVE'
+v_st_group_section = 'ST_GROUP_SECTION'
 
 
 

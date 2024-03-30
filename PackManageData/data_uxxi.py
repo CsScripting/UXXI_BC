@@ -368,9 +368,6 @@ def create_df_info_date_events (start_day : str, end_day : str):
     df_process.loc[len(df_process), df_process.columns] = v_variable_end_day, end_day
 
 
-
-
-
     return(df_process)
 
 def plans_to_btt_extract_only_dominant_modules (df:DataFrame):

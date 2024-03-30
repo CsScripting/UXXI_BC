@@ -37,13 +37,17 @@ def planning_import_data_steps(name_folder_process):
     df_wloads = plannImporFunct.select_w_load_sectiones_to_import(df_wloads)
     df_wloads = idEntiPlann.file_wloads_add_mod_id(df_wloads, df_modules)
     df_wloads = idEntiPlann.file_wloads_add_mod_type_id(df_wloads, df_type_mod)
+    df_wloads = idEntiPlann.file_wloads_add_groups_id(df_wloads, df_st_group)
 
     df_wloads_pattern = df_wloads.copy()
     df_wloads_pattern = plannImporFunct.agg_weekloads_same_pattern(df_wloads_pattern)
 
-    postPlan.iterate_df_w_load_and_post_wload(df_wloads_pattern, id_acad_term)
-    
-    
+    df_wloads_pattern = postPlan.iterate_df_w_load_and_post_wload(df_wloads_pattern, id_acad_term)
+    df_wloads = plannImporFunct.merge_id_sectiones_weekloads(df_wloads, df_wloads_pattern)
+    df_wloads = plannImporFunct.add_remove_temp_groups(df_wloads)
+    df_wloads = plannImporFunct.filter_df_wlsection_to_insert(df_wloads)
+
+    df_wloads = postPlan.iterate_df_w_load_section_post_section(df_wloads)
 
     
 

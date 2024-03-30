@@ -8,6 +8,7 @@ import PackManageData.join_tuples_data as manData
 
 from PackLibrary.librarys import(
 DataFrame,
+merge,
 ast
 )
 
@@ -116,3 +117,60 @@ def agg_weekloads_same_pattern (df : DataFrame):
 
     return(df)
 
+def merge_id_sectiones_weekloads (w_loads : DataFrame, wl_sectiones : DataFrame ):
+
+    columns_merge = [v_name_wload,
+                     v_mod_typologie,
+                     v_mod_code]
+    
+    #PASS VALUES TO STRING TO MERGE:
+    wl_sectiones[v_mod_typologie] = wl_sectiones[v_mod_typologie].apply(lambda x: [e for e in x]).str.join(',')
+
+    
+    w_loads = merge( left = w_loads, right = wl_sectiones, how='left', on = columns_merge, indicator=True)
+
+    w_loads = w_loads[w_loads[v_merge] == 'both'].copy()
+
+    return(w_loads)
+
+def map_groups_add (list_groups_insert : list, list_groups_temp : list):
+
+    list_iterator_add = []
+    list_iterator_remove = []
+    dic_add_remove_groups = {   v_st_group_add : [],
+                                v_st_group_remove : []
+                            }
+
+    for indice_list in range (len(list_groups_insert)):
+
+        list_iterator_add = [x for x in list_groups_insert[indice_list] if x not in list_groups_temp[indice_list]]
+        list_iterator_remove = [x for x in list_groups_temp[indice_list] if x not in list_groups_insert[indice_list]]
+
+        dic_add_remove_groups[v_st_group_add].append (list_iterator_add)
+        dic_add_remove_groups[v_st_group_remove].append(list_iterator_remove) 
+
+    
+    return(dic_add_remove_groups)
+
+def add_remove_temp_groups (w_loads : DataFrame):
+
+    w_loads[v_st_group_section] = w_loads.apply(lambda x : map_groups_add(x[v_id_st_group], x[v_st_group_id_wl_temp]), axis =1)
+
+    return(w_loads)
+
+
+def filter_df_wlsection_to_insert (w_loads : DataFrame):
+
+    #PASS STRING LIST --> LIST
+    w_loads[v_section_name] = w_loads[v_section_name].apply(lambda x: ast.literal_eval(x))
+
+    w_loads = w_loads[[ v_name_wload,
+                        v_id_w_load,
+                        v_mod_code,
+                        v_section_name,
+                        v_section_number,
+                        v_id_w_load_section,
+                        v_st_group_section ]]
+
+
+    return (w_loads)

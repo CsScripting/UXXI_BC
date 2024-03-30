@@ -38,7 +38,9 @@ def parse_week_loads_df_from_json (w_loads : list):
     # df['Name_Section'] = df['Datos_Sections_Temp'].apply(lambda x: [ ([v[v_name_dto] for v in d]) for d in x]) # EM LISTA SECTIONES NOME SECTIONES  --> RETORNA LISTA D2
     df[v_id_w_load_section] = df['Datos_Sections_Temp'].apply(lambda x: [ ([v[v_id_dto] for v in d]) for d in x]) # EM LISTA SECTIONES CODIGO SECTIONES  --> RETORNA LISTA D2
     df['Student_Groups_Temp'] = df['Datos_Sections_Temp'].apply(lambda x: [ ([v['studentGroups'] for v in d]) for d in x]) # EM LISTA DE SESSIONES --> LISTAS SECTIONES ---> LISTA STUDENTGROUPS RETORNA LISTA D3
-    df['Name_Student_Groups_Temp'] = df['Student_Groups_Temp'].apply(lambda x: [ ([([n[v_name_dto] for n in v]) for v in d]) for d in x]) # --> D3
+    df[v_st_group_name_wl_temp] = df['Student_Groups_Temp'].apply(lambda x: [ ([([n[v_name_dto] for n in v]) for v in d]) for d in x]) # --> D3
+    df[v_st_group_id_wl_temp] = df['Student_Groups_Temp'].apply(lambda x: [ ([([n[v_id_dto] for n in v]) for v in d]) for d in x]) # --> D3
+
                                                     
     
 
@@ -51,7 +53,8 @@ def parse_week_loads_df_from_json (w_loads : list):
              v_mod_typologie,
              v_mod_code,
              v_id_w_load_section,
-             'Name_Student_Groups_Temp']].copy()
+             v_st_group_name_wl_temp,
+             v_st_group_id_wl_temp]].copy()
     
     # AJUSTE DE DADOS EM DATAFRAME
 
@@ -59,7 +62,9 @@ def parse_week_loads_df_from_json (w_loads : list):
     #CRIOU LISTA DE DIMENSÂO 2 (CRIOU ESTE TIPO DE LISTA VALOR ANINHADO NO JSON)PASSAR COM DIMENSÂO 1
     df[v_id_w_load_section] = df[v_id_w_load_section].apply(lambda x: [elem for d1 in x for elem in d1])
     #CRIOU LISTA DE DIMENSÂO 3 (CRIOU ESTE TIPO DE LISTA VALOR ANINHADO NO JSON)PASSAR COM DIMENSÂO 2 ---> NECESSARIO FICAR LISTA DE LISTA !!! PARA SABER OS GRUPOS DE CADA SECCION
-    df['Name_Student_Groups_Temp'] = df['Name_Student_Groups_Temp'].apply(lambda x: [elem for d2 in x for elem in d2])
+    df[v_st_group_name_wl_temp] = df[v_st_group_name_wl_temp].apply(lambda x: [elem for d2 in x for elem in d2])
+    #CRIOU LISTA DE DIMENSÂO 3 (CRIOU ESTE TIPO DE LISTA VALOR ANINHADO NO JSON)PASSAR COM DIMENSÂO 2 ---> NECESSARIO FICAR LISTA DE LISTA !!! PARA SABER OS GRUPOS DE CADA SECCION
+    df[v_st_group_id_wl_temp] = df[v_st_group_id_wl_temp].apply(lambda x: [elem for d2 in x for elem in d2])
     
 
     return(df)

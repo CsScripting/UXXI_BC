@@ -1,7 +1,8 @@
 from PackLibrary.librarys import (	
     DataFrame,
     merge,
-    concat
+    concat, 
+    ast
 )
 
 from mod_variables import *
@@ -96,3 +97,20 @@ def file_wloads_add_mod_type_id (df_data_w_load_mod : DataFrame, df_id_mod_type:
     df_data_w_load_mod.rename(columns={v_id_best : v_mod_id_typologie}, inplace=True)
 
     return (df_data_w_load_mod)
+
+def verify_id_group(name_group : str, df_id_group : DataFrame):
+
+    value_id = df_id_group.loc[df_id_group[v_name_best]==name_group, [v_id_best]]
+    
+
+    return (value_id.iloc[0,0])
+
+
+def file_wloads_add_groups_id (df_data_w_load_group : DataFrame, df_id_group: DataFrame):
+
+    df_data_w_load_group[v_student_group_best] = df_data_w_load_group[v_student_group_best].apply(lambda x: ast.literal_eval(x))
+
+    df_data_w_load_group[v_id_st_group] = df_data_w_load_group[v_student_group_best]. \
+                                         apply(lambda x:  [[verify_id_group(value, df_id_group) for value in list] for list in x])
+
+    return(df_data_w_load_group)

@@ -76,7 +76,8 @@ def read_data_files_import (main_folder_process : str, name_folder_process : str
     name_file_process = name_file + code_process + '.xlsx'
 
     path_file_name = './' + main_folder_process + '/' + name_folder_process + '/' + folder_type_process + '/' + name_file_process
-    
+
+
 
     df = read_excel (path_file_name, sheet_name, dtype = 'str', keep_default_na=False, na_values=val_null)
 
