@@ -416,3 +416,63 @@ def create_dto_wloads_wlssectiones (data_weekload : Series, period_btt : str):
 
 
         return(data)
+
+
+def create_list_sectiones_to_wllssections (id_weekload : int, name_section : str, id_section : int, list_groups_add : list, list_groups_remove : list):
+      
+        list_student_groups = []
+
+        for k in range (len(list_groups_add)):
+
+                k = int(k)
+
+                list_student_groups.append({ 
+                                                "model": {
+                                                        "identifier": int(list_groups_add[k])
+                                                                },
+                                                        "status": 1
+                                        }) 
+                
+
+        for i in range (len(list_groups_remove)):
+
+                i = int(i)
+
+                list_student_groups.append({ 
+                                                "model": {
+                                                        "identifier": int(list_groups_remove[i])
+                                                                },
+                                                        "status": 0
+                                        })
+                
+
+      
+        data = {          
+                
+                                
+                                
+                                v_w_ls_sect_wl_id_dto : id_weekload,
+                                v_w_ls_sect_sect_id_dto : id_section,
+                                v_name_dto : name_section,
+                                v_students_number_dto : 30,
+                                v_w_ls_sect_conector_dto : '',
+                                v_w_ls_sect_groups_dto : list_student_groups
+
+                        }
+
+      
+
+
+
+        return(data)
+
+
+def create_wllssections_dto (list_sectiones):
+      
+        data = {          
+                        
+                        v_w_ls_sect_dto: list_sectiones
+
+                }
+
+        return(data)

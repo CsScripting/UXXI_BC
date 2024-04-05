@@ -386,6 +386,15 @@ v_w_load_slot_dto = 'numSlots'
 v_w_load_unit_dto = 'unit'
 v_typologie_data_dto = 'typology'
 
+#DTO SECTIONS WEEKLOADS
+
+
+v_w_ls_sect_dto = 'wlsSections'
+v_w_ls_sect_wl_id_dto = 'wLoadId' 
+v_w_ls_sect_sect_id_dto = 'wlsSectionId'
+v_w_ls_sect_conector_dto = 'conector'
+v_w_ls_sect_groups_dto = 'studentGroups'
+
 
 
 
