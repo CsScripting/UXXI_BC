@@ -23,6 +23,7 @@ v_sheet_file_conectores = 'Asig-Grupo-CodActiv-CodGrupo'
 
 v_mod_code_fileconect = 'CODIGO_ASIGNATURA'
 v_mod_name_fileconect = 'NOMBRE_ASIGNATURA'
+v_mod_type_activity_fileconect = 'TIPO_ACTIVIDAD'
 
 v_grupo_fileconect = 'GRUPO'
 v_cod_act_fileconect = 'COD_ACTIVIDAD'
@@ -31,6 +32,7 @@ v_plan_fileconect = 'PLAN'
 v_plan_name_fileconect = 'NOMBRE_PLAN'
 v_curso_fileconect = 'CURSO'
 v_periodo_fileconect = 'PERIODO'
+
 
 
 
@@ -466,6 +468,7 @@ v_audit_log_controller = 'AuditLog'
 v_event_controller_basic = 'Events/updatebasicinformation'
 v_plan_module_controller = 'AcademicTermCurricularPlanModules'
 v_wloads_wlssections_controller = 'WLoads/wlssections'
+v_wlssectiones_update_collection = 'WLSSections/updatecollection'
 
 
 

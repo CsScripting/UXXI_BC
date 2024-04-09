@@ -58,6 +58,7 @@ def iterate_df_w_load_section_post_section (df : DataFrame):
         id_weekload = getattr (row,v_id_w_load)
         list_section_id = getattr (row,v_id_w_load_section)
         list_section_name =  getattr (row,v_section_name)
+        list_number_students = getattr(row,v_students_number)
         dict_grupos = getattr (row,v_st_group_section)
         groups_add = dict_grupos.get(v_st_group_add)
         groups_remove = dict_grupos.get(v_st_group_remove)
@@ -68,14 +69,14 @@ def iterate_df_w_load_section_post_section (df : DataFrame):
 
             for i in range (int(number_section_row)):
 
-                list_sectiones = dtObj.create_list_sectiones_to_wllssections(id_weekload, list_section_name[i],list_section_id[i], groups_add[i], groups_remove[i])
+                list_sectiones = dtObj.create_list_sectiones_to_wllssections(id_weekload, list_section_name[i],list_number_students[i], list_section_id[i], groups_add[i], groups_remove[i])
                 list_collection_section.append(list_sectiones)
 
         if (nr_section_import > number_sections_on_collection) or (total_rows == counter_rows):
 
             nr_section_import = 0
-            data_object = dtObj.create_wllssections_dto(list_collection_section) 
-            # genRequest.put_data_to_entity_collection(gl_v_request.gl_url_api, gl_v_request.gl_header_request, v_event_create_collection_controller, data_collection)
+            data_object_collection = dtObj.create_wllssections_dto(list_collection_section) 
+            genRequest.put_data_to_entity_collection(gl_v_request.gl_url_api, gl_v_request.gl_header_request, v_wlssectiones_update_collection, data_object_collection)
 
             list_collection_section = []
 

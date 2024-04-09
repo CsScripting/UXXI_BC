@@ -113,6 +113,7 @@ def select_columns_to_process_planning( df : DataFrame):
              v_curso_fileconect,
              v_mod_code_fileconect,
              v_mod_name_fileconect,
+             v_mod_type_activity_fileconect,
              v_grupo_fileconect,
              v_cod_act_fileconect,
              v_cod_grupo_fileconect]].copy()

@@ -2,7 +2,8 @@ from PackLibrary.librarys import (
   DataFrame,
   to_datetime,
   datetime,
-  where
+  where,
+  concat
 )
 from mod_variables import *
 import PackGeneralProcedures.files as genFiles
@@ -155,7 +156,7 @@ def create_st_group_uxxi_planning (df : DataFrame, process_folder : str, process
 
     flag_file_created = True
     
-    df = df[[v_plan_name_fileconect, v_plan_fileconect, v_year, v_mod_code, v_mod_typologie,v_student_group]].copy()
+    df = df[[v_plan_name_fileconect, v_plan_fileconect, v_year, v_mod_code, v_mod_typologie, v_student_group]].copy()
     
     df [v_identifier_gg] = df[v_student_group].str[0]
 
@@ -171,26 +172,26 @@ def create_st_group_uxxi_planning (df : DataFrame, process_folder : str, process
                      v_curso_fileconect,
                      v_mod_code], inplace=True )
     
-    df[v_mod_id_typologie] = where(df[v_mod_typologie] == 'EB',1,
-                                where(df[v_mod_typologie] == 'EPD',2,
-                                where(df[v_mod_typologie] == 'AD',3,5)))
     
     df.drop_duplicates(inplace=True)
-    df = df.sort_values(by=[v_mod_id_typologie],ascending=False)
+    df['order_type_temp'] = where(df[v_mod_typologie] == 'EB', 2,
+                            where(df[v_mod_typologie] == 'EPD', 1,0))
+    df = df.sort_values(by=['order_type_temp'],ascending=True)
 
-    df.drop(columns=[v_mod_id_typologie,
-                    v_mod_typologie], inplace=True )
+
+    df.drop(columns= ['order_type_temp'], inplace=True )
 
 
     series_to_group = [v_plan_code_best]
-
-    
     df = manData.group_entities_to_list(df, series_to_group)
+
+
     df_iterator = df.copy()
 
     for row in df_iterator.itertuples():
 
         groups_to_btt = []
+        type_groups_to_btt = []
 
         index_dataframe = row[0]
 
@@ -203,6 +204,8 @@ def create_st_group_uxxi_planning (df : DataFrame, process_folder : str, process
             if len(str(value)) == 3:
 
                 groups_to_btt.append(value)
+                type_groups_to_btt.append('AD')
+
 
             elif len(str(value)) == 2:
 
@@ -213,40 +216,70 @@ def create_st_group_uxxi_planning (df : DataFrame, process_folder : str, process
                 else:
 
                      groups_to_btt.append(value)
+                     type_groups_to_btt.append('EPD')
 
             elif len(str(value)) == 1:
 
                 if groups_to_btt == []:
 
                     groups_to_btt.append(value)
+                    type_groups_to_btt.append('EB')
 
                 else:
 
                     continue
+        
 
         df.at[index_dataframe, v_student_group] = groups_to_btt
+        df.at[index_dataframe, v_mod_typologie] = type_groups_to_btt
+
+
             
     
     df[v_number_groups_plan] = df[v_student_group].apply(lambda x : len(x))
-    # CADA LINEA (PLANO)TERÁ 60 ALUNOS A Dividir por o Maximo de Turmas 
 
-    # EFETUADA DIVISÂO EQUITATIVA DOS ALUNOS POR GRUPOS
-    number_students_linea = 60
-    df[v_students_number_best] = df[v_number_groups_plan].apply(lambda x: [number_students_linea] * x)
-    df[v_students_number_best] = df.apply(lambda x: [value//x[v_number_groups_plan] + 1
+
+    df.drop(columns=[v_number_groups_plan], inplace=True )
+    df = df.explode([v_student_group, v_mod_typologie]).reset_index(drop=True).sort_values(by=[v_plan_code_best, v_student_group])
+
+    df[v_student_group] = df[v_student_group].astype(str)
+
+    ## ADD NUMBER STUDENTS BY TYPE
+    number_students_only_EB = '60'
+    number_students_EPD = '20'
+
+
+    df_EB = df[df[v_mod_typologie] == 'EB'].copy()
+    df_EPD = df[df[v_mod_typologie] == 'EPD'].copy()
+    df_AD = df[df[v_mod_typologie] == 'AD'].copy()
+
+    df_EB[v_students_number_best] = number_students_only_EB
+    df_EPD[v_students_number_best] = number_students_EPD
+
+    df_AD['EPD_TEMP'] = df_AD[v_student_group].str[0:2]
+    
+    series_to_group = [v_plan_code_best,v_mod_typologie,'EPD_TEMP']
+
+    df_AD = manData.group_entities_to_list(df_AD, series_to_group)
+    df_AD[v_number_groups_plan] = df_AD[v_student_group].apply(lambda x : len(x))
+
+    df_AD[v_students_number_best] = df_AD[v_number_groups_plan].apply(lambda x: [int(number_students_EPD)] * x)
+    df_AD[v_students_number_best] = df_AD.apply(lambda x: [value//x[v_number_groups_plan] + 1
                                       if( (value % x[v_number_groups_plan] != 0 ) and (index_value + 1 <= value % x[v_number_groups_plan] ))
                                       else value//x[v_number_groups_plan]
                                       for index_value, value in enumerate(x[v_students_number_best]) ], axis = 1)
 
-    df_relacion_groups_plan = df.copy()
-    df.drop(columns=[v_number_groups_plan], inplace=True )
-    df = df.explode([v_student_group,v_students_number_best]).reset_index(drop=True).sort_values(by=[v_plan_code_best, v_student_group])
+    df_AD = df_AD[[v_plan_code_best,v_mod_typologie, v_student_group,v_students_number_best]].copy()
+    df_AD = df_AD.explode([v_student_group, v_students_number_best]).reset_index(drop=True).sort_values(by=[v_plan_code_best, v_student_group])
+    df_AD[v_students_number_best] = df_AD[v_students_number_best].astype(str)
 
-    df[v_student_group] = df[v_student_group].astype(str)
-    df[v_mod_typologie] = where(df[v_student_group].str.count(r'\d') == 1,'EB',
-                          where(df[v_student_group].str.count(r'\d') == 2,'EPD', 'AD'))
+
+    df = concat([df_EB, df_EPD, df_AD], ignore_index= True)
+
+    df_relacion_groups_plan = df.copy()
 
     df.rename(columns={v_student_group_best : v_name_best}, inplace=True)
+    
 
     df [v_name_best] = df[v_plan_code_best].str.split('_').str[0] + '_' + \
                        df[v_plan_code_best].str.split('_').str[1] + '_'  + \
@@ -258,6 +291,9 @@ def create_st_group_uxxi_planning (df : DataFrame, process_folder : str, process
 
     genFiles.create  (df,process_folder, process_code, v_file_curriculum_uxxi, v_sheet_st_group, v_process_manage_data, flag_file_created)
 
+    df_relacion_groups_plan = df_relacion_groups_plan[[v_plan_code_best, v_student_group,v_students_number_best]].copy()
+    series_to_group = [v_plan_code_best]
+    df_relacion_groups_plan = manData.group_entities_to_list(df_relacion_groups_plan, series_to_group)
 
     return(df_relacion_groups_plan)
     
@@ -304,12 +340,9 @@ def check_typologies_uxxi (df : DataFrame, process_folder : str, process_code : 
 
 def check_typologies_uxxi_from_file_conector (df : DataFrame):
 
-    df['CHECK_TYPE'] = df[v_grupo_fileconect].str.len()
 
-    df[v_mod_typologie] = where(df['CHECK_TYPE'] == 1,'EB',
-                          where(df['CHECK_TYPE'] == 2, 'EPD' ,'AD'))
-    
-    df.drop(columns='CHECK_TYPE', inplace=True)
+    df[v_mod_typologie] = df[v_mod_type_activity_fileconect]
+    df.drop(columns=[v_mod_type_activity_fileconect], inplace=True )
 
     return (df)
 
@@ -409,7 +442,7 @@ def create_df_info_mutual_modules_to_file (df : DataFrame,  process_folder : str
     return (df)
 
 
-def add_groups_bullet (df_conector : DataFrame, df_groups : DataFrame):
+def add_groups_bullet_and_number_students (df_conector : DataFrame, df_groups : DataFrame):
 
     df_conector[v_plan_linea] = df_conector[v_student_group].str[0] 
 
@@ -430,9 +463,18 @@ def add_groups_bullet (df_conector : DataFrame, df_groups : DataFrame):
 
             plan_to_check = code_plan + '_' + str(plan_year[counter_list]) + '_' + str(plan_linea)
             groups_plan = df_groups.loc[df_groups[v_plan_code_best] == plan_to_check ,v_student_group].iloc[0]
+            number_students_groups_plan = df_groups.loc[df_groups[v_plan_code_best] == plan_to_check ,v_students_number_best].iloc[0]
 
             groups_plan = [str(x) for x in groups_plan]
             groups_to_use_btt = [value for value in groups_plan if value.startswith(str(group_value))]
+            index_groups_list = [index_value for index_value, value in enumerate(groups_plan) if value.startswith(str(group_value))]
+
+            #NUMERO DE ALUNOS RETIRADOS SEGUNDO A POSICÂO NA LISTA
+            #POSIÇÂO NA LISTA DE ACORDO COM LISTA DE GRUPOS
+            number_students = [number_students_groups_plan[i] for i in index_groups_list]
+            number_students = [int(x) for x in number_students]
+            number_students_total = sum(number_students) 
+
 
             for value in groups_to_use_btt:
                 
@@ -456,6 +498,9 @@ def add_groups_bullet (df_conector : DataFrame, df_groups : DataFrame):
             counter_list += 1
 
         df_conector.at[index_dataframe, v_student_group_best] = groups_to_btt
+        df_conector.at[index_dataframe, v_students_number] = number_students_total
+
+    df_conector[v_students_number] = df_conector[v_students_number].astype(int) 
 
 
 

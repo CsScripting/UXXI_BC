@@ -62,7 +62,7 @@ def manage_data_planning_uxxi_steps (name_file_inserted : str):
     dataUxxi.check_modules_uxxi (df_data_to_btt, process_folder, process_code, v_main_process_planning)
     df_relacion_plan_module = dataUxxi.check_planes_modules (df_data_to_btt, process_folder, process_code) 
     
-    df_planning = dataUxxi.check_typologies_uxxi_from_file_conector(df_planning)
+    df_planning = dataUxxi.check_typologies_uxxi_from_file_conector(df_planning) ## MAIS TARDE INFORMAÇÂO ENVIADA EM FICHEIRO (PODERÁ SE DESCNTINUAR FUNCÂO)
     dataUxxi.check_typologies_uxxi (df_planning, process_folder, process_code)
     df_relacion_groups_plan = dataUxxi.create_st_group_uxxi_planning (df_planning, process_folder, process_code)
 
@@ -81,7 +81,7 @@ def manage_data_planning_uxxi_steps (name_file_inserted : str):
     df_data_import, df_data_without_hours =  dataCredUxxi.add_hours_credits_model(df_data_import, df_model_credits_hours)
 
     df_data_import = dataCredUxxi.hours_weeks_section(df_data_import)
-    df_data_import = dataUxxi.add_groups_bullet(df_data_import, df_relacion_groups_plan)
+    df_data_import = dataUxxi.add_groups_bullet_and_number_students(df_data_import, df_relacion_groups_plan)
     df_data_import = rulesBest.filter_fiels_w_loads (df_data_import)
     df_data_import = rulesBest.insert_name_section(df_data_import)
     df_data_import = rulesBest.insert_name_wload (df_data_import)

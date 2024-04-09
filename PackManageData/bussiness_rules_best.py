@@ -136,7 +136,8 @@ def filter_fiels_w_loads (df : DataFrame):
                  v_weeks,
                  v_hours_wload,
                  v_plan_linea,
-                 v_student_group_best ]
+                 v_student_group_best,
+                 v_students_number ]
     
     df = df [columns].copy()
     df[v_session_wload] = '1'
