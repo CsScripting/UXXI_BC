@@ -629,7 +629,14 @@ v_st_group_add = 'ST_GROUP_ADD'
 v_st_group_remove = 'ST_GROUP_REMOVE'
 v_st_group_section = 'ST_GROUP_SECTION'
 
+v_nr_epd_plan_module = 'NR_EPD_PLAN_MODULE'
+v_code_epd_plan_module = 'CODE_EPD_PLAN_MODULE'
 
+v_groups_by_plan_linea = 'CODE_GROUPS_PLAN_LINEA'
+
+v_nr_epd_plan = 'NR_EPD_PLAN'
+v_nr_eb_plan = 'NR_EB_PLAN'
+v_nr_AD_plan = 'NR_AD_PLAN'
 
 
 

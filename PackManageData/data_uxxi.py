@@ -3,7 +3,8 @@ from PackLibrary.librarys import (
   to_datetime,
   datetime,
   where,
-  concat
+  concat,
+  merge
 )
 from mod_variables import *
 import PackGeneralProcedures.files as genFiles
@@ -442,60 +443,188 @@ def create_df_info_mutual_modules_to_file (df : DataFrame,  process_folder : str
     return (df)
 
 
-def add_groups_bullet_and_number_students (df_conector : DataFrame, df_groups : DataFrame):
+def verify_number_epd_module_by_plan_to_asign_to_eb (df_data : DataFrame):
 
-    df_conector[v_plan_linea] = df_conector[v_student_group].str[0] 
+    df_data[v_plan_linea] = df_data[v_student_group].str[0]
+    df = df_data[[v_plan_fileconect,
+                  v_plan_linea,
+                  v_mod_type_activity_fileconect,
+                  v_curso_fileconect,
+                  v_grupo_fileconect,
+                  v_mod_code_fileconect
+                  ]].copy()
+    
 
+    df[v_plan_linea] = df[v_student_group].str[0]
+    
+    #PASS VALUES LIST ON SERIES TO STRING
+    df[v_plan_fileconect] = df[v_plan_fileconect].apply(lambda x: [e for e in x]).str.join(',')
+    df[v_mod_type_activity_fileconect] = df[v_mod_type_activity_fileconect].apply(lambda x: [e for e in x]).str.join(',')
+    df[v_curso_fileconect] = df[v_curso_fileconect].apply(lambda x: [e for e in x]).str.join(',')
+
+    df = df[df[v_mod_type_activity_fileconect] == 'EPD'].copy()
+
+    series_to_group = [ 
+                        v_plan_fileconect,
+                        v_plan_linea,
+                        v_mod_type_activity_fileconect,
+                        v_curso_fileconect,
+                        v_mod_code_fileconect]
+    
+    
+
+
+    df.sort_values(by = v_grupo_fileconect, inplace=True)
+    df = manData.group_entities(df, series_to_group,sep=',')
+    
+
+    df[v_nr_epd_plan_module] = df[v_grupo_fileconect].str.count(',') + 1
+    df.drop_duplicates(inplace=True)
+
+    df.rename(columns={v_grupo_fileconect : v_code_epd_plan_module}, inplace=True)
+
+
+    return(df)
+
+def verify_number_groups_edp_inserted_btt (df : DataFrame):
+
+    df[v_nr_epd_plan] = df[v_grupo_fileconect].apply(lambda x: [value for value in x if len(value) == 2 ])
+    df[v_nr_epd_plan] = df[v_nr_epd_plan].apply(lambda x: len(x))
+
+    df.rename(columns={v_grupo_fileconect : v_groups_by_plan_linea}, inplace=True)
+    
+
+    return(df)
+
+def join_info_plan_to_data_planing (df_conector : DataFrame, df_relacion_groups_plan :DataFrame, df_relacion_epd_module_linea :DataFrame):
+    
+
+    df_conector ['TEMP_PLAN'] = df_conector[v_plan_fileconect].apply(lambda x: [e for e in x]).str.join(',')
+    df_conector ['TEMP_PLAN_CURSO'] = df_conector[v_curso_fileconect].apply(lambda x: [e for e in x]).str.join(',')
+    df_conector [v_plan_code_best] = df_conector ['TEMP_PLAN'] + '_' + df_conector ['TEMP_PLAN_CURSO'] + '_' + df_conector [v_plan_linea]
+
+    
+
+    df_conector.drop(columns=['TEMP_PLAN', 'TEMP_PLAN_CURSO'], inplace=True)
+
+
+    df_relacion_epd_module_linea [v_plan_code_best] =  df_relacion_epd_module_linea [v_plan_fileconect] + '_' + \
+                                                       df_relacion_epd_module_linea [v_curso_fileconect] + '_' + df_relacion_epd_module_linea [v_plan_linea]
+
+    #PASSAR APENAS NRº EPD por PLANO/LINEA
+    df_relacion_epd_module_linea = df_relacion_epd_module_linea[[v_plan_code_best,
+                                                                 v_mod_code_fileconect,
+                                                                 v_code_epd_plan_module,
+                                                                 v_nr_epd_plan_module]].copy()
+    
+    series_to_merge = [ v_plan_code_best,
+                        v_mod_code_fileconect ]
+
+
+    df_conector = merge(left = df_conector, right = df_relacion_epd_module_linea, on = series_to_merge, how='left', indicator=True )
+    df_conector[v_code_epd_plan_module] = where (df_conector[v_merge] == 'left_only', 0, df_conector[v_code_epd_plan_module]) 
+    df_conector[v_nr_epd_plan_module] = where (df_conector[v_merge] == 'left_only', 0, df_conector[v_nr_epd_plan_module]) 
+    df_conector.drop(columns=[v_merge], inplace=True)
+
+    series_to_merge = [ v_plan_code_best]
+
+
+    df_conector = merge(left = df_conector, right = df_relacion_groups_plan, on = series_to_merge, how='left', indicator=True )
+    df_conector.drop(columns=[v_merge], inplace=True)
+    
+    
+
+    return(df_conector)
+
+
+
+
+
+
+
+
+
+def add_groups_bullet_and_number_students (df_conector : DataFrame):
+ 
     df_iterator = df_conector.copy()
 
     for row in df_iterator.itertuples():
 
         groups_to_btt = []
         index_dataframe = row[0]
-        plan = getattr(row, v_plan_fileconect)
-        plan_linea = getattr (row, v_plan_linea)
-        plan_year = getattr (row, v_year)
-        group_value = getattr(row, v_student_group)
 
-        counter_list = 0
+        code_plan = getattr(row, v_plan_fileconect)
+        code_plan = code_plan[0]
+        plan_year = getattr(row, v_curso_fileconect)
+        plan_year = plan_year[0]
+        group_code = getattr(row, v_grupo_fileconect)
+        groups_plan_linea = getattr(row, v_groups_by_plan_linea)
+        nr_epd_plan_module = getattr(row, v_nr_epd_plan_module)
+        nr_epd_plan = getattr(row, v_nr_epd_plan)
+        code_epd_plan_module = getattr(row, v_code_epd_plan_module)
 
-        for code_plan in plan:
+        type_module = getattr(row, v_mod_type_activity_fileconect)
+        type_module = type_module[0]
 
-            plan_to_check = code_plan + '_' + str(plan_year[counter_list]) + '_' + str(plan_linea)
-            groups_plan = df_groups.loc[df_groups[v_plan_code_best] == plan_to_check ,v_student_group].iloc[0]
-            number_students_groups_plan = df_groups.loc[df_groups[v_plan_code_best] == plan_to_check ,v_students_number_best].iloc[0]
+        students_number_groups_plan_linea = getattr(row, v_students_number_best)
 
-            groups_plan = [str(x) for x in groups_plan]
-            groups_to_use_btt = [value for value in groups_plan if value.startswith(str(group_value))]
-            index_groups_list = [index_value for index_value, value in enumerate(groups_plan) if value.startswith(str(group_value))]
+        mod_type = getattr(row, v_mod_type_activity_fileconect)
+        mod_type = mod_type[0] # VALOR ESTA DENTRO DE LISTA NA SERIES
+
+        
+        if ((nr_epd_plan != nr_epd_plan_module) & (type_module == 'EB') & (nr_epd_plan_module != 0)):
+
+            groups_to_use_btt = []
+            number_students = []
+            
+            code_epd_list = code_epd_plan_module.split(',')
+
+            for groups_epd in code_epd_list:
+
+                temp_groups_to_use_btt = [value for value in groups_plan_linea if value.startswith(str(groups_epd))]
+                index_groups_list = [index_value for index_value, value in enumerate(groups_plan_linea) if value.startswith(str(groups_epd))]
+
+                temp_number_students = [students_number_groups_plan_linea[i] for i in index_groups_list]
+
+                groups_to_use_btt.extend(temp_groups_to_use_btt)
+                number_students.extend(temp_number_students)
+                
+            number_students = [int(x) for x in number_students]
+            number_students_total = sum(number_students)
+        
+        else: #NÂO NECESSARIO COLOCAR QUANDO = 0 SE NÂO TEM NO MODULEPLAN NÂO TEM NO PLAN
+
+            groups_plan_linea = [str(x) for x in groups_plan_linea]
+            groups_to_use_btt = [value for value in groups_plan_linea if value.startswith(str(group_code))]
+            index_groups_list = [index_value for index_value, value in enumerate(groups_plan_linea) if value.startswith(str(group_code))]
 
             #NUMERO DE ALUNOS RETIRADOS SEGUNDO A POSICÂO NA LISTA
             #POSIÇÂO NA LISTA DE ACORDO COM LISTA DE GRUPOS
-            number_students = [number_students_groups_plan[i] for i in index_groups_list]
+            number_students = [students_number_groups_plan_linea[i] for i in index_groups_list]
             number_students = [int(x) for x in number_students]
-            number_students_total = sum(number_students) 
+            number_students_total = sum(number_students)                
 
 
-            for value in groups_to_use_btt:
-                
-                if len(value) == 1:
 
-                    type_group = 'EB'
-                
-                elif len(value) == 2:
+        for value in groups_to_use_btt:
+            
+            if len(value) == 1:
 
-                    type_group = 'EPD'
+                type_group = 'EB'
+            
+            elif len(value) == 2:
 
-                else:
+                type_group = 'EPD'
 
-                    type_group ='AD'  
-                
-                name_group_to_btt = code_plan + '_' + str(plan_year[counter_list]) + '_' + type_group + value
+            else:
 
-                groups_to_btt.append(name_group_to_btt)
+                type_group ='AD'  
+            
+            name_group_to_btt = code_plan + '_' + str(plan_year) + '_' + type_group + value
+
+            groups_to_btt.append(name_group_to_btt)
             
             
-            counter_list += 1
 
         df_conector.at[index_dataframe, v_student_group_best] = groups_to_btt
         df_conector.at[index_dataframe, v_students_number] = number_students_total

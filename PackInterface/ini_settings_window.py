@@ -92,7 +92,7 @@ def start_settings_window():
     #Config textInsertion
     names_inserted_vars[0] = tk.Entry(doubleEntry_windowGrid,borderwidth=0,highlightbackground = '#d3d3d3',highlightthickness=1,highlightcolor='#ffb84d', width=23,justify='left',font=("Segoe 8"),background="#FFFFFF", disabledbackground="#d1e0e0")
     #Default Value (only for DEV !!!)
-    objectState.names_inserted_vars[0].insert(0, 'Teste')
+    objectState.names_inserted_vars[0].insert(0, 'Planning_24_25_UXXI_Teste.xlsx')
 
 
     #Config label File Data UXXI

@@ -173,7 +173,7 @@ def agg_section_to_w_load (df : DataFrame):
                      v_session_wload,
                      v_weeks]
 
-
+    df.sort_values(by=[v_name_wload, v_section_name], ascending=True, inplace=True)
     df = manData.group_entities_to_list(df, series_to_agg, sep = ';')
 
     return(df)

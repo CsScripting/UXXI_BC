@@ -81,7 +81,10 @@ def manage_data_planning_uxxi_steps (name_file_inserted : str):
     df_data_import, df_data_without_hours =  dataCredUxxi.add_hours_credits_model(df_data_import, df_model_credits_hours)
 
     df_data_import = dataCredUxxi.hours_weeks_section(df_data_import)
-    df_data_import = dataUxxi.add_groups_bullet_and_number_students(df_data_import, df_relacion_groups_plan)
+    df_relacion_epd_module_linea = dataUxxi.verify_number_epd_module_by_plan_to_asign_to_eb(df_data_import)
+    df_relacion_groups_plan = dataUxxi.verify_number_groups_edp_inserted_btt(df_relacion_groups_plan)
+    df_data_import = dataUxxi.join_info_plan_to_data_planing(df_data_import, df_relacion_groups_plan, df_relacion_epd_module_linea)
+    df_data_import = dataUxxi.add_groups_bullet_and_number_students(df_data_import)
     df_data_import = rulesBest.filter_fiels_w_loads (df_data_import)
     df_data_import = rulesBest.insert_name_section(df_data_import)
     df_data_import = rulesBest.insert_name_wload (df_data_import)
