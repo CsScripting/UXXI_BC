@@ -130,14 +130,16 @@ def manage_hours (df: DataFrame):
 
 def filter_fiels_w_loads (df : DataFrame):
 
-    columns = [  v_mod_code,
-                 v_student_group,
-                 v_mod_typologie,
-                 v_weeks,
-                 v_hours_wload,
-                 v_plan_linea,
-                 v_student_group_best,
-                 v_students_number ]
+    columns = [ v_plan_fileconect,
+                v_curso_fileconect,
+                v_mod_code,
+                v_student_group,
+                v_mod_typologie,
+                v_weeks,
+                v_hours_wload,
+                v_plan_linea,
+                v_student_group_best,
+                v_students_number ]
     
     df = df [columns].copy()
     df[v_session_wload] = '1'
@@ -154,7 +156,12 @@ def insert_name_wload (df : DataFrame):
 
     prefix_w_load = 'L'
 
-    df[v_name_wload] = prefix_w_load + df[v_plan_linea] + '_' +  df[v_mod_typologie]
+    df[v_plan_fileconect] = df [v_plan_fileconect].apply(lambda x : [e for e in x]).str.join(',')
+    df[v_curso_fileconect] = df [v_curso_fileconect].apply(lambda x : [e for e in x]).str.join(',')
+
+    df[v_name_wload] = df[v_plan_fileconect] + '_' + df[v_curso_fileconect] + '_' + prefix_w_load + df[v_plan_linea] + '_' +  df[v_mod_typologie]
+
+    df.drop(columns=[v_plan_fileconect, v_curso_fileconect], inplace = True)
 
     return (df)
 
