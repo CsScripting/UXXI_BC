@@ -48,10 +48,26 @@ def manage_data_planning_uxxi_steps (name_file_inserted : str):
     df_planning_conector = df_planning.copy()
     dataUxxi.check_courses_uxxi (df_planning_curriculum, process_folder, process_code, v_main_process_planning)
     dataUxxi.check_planes_uxxi (df_planning_curriculum, process_folder, process_code, v_main_process_planning)
+    df_planning = dataUxxi.check_typologies_uxxi_from_file_conector(df_planning)
+    dataUxxi.check_typologies_uxxi (df_planning, process_folder, process_code)
+    df_relacion_groups_plan = dataUxxi.create_st_group_uxxi_planning (df_planning, process_folder, process_code)
     
     
     #VERIFICAÇAO DADOS PLANIFICAÇÂO
+    #ADD MODEL (ADICIONADO LOGO MODELO DE DISCIPLINA PARA NÂO TER DE FAZER ITERAÇÔES DEPOIS DE AGRUPADO)
+    #ADD MODEL --> NESTE CASO SO SERA NECESSARIO FAZER O MERGE
+    df_planning_conector= dataCredUxxi.add_model_module_section_conector(df_planning_conector, df_model_module)
+    #VERIFICAR NUMERO DE EPD POR DISCIPLINA PLANO
+    df_relacion_epd_module_linea = dataUxxi.verify_number_epd_module_by_plan_to_asign_to_eb(df_planning_conector)
+    df_planning_conector = dataUxxi.join_info_edp_module_plan(df_planning_conector, df_relacion_epd_module_linea)
+    #VERIFICAR NUMERO DE EPD POR PLANO INSERIDO NO BTT
+    df_relacion_groups_plan = dataUxxi.verify_number_groups_edp_inserted_btt(df_relacion_groups_plan)
+    df_planning_conector = dataUxxi.join_info_epd_plan(df_planning_conector, df_relacion_groups_plan)
+
     df_planning_grouped_by_conector= dataUxxi.group_mutual_modules_plannificacion(df_planning_conector)
+    df_planning_grouped_by_conector,df_asignatura_sin_modelo  = dataUxxi.verify_modeles_UXXI_conector(df_planning_grouped_by_conector)
+    
+    
     df_data_to_btt = df_planning_grouped_by_conector.copy()
     
     #ESCREVER RELAÇÂO DE DOMINANTE/DOMINADAS EM FICHEIRO:
@@ -62,28 +78,21 @@ def manage_data_planning_uxxi_steps (name_file_inserted : str):
     dataUxxi.check_modules_uxxi (df_data_to_btt, process_folder, process_code, v_main_process_planning)
     df_relacion_plan_module = dataUxxi.check_planes_modules (df_data_to_btt, process_folder, process_code) 
     
-    df_planning = dataUxxi.check_typologies_uxxi_from_file_conector(df_planning) ## MAIS TARDE INFORMAÇÂO ENVIADA EM FICHEIRO (PODERÁ SE DESCNTINUAR FUNCÂO)
-    dataUxxi.check_typologies_uxxi (df_planning, process_folder, process_code)
-    df_relacion_groups_plan = dataUxxi.create_st_group_uxxi_planning (df_planning, process_folder, process_code)
 
 
     
     #AO ADICIONAR FICHEIROS VERIFICAR SE HÁ DADOS PARA CONTINUAR O PROCESSO.
 
     dataCredUxxi.update_data_to_btt (df_planning_grouped_by_conector)
-    #ADD MODEL
-    df_data_import, df_asignatura_sin_modelo = dataCredUxxi.add_model_module_section_conector(df_planning_grouped_by_conector, df_model_module)
+    
     ## ADD CREDIT MODEL Weeks
-    df_data_import, df_asignatura_sin_model_credit_weeks = dataCredUxxi.add_model_module_credit_section_conector(df_data_import, df_model_credits_weeks)
+    df_data_import, df_asignatura_sin_model_credit_weeks = dataCredUxxi.add_model_module_credit_section_conector(df_planning_grouped_by_conector, df_model_credits_weeks)
     df_data_import = dataCredUxxi.select_weeks_by_typologie(df_data_import)
     df_data_import, df_data_without_weeks = dataCredUxxi.check_week_typologie_not_null(df_data_import)
     ## ADD CREDIT MODEL HOURS
     df_data_import, df_data_without_hours =  dataCredUxxi.add_hours_credits_model(df_data_import, df_model_credits_hours)
 
     df_data_import = dataCredUxxi.hours_weeks_section(df_data_import)
-    df_relacion_epd_module_linea = dataUxxi.verify_number_epd_module_by_plan_to_asign_to_eb(df_data_import)
-    df_relacion_groups_plan = dataUxxi.verify_number_groups_edp_inserted_btt(df_relacion_groups_plan)
-    df_data_import = dataUxxi.join_info_plan_to_data_planing(df_data_import, df_relacion_groups_plan, df_relacion_epd_module_linea)
     df_data_import = dataUxxi.add_groups_bullet_and_number_students(df_data_import)
     df_data_import = rulesBest.filter_fiels_w_loads (df_data_import)
     df_data_import = rulesBest.insert_name_section(df_data_import)

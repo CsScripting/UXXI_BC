@@ -100,7 +100,9 @@ def update_data_to_btt (df : DataFrame):
     columns_to_drop = [v_plan_name_fileconect]
     
     df.drop(columns = columns_to_drop, inplace=True)
-    
+
+
+    df[v_mod_code_dominated_to_search_module] = df[v_mod_code_fileconect].apply(lambda x: x[1:])
     df[v_mod_code_fileconect] = df[v_mod_code_fileconect].apply(lambda x: x[0])
     df[v_mod_name_fileconect] = df[v_mod_name_fileconect].apply(lambda x: x[0])
     df[v_grupo_fileconect] = df[v_grupo_fileconect].apply(lambda x: x[0])
@@ -115,14 +117,11 @@ def add_model_module_section_conector (df_conector : DataFrame, df_model_mod : D
     df_model_mod.rename(columns={v_cred_mod_code : v_mod_code_fileconect}, inplace=True)
     df_conector = merge(left=df_conector, right=df_model_mod, on = v_mod_code_fileconect, how='left', indicator=True)
 
-    df_conector_sin_modelo = df_conector[df_conector[v_merge] != 'both'].copy()
-    df_conector = df_conector[df_conector[v_merge] == 'both']
-
+    df_conector[v_cred_model] = where(df_conector[v_merge] != 'both', 'SinModelo', df_conector[v_cred_model])
     df_conector.drop(columns=v_merge, inplace=True)
-    df_conector_sin_modelo.drop(columns=v_merge, inplace=True)
 
 
-    return(df_conector, df_conector_sin_modelo)
+    return(df_conector)
 
 
 def add_model_module_credit_section_conector (df_conector : DataFrame, df_model_cred_mod : DataFrame):

@@ -24,6 +24,7 @@ v_sheet_file_conectores = 'Asig-Grupo-CodActiv-CodGrupo'
 v_mod_code_fileconect = 'CODIGO_ASIGNATURA'
 v_mod_name_fileconect = 'NOMBRE_ASIGNATURA'
 v_mod_type_activity_fileconect = 'TIPO_ACTIVIDAD'
+v_mod_code_dominated_to_search_module = 'COD_ASIG_DOMINADA'
 
 v_grupo_fileconect = 'GRUPO'
 v_cod_act_fileconect = 'COD_ACTIVIDAD'
@@ -32,6 +33,8 @@ v_plan_fileconect = 'PLAN'
 v_plan_name_fileconect = 'NOMBRE_PLAN'
 v_curso_fileconect = 'CURSO'
 v_periodo_fileconect = 'PERIODO'
+
+
 
 
 
@@ -637,6 +640,8 @@ v_groups_by_plan_linea = 'CODE_GROUPS_PLAN_LINEA'
 v_nr_epd_plan = 'NR_EPD_PLAN'
 v_nr_eb_plan = 'NR_EB_PLAN'
 v_nr_AD_plan = 'NR_AD_PLAN'
+
+v_sin_epd = 'SinEPD'
 
 
 

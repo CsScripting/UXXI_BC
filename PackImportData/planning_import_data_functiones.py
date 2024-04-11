@@ -44,7 +44,7 @@ def manage_data_acad_term (data_acad_term : list):
                         v_weeks_acad_term_dto], inplace=True)
     
     id_academci_year = df[v_acad_term_id].iloc[0]
-    first_id_week = df[v_weeks_id].iloc[0][1]
+    first_id_week = df[v_weeks_id].iloc[0][0]
 
 
 

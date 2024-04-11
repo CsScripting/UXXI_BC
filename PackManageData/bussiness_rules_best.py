@@ -156,8 +156,9 @@ def insert_name_wload (df : DataFrame):
 
     prefix_w_load = 'L'
 
-    df[v_plan_fileconect] = df [v_plan_fileconect].apply(lambda x : [e for e in x]).str.join(',')
-    df[v_curso_fileconect] = df [v_curso_fileconect].apply(lambda x : [e for e in x]).str.join(',')
+    df[v_plan_fileconect] = df [v_plan_fileconect].apply(lambda x : x[0])
+    df[v_curso_fileconect] = df [v_curso_fileconect].apply(lambda x : x[0])
+    df[v_plan_linea] = df [v_plan_linea].apply(lambda x : x[0])
 
     df[v_name_wload] = df[v_plan_fileconect] + '_' + df[v_curso_fileconect] + '_' + prefix_w_load + df[v_plan_linea] + '_' +  df[v_mod_typologie]
 
