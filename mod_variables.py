@@ -653,9 +653,9 @@ v_code_epd_plan_module = 'CODE_EPD_PLAN_MODULE'
 
 v_groups_by_plan_linea = 'CODE_GROUPS_PLAN_LINEA'
 
-v_nr_epd_plan = 'NR_EPD_PLAN'
-v_nr_eb_plan = 'NR_EB_PLAN'
-v_nr_AD_plan = 'NR_AD_PLAN'
+v_nr_epd_plan = 'NR_EPD_PLAN_BTT'
+v_nr_eb_plan = 'NR_EB_PLAN_BTT'
+v_nr_AD_plan = 'NR_AD_PLAN_BTT'
 
 v_sin_epd = 'SinEPD'
 
