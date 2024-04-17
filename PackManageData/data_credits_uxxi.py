@@ -10,7 +10,11 @@ def filter_columns_process (df: DataFrame, process : str):
 
     if process == v_sheet_model_module:
 
-        columns = [v_cred_mod_code, v_cred_model]
+        columns = [v_cred_plan, 
+                   v_cred_mod_code, 
+                   v_cred_model,
+                   v_cred_credits]
+    
 
     elif process == v_sheet_credit_model:
 
@@ -42,7 +46,10 @@ def filter_null_values_credits (df : DataFrame, process: str):
 
     if process == v_sheet_model_module:
 
-        columns_not_null_models = [v_cred_mod_code, v_cred_model]
+        columns_not_null_models = [v_cred_plan,
+                                   v_cred_mod_code, 
+                                   v_cred_model,
+                                   v_cred_credits]
 
     elif process == v_sheet_credit_model:
 
@@ -75,7 +82,7 @@ def verify_duplicated_data_model_credits_general( df : DataFrame, process: str):
 
     elif process == v_sheet_credit_model_criterion:
 
-        values_to_check_duplicated = [v_cred_plan, v_cred_model]
+        values_to_check_duplicated = [v_cred_plan, v_cred_model,v_cred_credits]
 
     elif process == v_sheet_credit_model:
 
@@ -115,9 +122,10 @@ def update_data_to_btt (df : DataFrame):
 def add_model_module_section_conector (df_conector : DataFrame, df_model_mod : DataFrame):
 
     df_model_mod.rename(columns={v_cred_mod_code : v_mod_code_fileconect}, inplace=True)
-    df_conector = merge(left=df_conector, right=df_model_mod, on = v_mod_code_fileconect, how='left', indicator=True)
+    df_conector = merge(left=df_conector, right=df_model_mod, on = [v_plan_fileconect, v_mod_code_fileconect], how='left', indicator=True)
 
     df_conector[v_cred_model] = where(df_conector[v_merge] != 'both', 'SinModelo', df_conector[v_cred_model])
+    df_conector[v_cred_credits] = where(df_conector[v_merge] != 'both', 'SinModelo', df_conector[v_cred_credits])
     df_conector.drop(columns=v_merge, inplace=True)
 
 
@@ -127,13 +135,28 @@ def add_model_module_section_conector (df_conector : DataFrame, df_model_mod : D
 def add_model_module_credit_section_conector (df_conector : DataFrame, df_model_cred_mod : DataFrame):
 
     df_model_cred_mod.rename(columns={v_cred_plan : v_plan_dominant}, inplace=True)
-    df_conector = merge(left=df_conector, right=df_model_cred_mod, on = [v_plan_dominant,v_cred_model], how='left', indicator=True)
+    df_conector = merge(left=df_conector, right=df_model_cred_mod, on = [v_plan_dominant,v_cred_model,v_cred_credits], how='left', indicator=True)
 
     df_conector_sin_modelo_cred = df_conector[df_conector[v_merge] != 'both'].copy()
     df_conector = df_conector[df_conector[v_merge] == 'both']
 
     df_conector.drop(columns=v_merge, inplace=True)
     df_conector_sin_modelo_cred.drop(columns=v_merge, inplace=True)
+
+    columns_present = [
+                        v_cod_act_fileconect,
+                        v_cod_grupo_fileconect,
+                        v_plan_fileconect,
+                        v_curso_fileconect,
+                        v_mod_code_fileconect,
+                        v_mod_name_fileconect,
+                        v_mod_type_activity_fileconect,
+                        v_grupo_fileconect,
+                        v_cred_model,
+                        v_cred_credits
+                        ]
+    
+    df_conector_sin_modelo_cred = df_conector_sin_modelo_cred[columns_present]
 
     return(df_conector, df_conector_sin_modelo_cred)
 
@@ -157,6 +180,20 @@ def check_week_typologie_not_null (df : DataFrame):
 
     df_null = df[df[[v_weeks,v_mod_typologie]].isnull().any(axis=1)].copy()
     df_null.fillna('NULL', inplace = True)
+
+    columns_present = [
+                        v_cod_act_fileconect,
+                        v_cod_grupo_fileconect,
+                        v_plan_fileconect,
+                        v_curso_fileconect,
+                        v_mod_code_fileconect,
+                        v_mod_name_fileconect,
+                        v_mod_type_activity_fileconect,
+                        v_grupo_fileconect,
+                        v_cred_model
+                        ]
+
+    df_null = df_null[columns_present]
     
     df = df.dropna(axis=0, subset=v_weeks).copy()
 
@@ -173,6 +210,19 @@ def add_hours_credits_model (df_conector :DataFrame, df_model_credit_hours):
 
     df_conector.drop(columns=v_merge, inplace=True)
     df_conector_sin_modelo_cred.drop(columns=v_merge, inplace=True)
+
+    columns_present = [
+                        v_cod_act_fileconect,
+                        v_cod_grupo_fileconect,
+                        v_plan_fileconect,
+                        v_curso_fileconect,
+                        v_mod_code_fileconect,
+                        v_mod_name_fileconect,
+                        v_mod_type_activity_fileconect,
+                        v_grupo_fileconect,
+                        v_cred_model
+                        ]
+    df_conector_sin_modelo_cred = df_conector_sin_modelo_cred[columns_present]
 
     return(df_conector, df_conector_sin_modelo_cred)
 

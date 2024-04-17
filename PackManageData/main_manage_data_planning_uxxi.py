@@ -43,6 +43,16 @@ def manage_data_planning_uxxi_steps (name_file_inserted : str):
     df_model_credits_hours, df_model_module_credit_hours_invalid = dataCredUxxi.filter_null_values_credits(df_model_credits_hours, v_sheet_credit_model) ## ENVIAR FICHEIRO DE VALIDAÇÂO
     df_model_credits_hours, df_model_module_credit_hours_duplicated = dataCredUxxi.verify_duplicated_data_model_credits_general(df_model_credits_hours,v_sheet_credit_model) ## ENVIAR FICHEIRO DE VALIDAÇÂO
 
+    #VALIDAÇÂO DE MODELOS CREDITOS PARA FICHEIRO:
+
+    dataUxxi.create_file_validation_module_credits (df_model_module_invalid,v_sheet_wrong_model_module, process_folder, process_code, v_process_manage_data)
+    dataUxxi.create_file_validation_module_credits (df_model_module_duplicated,v_sheet_duplicated_model_module, process_folder, process_code, v_process_manage_data)
+    dataUxxi.create_file_validation_module_credits (df_model_module_credit_weeks_invalid,v_sheet_wrong_model_credit, process_folder, process_code, v_process_manage_data)
+    dataUxxi.create_file_validation_module_credits (df_model_module_credit_weeks_duplicated,v_sheet_duplicated_model_credit, process_folder, process_code, v_process_manage_data)
+    dataUxxi.create_file_validation_module_credits (df_model_module_credit_hours_invalid,v_sheet_wrong_credit_week, process_folder, process_code, v_process_manage_data)
+    dataUxxi.create_file_validation_module_credits (df_model_module_credit_hours_duplicated,v_sheet_duplicated_credit_week, process_folder, process_code, v_process_manage_data)
+
+
 
     df_planning_curriculum = df_planning.copy()
     df_planning_conector = df_planning.copy()
@@ -66,6 +76,7 @@ def manage_data_planning_uxxi_steps (name_file_inserted : str):
 
     df_planning_grouped_by_conector= dataUxxi.group_mutual_modules_plannificacion(df_planning_conector)
     df_planning_grouped_by_conector,df_asignatura_sin_modelo  = dataUxxi.verify_modeles_UXXI_conector(df_planning_grouped_by_conector)
+    dataUxxi.create_file_validation_module_credits (df_asignatura_sin_modelo,v_sheet_section_sin_modelo, process_folder, process_code, v_process_manage_data)
     
     
     df_data_to_btt = df_planning_grouped_by_conector.copy()
@@ -87,10 +98,13 @@ def manage_data_planning_uxxi_steps (name_file_inserted : str):
     
     ## ADD CREDIT MODEL Weeks
     df_data_import, df_asignatura_sin_model_credit_weeks = dataCredUxxi.add_model_module_credit_section_conector(df_planning_grouped_by_conector, df_model_credits_weeks)
+    dataUxxi.create_file_validation_module_credits (df_asignatura_sin_model_credit_weeks,v_sheet_section_sin_credit_weeks, process_folder, process_code, v_process_manage_data)
     df_data_import = dataCredUxxi.select_weeks_by_typologie(df_data_import)
     df_data_import, df_data_without_weeks = dataCredUxxi.check_week_typologie_not_null(df_data_import)
+    dataUxxi.create_file_validation_module_credits (df_data_without_weeks,v_sheet_section_sin_type_weeks, process_folder, process_code, v_process_manage_data)
     ## ADD CREDIT MODEL HOURS
     df_data_import, df_data_without_hours =  dataCredUxxi.add_hours_credits_model(df_data_import, df_model_credits_hours)
+    dataUxxi.create_file_validation_module_credits (df_data_without_hours,v_sheet_section_sin_credit_hours, process_folder, process_code, v_process_manage_data)
 
     df_data_import = dataCredUxxi.hours_weeks_section(df_data_import)
     df_data_import = dataUxxi.add_groups_bullet_and_number_students(df_data_import)

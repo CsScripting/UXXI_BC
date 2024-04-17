@@ -478,13 +478,12 @@ def verify_number_epd_module_by_plan_to_asign_to_eb (df_data : DataFrame):
 
 
     df.sort_values(by = v_grupo_fileconect, inplace=True)
-    df = manData.group_entities(df, series_to_group,sep=',')
-    
-
-    df[v_nr_epd_plan_module] = df[v_grupo_fileconect].str.count(',') + 1
     df.drop_duplicates(inplace=True)
 
-    df[v_grupo_fileconect] = df[v_grupo_fileconect].str.split(',')
+    df = manData.group_entities(df, series_to_group,sep=',')
+    
+    df[v_nr_epd_plan_module] = df[v_grupo_fileconect].str.count(',') + 1
+    
 
     df.rename(columns={v_grupo_fileconect : v_code_epd_plan_module}, inplace=True)
 
@@ -495,7 +494,6 @@ def verify_number_groups_edp_inserted_btt (df : DataFrame):
 
     df[v_nr_epd_plan] = df[v_grupo_fileconect].apply(lambda x: [value for value in x if len(value) == 2 ])
     df[v_nr_epd_plan] = df[v_nr_epd_plan].apply(lambda x: len(x))
-    df[v_nr_epd_plan] = where (df[v_nr_epd_plan] == 0, v_sin_epd, df[v_nr_epd_plan]) 
     df[v_nr_epd_plan] = df[v_nr_epd_plan].apply(lambda x: [x])
 
     df.rename(columns={v_grupo_fileconect : v_groups_by_plan_linea}, inplace=True)
@@ -535,11 +533,15 @@ def join_info_edp_module_plan (df_conector : DataFrame, df_relacion_epd_module_l
     series_to_merge = [ v_plan_code_best,
                         v_mod_code_fileconect ]
 
-
+    
     df_conector = merge(left = df_conector, right = df_relacion_epd_module_linea, on = series_to_merge, how='left', indicator=True )
-    df_conector[v_nr_epd_plan_module] = where (df_conector[v_merge] == 'left_only', v_sin_epd, df_conector[v_nr_epd_plan_module]) 
-    df_conector[v_nr_epd_plan_module] = df_conector[v_nr_epd_plan_module].str.split(',')
+    df_conector[v_nr_epd_plan_module] = where (df_conector[v_merge] == 'left_only', 0, df_conector[v_nr_epd_plan_module])
+    df_conector[v_code_epd_plan_module] = where (df_conector[v_merge] == 'left_only', '0', df_conector[v_code_epd_plan_module])
+    df_conector[v_nr_epd_plan_module] = df_conector[v_nr_epd_plan_module].apply(lambda x: [x])
+    df_conector[v_code_epd_plan_module] = df_conector[v_code_epd_plan_module].apply(lambda x: x.split(',') if x != 0 else [x])
+    
     df_conector.drop(columns=[v_merge], inplace=True)
+
     
 
     return(df_conector)
@@ -547,14 +549,10 @@ def join_info_edp_module_plan (df_conector : DataFrame, df_relacion_epd_module_l
 
 
 
-
-
-
-
-
 def add_groups_bullet_and_number_students (df_conector : DataFrame):
  
     df_iterator = df_conector.copy()
+    df_conector[v_student_group_best] = ''
 
     for row in df_iterator.itertuples():
 
@@ -583,7 +581,7 @@ def add_groups_bullet_and_number_students (df_conector : DataFrame):
             groups_to_use_btt = []
             number_students = []
 
-            if ((nr_epd_plan[counter] != nr_epd_plan_module[counter]) & (type_module == 'EB') & (nr_epd_plan_module[counter] != 0)):
+            if ((nr_epd_plan[counter][0] != nr_epd_plan_module[counter][0]) & (type_module[0] == 'EB') & (nr_epd_plan_module[counter][0] != 0) & (nr_epd_plan_module[counter][0] != 0)):
 
                 
                 for groups_epd in code_epd_plan_module[counter]:
@@ -591,7 +589,7 @@ def add_groups_bullet_and_number_students (df_conector : DataFrame):
                     temp_groups_to_use_btt = [value for value in groups_plan_linea[counter] if value.startswith(str(groups_epd))]
                     groups_to_use_btt.extend(temp_groups_to_use_btt)
 
-                    if counter == 0:
+                    if counter == 0:  # O NUMERO DE ALUNOS APLICASSE APENAS A DOMINANTES
                         
                         # NUMERO DE ALUNOS SO DE DOMINANTE
                         index_groups_list = [index_value for index_value, value in enumerate(groups_plan_linea[counter]) if value.startswith(str(groups_epd))]
@@ -665,11 +663,30 @@ def create_df_w_loads_to_file (df : DataFrame,  process_folder : str, process_co
 
     return()
 
+def create_file_validation_module_credits (df : DataFrame, sheet_name : str,  process_folder : str, process_code : str, sub_process : str):
+    
+    if not df.empty  &  (sheet_name != v_sheet_wrong_model_module ):
+
+        file_name = v_file_validacion_models_credits
+
+        if sheet_name == v_sheet_wrong_model_module:
+            flag_file_created = False
+        else:
+            flag_file_created = True
+
+        genFiles.create  (df, process_folder, process_code, file_name, sheet_name, sub_process,flag_file_created)
+        
+
+    return()
+
 
 def verify_modeles_UXXI_conector(df : DataFrame):
 
     df[v_cred_model] = df[v_cred_model].apply (lambda x : set(x) )
     df[v_cred_model] = df[v_cred_model].apply (lambda x : [value for value in x if value != 'SinModelo'] )
+
+    df[v_cred_credits] = df[v_cred_credits].apply (lambda x : set(x) )
+    df[v_cred_credits] = df[v_cred_credits].apply (lambda x : [value for value in x if value != 'SinModelo'] )
 
     df['VALIDACION_MODELO'] = df[v_cred_model].apply (lambda x : len(x) )
 
@@ -680,14 +697,29 @@ def verify_modeles_UXXI_conector(df : DataFrame):
     df_invalid_model = concat([df_sin_modelo, df_doble_modelo], ignore_index= True)
 
     df_doble_modelo[v_cred_model] = df_doble_modelo[v_cred_model].apply(lambda x: x[0])
+    df_doble_modelo[v_cred_credits] = df_doble_modelo[v_cred_credits].apply(lambda x: x[0])
     df[v_cred_model] = df[v_cred_model].apply (lambda x : [value for value in x ] ).str.join(',')
+    df[v_cred_credits] = df[v_cred_credits].apply (lambda x : [value for value in x ] ).str.join(',')
 
     df = concat([df, df_doble_modelo], ignore_index= True)
 
     df.drop(columns='VALIDACION_MODELO', inplace=True)
     df_invalid_model.drop(columns='VALIDACION_MODELO', inplace=True)
 
-    
+
+    columns_present = [
+                        v_cod_act_fileconect,
+                        v_cod_grupo_fileconect,
+                        v_plan_fileconect,
+                        v_curso_fileconect,
+                        v_mod_code_fileconect,
+                        v_mod_name_fileconect,
+                        v_mod_type_activity_fileconect,
+                        v_grupo_fileconect,
+                        v_cred_model
+                        ]
+
+    df_invalid_model = df_invalid_model[columns_present]
 
     return(df, df_invalid_model)
 

@@ -14,6 +14,22 @@ v_file_horarios_info = 'SCHEDULES_INFO'
 v_file_horarios_dates = 'HorariosUXXI_Dates'
 v_file_horarios_update = 'HorariosUXXI_Update'
 
+#File VALIDACION MODELS (MODELOS/CREDITOS UPO)
+
+v_file_validacion_models_credits = 'VALIDATION_CRED_MODEL'
+v_sheet_wrong_model_module = 'INVALID_MODEL_MODULE'
+v_sheet_duplicated_model_module = 'DUPLICATED_MODEL_MODULE'
+v_sheet_wrong_model_credit = 'INVALID_MODEL_CRED'
+v_sheet_duplicated_model_credit = 'DUPLICATED_MODEL_CRED'
+v_sheet_wrong_credit_week = 'INVALID_CRED_WEEK'
+v_sheet_duplicated_credit_week = 'DUPLICATED_CRED_WEEK'
+v_sheet_section_sin_modelo = 'SECTION_SIN_MODEL'
+v_sheet_section_sin_credit_weeks = 'SECTION_SIN_CREDIT_WEEK'
+v_sheet_section_sin_type_weeks = 'SECTION_SIN_TYPE_WEEK'
+v_sheet_section_sin_credit_hours = 'SECTION_SIN_CREDIT_HOURS'
+
+
+
 #File Conectores
 
 v_file_conectores = 'ConectoresUXXI'
