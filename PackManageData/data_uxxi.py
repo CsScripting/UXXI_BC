@@ -723,6 +723,26 @@ def verify_modeles_UXXI_conector(df : DataFrame):
 
     return(df, df_invalid_model)
 
+
+def add_new_w_load_rest_hours (df : DataFrame):
+     
+    df_new_week_load = df[df[v_slot_number_rest] != 0].copy()
+    df_old_week_load = df[df[v_slot_number_rest] != 0].copy()
+    df_unique_week_load = df[df[v_slot_number_rest] == 0].copy()
+
+    
+
+    df_new = concat([df_unique_week_load, df_old_week_load], ignore_index= True)
+
+    return (df)
+
+
+def create_conector_uxxi (df : DataFrame):
+
+    df[v_file_conectores] = df[v_cod_act_fileconect] + '_' + df[v_cod_grupo_fileconect]
+
+    return(df)
+
     
 
 

@@ -418,7 +418,7 @@ def create_dto_wloads_wlssectiones (data_weekload : Series, period_btt : str):
         return(data)
 
 
-def create_list_sectiones_to_wllssections (id_weekload : int, name_section : str, number_students : int, id_section : int, list_groups_add : list, list_groups_remove : list):
+def create_list_sectiones_to_wllssections (id_weekload : int, conector_section : str, name_section : str, number_students : int, id_section : int, list_groups_add : list, list_groups_remove : list):
       
         list_student_groups = []
 
@@ -455,7 +455,7 @@ def create_list_sectiones_to_wllssections (id_weekload : int, name_section : str
                                 v_w_ls_sect_sect_id_dto : id_section,
                                 v_name_dto : name_section,
                                 v_students_number_dto : number_students,
-                                v_w_ls_sect_conector_dto : '',
+                                v_w_ls_sect_conector_dto : conector_section,
                                 v_w_ls_sect_groups_dto : list_student_groups
 
                         }

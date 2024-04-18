@@ -130,7 +130,8 @@ def manage_hours (df: DataFrame):
 
 def filter_fiels_w_loads (df : DataFrame):
 
-    columns = [ v_plan_fileconect,
+    columns = [ v_file_conectores,
+                v_plan_fileconect,
                 v_curso_fileconect,
                 v_mod_code,
                 v_student_group,

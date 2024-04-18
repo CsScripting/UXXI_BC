@@ -54,6 +54,8 @@ def iterate_df_w_load_section_post_section (df : DataFrame):
 
         counter_rows += 1
 
+
+        conector_section = getattr(row, v_file_conectores)
         number_section_row = getattr(row, v_section_number)
         id_weekload = getattr (row,v_id_w_load)
         list_section_id = getattr (row,v_id_w_load_section)
@@ -69,7 +71,7 @@ def iterate_df_w_load_section_post_section (df : DataFrame):
 
             for i in range (int(number_section_row)):
 
-                list_sectiones = dtObj.create_list_sectiones_to_wllssections(id_weekload, list_section_name[i],list_number_students[i], list_section_id[i], groups_add[i], groups_remove[i])
+                list_sectiones = dtObj.create_list_sectiones_to_wllssections(id_weekload,conector_section[i], list_section_name[i],list_number_students[i], list_section_id[i], groups_add[i], groups_remove[i])
                 list_collection_section.append(list_sectiones)
 
         if (nr_section_import > number_sections_on_collection) or (total_rows == counter_rows):

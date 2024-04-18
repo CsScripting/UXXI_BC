@@ -168,8 +168,10 @@ def filter_df_wlsection_to_insert (w_loads : DataFrame):
     #PASS STRING LIST --> LIST
     w_loads[v_section_name] = w_loads[v_section_name].apply(lambda x: ast.literal_eval(x))
     w_loads[v_students_number] = w_loads[v_students_number].apply(lambda x: ast.literal_eval(x))
+    w_loads[v_file_conectores] = w_loads[v_file_conectores].apply(lambda x: ast.literal_eval(x))
 
-    w_loads = w_loads[[ v_name_wload,
+    w_loads = w_loads[[ v_file_conectores,
+                        v_name_wload,
                         v_id_w_load,
                         v_mod_code,
                         v_section_name,

@@ -108,6 +108,16 @@ def manage_data_planning_uxxi_steps (name_file_inserted : str):
 
     df_data_import = dataCredUxxi.hours_weeks_section(df_data_import)
     df_data_import = dataUxxi.add_groups_bullet_and_number_students(df_data_import)
+
+
+    ## INSERIR CARGA COM HORAS RESTANTES (BEGIN) ##
+
+    # df_data_import = dataUxxi.add_new_w_load_rest_hours(df_data_import)
+
+    ## INSERIR CARGA COM HORAS RESTANTES (END) ##
+
+    
+    df_data_import = dataUxxi.create_conector_uxxi(df_data_import)
     df_data_import = rulesBest.filter_fiels_w_loads (df_data_import)
     df_data_import = rulesBest.insert_name_section(df_data_import)
     df_data_import = rulesBest.insert_name_wload (df_data_import)
