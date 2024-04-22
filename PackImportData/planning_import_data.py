@@ -23,6 +23,7 @@ def planning_import_data_steps(name_folder_process):
     df_relacion_plan_module = genFiles.read_data_files_import(v_main_folder_process,name_folder_process, v_process_update_data, 
                                                              v_file_curriculum_to_import,v_sheet_planes_modules)
     
+    
     df_relacion_plan_module, df_invalid = idEntiPlann.file_plan_modules_add_id_plan(df_relacion_plan_module, df_plan)
     df_relacion_plan_module, df_invalid = idEntiPlann.file_plan_modules_add_id_module(df_relacion_plan_module, df_modules, df_invalid)
 
@@ -33,6 +34,9 @@ def planning_import_data_steps(name_folder_process):
     df_wloads = genFiles.read_data_files_import(v_main_folder_process,name_folder_process, v_process_update_data, 
                                                 v_file_wloads,v_sheet_wloads )
     
+    df_sectiones_distinct_hour = df_wloads.copy()
+    plannImporFunct.process_section_distinct_hour(df_sectiones_distinct_hour, v_main_folder_process, name_folder_process ,v_process_import_data)
+
     df_wloads = plannImporFunct.add_id_week (df_wloads, int(id_first_week_acad_term))
     df_wloads = plannImporFunct.select_w_load_sectiones_to_import(df_wloads)
     df_wloads = idEntiPlann.file_wloads_add_mod_id(df_wloads, df_modules)

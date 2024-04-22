@@ -660,6 +660,15 @@ v_nr_AD_plan = 'NR_AD_PLAN_BTT'
 v_sin_epd = 'SinEPD'
 
 
+# HEADER AND TAIL XML NOTOVERLAP
+
+v_xml_header_not_overlap = '<?xml version="1.0" encoding="iso-8859-15" standalone="yes"?>\n\
+<ns1:ConstraintObjective xmlns:ns1="urn:spaceConstraintObjective">\n\
+<SeparatedEvents>\n'
+v_xml_footer_not_overlap = '</SeparatedEvents>\n\
+</ns1:ConstraintObjective>\n'
+
+
 
 
 

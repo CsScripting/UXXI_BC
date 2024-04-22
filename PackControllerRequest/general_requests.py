@@ -98,6 +98,7 @@ def put_data_to_entity_collection (url : str , header_request : str, controller 
 
     else:
 
+        value = 'STOP'
         print('STOP')
 
     #     data_errors : json = dict_data_section['errors'][0]['detail']
