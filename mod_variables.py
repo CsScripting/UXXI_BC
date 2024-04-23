@@ -669,6 +669,12 @@ v_xml_footer_not_overlap = '</SeparatedEvents>\n\
 </ns1:ConstraintObjective>\n'
 
 
+v_week_load_type = 'WEEK_LOAD_TYPE' 
+v_week_load_unique = 'UNIQUE'
+v_week_load_reference = 'REFERENCE'
+v_week_load_weekly = 'WEEKLY'
+
+
 
 
 

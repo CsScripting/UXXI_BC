@@ -725,16 +725,133 @@ def verify_modeles_UXXI_conector(df : DataFrame):
 
 
 def add_new_w_load_rest_hours (df : DataFrame):
-     
-    df_new_week_load = df[df[v_slot_number_rest] != 0].copy()
-    df_old_week_load = df[df[v_slot_number_rest] != 0].copy()
-    df_unique_week_load = df[df[v_slot_number_rest] == 0].copy()
 
+    df [v_slot_number_rest] = df[v_slot_number_rest].apply(lambda x: x[0])
+     
+    df_weekly_week_load = df[df[v_slot_number_rest] != 0].copy() ### ONDE SE IRÁ APLICAR A WEEKLOAD COM CARGA HORARIA QUE SOBRA
+    df_reference_week_load = df[df[v_slot_number_rest] != 0].copy()
+    df_unique_week_load = df[df[v_slot_number_rest] == 0].copy() ### A DISTIRIBUIÇÂO INTEIRA DE HORAS DEU RESTO ZERO
+
+    df_weekly_week_load_EB = df_weekly_week_load[df[v_mod_typologie] == 'EB'].copy()
+    df_weekly_week_load_EPD = df_weekly_week_load[df[v_mod_typologie] == 'EPD'].copy()
+    df_weekly_week_load_AD = df_weekly_week_load[df[v_mod_typologie] == 'AD'].copy()
+
+    if not df_weekly_week_load_EB.empty: # EXTRACT POSIBLE WEEKS EB
+    
+        weeks_upo_EB = df_weekly_week_load_EB[v_weeks].values.tolist()
+        weeks_upo_EB = ",".join(weeks_upo_EB).split(",")
+        unique_weeks_upo_EB = []
+
+        for x in weeks_upo_EB:
+            if x not in unique_weeks_upo_EB:
+                unique_weeks_upo_EB.append(x)
+    
+        #CREATE DICTIONARY WITH WEEKS
+        dict_unique_weeks_upo_EB = {k: v for v, k in enumerate(unique_weeks_upo_EB)} ### AS KEY DE DICIONARIO SÂO AS SEMANAS POSSIVEIS DE EB
+        dict_unique_weeks_upo_EB.update({k:0 for k in dict_unique_weeks_upo_EB}) ### OS VALUES/KEY DE DICIONARIO TODOS A 0
     
 
-    df_new = concat([df_unique_week_load, df_old_week_load], ignore_index= True)
+    if not df_weekly_week_load_EPD.empty: # EXTRACT POSIBLE WEEKS EB
+    
+        weeks_upo_EPD = df_weekly_week_load_EPD[v_weeks].values.tolist()
+        weeks_upo_EPD = ",".join(weeks_upo_EPD).split(",")
+        unique_weeks_upo_EPD = []
 
-    return (df)
+        for x in weeks_upo_EPD:
+            if x not in unique_weeks_upo_EPD:
+                unique_weeks_upo_EPD.append(x)
+    
+        #CREATE DICTIONARY WITH WEEKS
+        dict_unique_weeks_upo_EPD = {k: v for v, k in enumerate(unique_weeks_upo_EPD)} ### AS KEY DE DICIONARIO SÂO AS SEMANAS POSSIVEIS DE EPD
+        dict_unique_weeks_upo_EPD.update({k:0 for k in dict_unique_weeks_upo_EPD}) ### OS VALUES/KEY DE DICIONARIO TODOS A 0
+
+
+    if not df_weekly_week_load_AD.empty: # EXTRACT POSIBLE WEEKS AD
+    
+        weeks_upo_AD = df_weekly_week_load_AD[v_weeks].values.tolist()
+        weeks_upo_AD = ",".join(weeks_upo_AD).split(",")
+        unique_weeks_upo_AD = []
+
+        for x in weeks_upo_AD:
+            if x not in unique_weeks_upo_AD:
+                unique_weeks_upo_AD.append(x)
+    
+        #CREATE DICTIONARY WITH WEEKS
+        dict_unique_weeks_upo_AD = {k: v for v, k in enumerate(unique_weeks_upo_AD)} ### AS KEY DE DICIONARIO SÂO AS SEMANAS POSSIVEIS DE AD
+        dict_unique_weeks_upo_AD.update({k:0 for k in dict_unique_weeks_upo_EPD}) ### OS VALUES/KEY DE DICIONARIO TODOS A 0
+
+    df_weekly_week_load['NEW_WEEKS'] = ''
+    
+    df_weekly_week_load ['TEMP_PLAN'] = df_weekly_week_load[v_name_wload].str.split('_').str[0:3].str.join('_')
+    df_weekly_week_load.sort_values(by = ['TEMP_PLAN',v_mod_typologie ], inplace=True)
+    df_weekly_week_load.drop(columns=['TEMP_PLAN'], inplace=True)
+    
+
+    # AJUSTE DE HORAS A CONSIDERAR EM DATAFRAME DE WEEKLY_WEEK_LOAD
+    # NUMERO DE HORAS IGUAL A HORAS DE RESTO DE DIVISÂO DE HORAS POR SEMANAS
+    df_weekly_week_load[v_hours_wload] = df_weekly_week_load[v_slot_number_rest] 
+
+    df_weekly_week_load_iterator = df_weekly_week_load.copy()
+    
+
+    #ORDENAÇÂO PARA FICAR EM SEMANAS DIFERENTES PARA MESMOS PLANOS/LINEA
+
+    for row in df_weekly_week_load_iterator.itertuples():
+
+        index_dataframe = row[0]
+        weeks_module = getattr(row, v_weeks)
+        type_module = getattr(row, v_mod_typologie)
+
+        if type_module == 'EB':
+            
+            list_weeks = weeks_module.split(',') ## GUARDAR SEMANAS EM LISTA
+            list_weeks_EB = list_weeks [2:] ## APENAS INSERE A APARTIR DA SEMANA 3 AS NOVAS CARGAS !!!
+
+            filter_dictionary_EB = dict((k,dict_unique_weeks_upo_EB[k]) for k in list_weeks_EB if k in dict_unique_weeks_upo_EB)
+
+            value_min = min(filter_dictionary_EB, key=filter_dictionary_EB.get)
+            dict_unique_weeks_upo_EB[value_min] += 1
+
+
+        if type_module == 'EPD':
+            
+            list_weeks_EPD = weeks_module.split(',') ## GUARDAR SEMANAS EM LISTA
+            # list_weeks_EPD = list_weeks [2:] ## APENAS INSERE A APARTIR DA SEMANA 3 AS NOVAS CARGAS !!!
+
+            filter_dictionary_EPD = dict((k,dict_unique_weeks_upo_EPD[k]) for k in list_weeks_EPD if k in dict_unique_weeks_upo_EPD)
+
+            value_min = min(filter_dictionary_EPD, key=filter_dictionary_EPD.get)
+            dict_unique_weeks_upo_EPD[value_min] += 1
+
+
+        if type_module == 'AD':
+            
+            list_weeks_AD = weeks_module.split(',') ## GUARDAR SEMANAS EM LISTA
+            # list_weeks_AD = list_weeks [2:] ## APENAS INSERE A APARTIR DA SEMANA 3 AS NOVAS CARGAS !!!
+
+            filter_dictionary_AD = dict((k,dict_unique_weeks_upo_AD[k]) for k in list_weeks_AD if k in dict_unique_weeks_upo_AD)
+
+            value_min = min(filter_dictionary_AD, key=filter_dictionary_AD.get)
+            dict_unique_weeks_upo_AD[value_min] += 1
+    
+        df_weekly_week_load.at[index_dataframe, 'NEW_WEEKS'] = value_min
+    
+    df_weekly_week_load[v_weeks] = df_weekly_week_load['NEW_WEEKS']
+    df_weekly_week_load.drop(columns=['NEW_WEEKS'], inplace=True)
+
+    df_weekly_week_load[v_week_load_type] = v_week_load_weekly
+    df_reference_week_load[v_week_load_type] = v_week_load_reference
+    df_unique_week_load[v_week_load_type] = v_week_load_unique
+
+
+    df_new = concat([df_reference_week_load, df_unique_week_load, df_weekly_week_load], ignore_index= True)
+
+    df_new[v_name_wload] = where(df_new[v_week_load_type] == v_week_load_unique, df_new[v_name_wload] ,
+                           where(df_new[v_week_load_type] == v_week_load_reference, df_new[v_name_wload]  + '_PR' ,
+                                 df_new[v_name_wload] + '_PS'))
+    
+
+    return (df_new)
 
 
 def create_conector_uxxi (df : DataFrame):

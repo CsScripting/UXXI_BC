@@ -1,7 +1,8 @@
 from PackLibrary.librarys import (	
   DataFrame,
   datetime,
-  arange
+  arange,
+  where
   
 )
 from datetime import datetime
@@ -140,7 +141,9 @@ def filter_fiels_w_loads (df : DataFrame):
                 v_hours_wload,
                 v_plan_linea,
                 v_student_group_best,
-                v_students_number ]
+                v_students_number,
+                v_slot_number_rest,
+                 ]
     
     df = df [columns].copy()
     df[v_session_wload] = '1'
@@ -163,6 +166,9 @@ def insert_name_wload (df : DataFrame):
 
     df[v_name_wload] = df[v_plan_fileconect] + '_' + df[v_curso_fileconect] + '_' + prefix_w_load + df[v_plan_linea] + '_' +  df[v_mod_typologie]
 
+    # df[v_name_wload] = where(df[v_week_load_type] == v_week_load_unique, df[v_plan_fileconect] + '_' + df[v_curso_fileconect] + '_' + prefix_w_load + df[v_plan_linea] + '_' +  df[v_mod_typologie] ,
+    #                    where(df[v_week_load_type] == v_week_load_reference, df[v_plan_fileconect] + '_' + df[v_curso_fileconect] + '_' + prefix_w_load + df[v_plan_linea] + '_' +  df[v_mod_typologie]  + '_PR' ,
+    #                          df[v_plan_fileconect] + '_' + df[v_curso_fileconect] + '_' + prefix_w_load + df[v_plan_linea] + '_' +  df[v_mod_typologie] + '_PS'))
     df.drop(columns=[v_plan_fileconect, v_curso_fileconect], inplace = True)
 
     return (df)

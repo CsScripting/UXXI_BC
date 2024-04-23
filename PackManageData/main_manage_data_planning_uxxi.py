@@ -11,6 +11,7 @@ from mod_variables import *
 
 def manage_data_planning_uxxi_steps (name_file_inserted : str):
 
+    manage_weekly_weekload = False
 
     #CRIAR PASTA DE PLANIFICAÇÂO
     glVarProcess.gl_process_folder, glVarProcess.gl_process_code = folderProcess.create_main_folder_manage_process(v_process_planning_sub_folder)
@@ -93,7 +94,7 @@ def manage_data_planning_uxxi_steps (name_file_inserted : str):
 
     
     #AO ADICIONAR FICHEIROS VERIFICAR SE HÁ DADOS PARA CONTINUAR O PROCESSO.
-
+    
     dataCredUxxi.update_data_to_btt (df_planning_grouped_by_conector)
     
     ## ADD CREDIT MODEL Weeks
@@ -112,7 +113,13 @@ def manage_data_planning_uxxi_steps (name_file_inserted : str):
 
     ## INSERIR CARGA COM HORAS RESTANTES (BEGIN) ##
 
-    # df_data_import = dataUxxi.add_new_w_load_rest_hours(df_data_import)
+    # if manage_weekly_weekload:
+    
+    #     df_data_import = dataUxxi.add_new_w_load_rest_hours(df_data_import)
+
+    # else:
+
+    #     df_data_import[v_week_load_type] = v_week_load_unique
 
     ## INSERIR CARGA COM HORAS RESTANTES (END) ##
 
@@ -123,6 +130,10 @@ def manage_data_planning_uxxi_steps (name_file_inserted : str):
     df_data_import = rulesBest.insert_name_wload (df_data_import)
     df_data_import = rulesBest.agg_section_to_w_load(df_data_import)
     df_data_import = rulesBest.count_sectiones_number(df_data_import)
+
+    if manage_weekly_weekload:
+    
+        df_data_import = dataUxxi.add_new_w_load_rest_hours(df_data_import)
 
     dataUxxi.create_df_w_loads_to_file (df_data_import, process_folder, process_code, v_process_manage_data)
 
