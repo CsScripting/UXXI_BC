@@ -108,14 +108,16 @@ def filter_by_activity_type (df : DataFrame):
 def select_columns_to_process_planning( df : DataFrame):
 
     semestre_planificacion = df[v_periodo_fileconect].iloc[0]
-    df = df[[v_plan_name_fileconect,
-             v_plan_fileconect,
-             v_curso_fileconect,
-             v_mod_code_fileconect,
-             v_mod_name_fileconect,
-             v_mod_type_activity_fileconect,
-             v_grupo_fileconect,
-             v_cod_act_fileconect,
-             v_cod_grupo_fileconect]].copy()
+    
+    df = df[[   v_cred_cod_center,
+                v_plan_name_fileconect,
+                v_plan_fileconect,
+                v_curso_fileconect,
+                v_mod_code_fileconect,
+                v_mod_name_fileconect,
+                v_mod_type_activity_fileconect,
+                v_grupo_fileconect,
+                v_cod_act_fileconect,
+                v_cod_grupo_fileconect]].copy()
     
     return(df, semestre_planificacion)

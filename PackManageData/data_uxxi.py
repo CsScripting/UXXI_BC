@@ -425,6 +425,8 @@ def create_df_info_mutual_modules_to_file (df : DataFrame,  process_folder : str
 
     df_to_file = df.copy()
 
+    df_to_file[v_center_plan_dominant] = df_to_file[v_cred_cod_center].apply(lambda x: x[0])
+    df_to_file[v_center_plan_dominanted] = df_to_file[v_cred_cod_center].apply(lambda x: ',' .join(x[1:]))
     df_to_file[v_plan_name_dominant] = df_to_file[v_plan_name_fileconect].apply(lambda x: x[0])
     df_to_file[v_plan_name_dominated] = df_to_file[v_plan_name_fileconect].apply(lambda x: ',' .join(x[1:]))
     df_to_file[v_plan_dominant] = df_to_file[v_plan_fileconect].apply(lambda x: x[0])
@@ -438,12 +440,13 @@ def create_df_info_mutual_modules_to_file (df : DataFrame,  process_folder : str
     df_to_file[v_mod_code_dominant] = df_to_file[v_mod_code_fileconect].apply(lambda x: x[0])
     df_to_file[v_mod_code_dominated] = df_to_file[v_mod_code_fileconect].apply(lambda x: ',' .join(x[1:]))
     
-    df_to_file.drop(columns = [v_plan_name_fileconect,
-                       v_plan_fileconect,
-                       v_curso_fileconect,
-                       v_grupo_fileconect,
-                       v_mod_code_fileconect,
-                       v_mod_name_fileconect], inplace = True)
+    df_to_file.drop(columns = [v_cred_cod_center,
+                               v_plan_name_fileconect,
+                               v_plan_fileconect,
+                               v_curso_fileconect,
+                               v_grupo_fileconect,
+                               v_mod_code_fileconect,
+                               v_mod_name_fileconect], inplace = True)
     
     genFiles.create  (df_to_file, process_folder, process_code, v_file_mutual_modules, v_sheet_mutual_modules, v_process_manage_data)
 
@@ -707,7 +710,7 @@ def verify_modeles_UXXI_conector(df : DataFrame):
     df_invalid_model.drop(columns='VALIDACION_MODELO', inplace=True)
 
 
-    columns_present = [
+    columns_present = [ v_cred_cod_center,
                         v_cod_act_fileconect,
                         v_cod_grupo_fileconect,
                         v_plan_fileconect,
