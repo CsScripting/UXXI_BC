@@ -107,6 +107,8 @@ def manage_data_planning_uxxi_steps (name_file_inserted : str):
     df_data_import, df_data_without_hours =  dataCredUxxi.add_hours_credits_model(df_data_import, df_model_credits_hours)
     dataUxxi.create_file_validation_module_credits (df_data_without_hours,v_sheet_section_sin_credit_hours, process_folder, process_code, v_process_manage_data)
 
+    df_data_import = dataCredUxxi.manage_values_weeks(df_data_import)##COMO É DADO DE ENTRADA DE USUARIO(GESTÂO MANUAL) NECESSARIO TRATAR DADOS
+    df_data_import = dataCredUxxi.replace_number_weeks_hoja_model_by_number_weeks_hoja_criterios_defecto (df_data_import)
     df_data_import = dataCredUxxi.hours_weeks_section(df_data_import)
     df_data_import = dataUxxi.add_groups_bullet_and_number_students(df_data_import)
 

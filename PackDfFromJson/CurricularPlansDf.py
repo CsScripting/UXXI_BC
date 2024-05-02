@@ -15,61 +15,87 @@ def parse_list_plan_to_df (plan : list, flag_need_id : bool = False):
                               ]
     
 
-    #Filter DataFrame Values
-    df = df [columns_used_from_json].copy()
+    if not df.empty:
 
-    #Extract values from object/Dict
+        #Filter DataFrame Values
+        df = df [columns_used_from_json].copy()
 
-    ## - SingleValues Dict: - ##
+        #Extract values from object/Dict
 
-    #Course
-    df[v_course_code_best] =  df[v_course_dto].apply(lambda x: x.get(v_code_dto))
+        ## - SingleValues Dict: - ##
 
-    #DropColumnsObjects
+        #Course
+        df[v_course_code_best] =  df[v_course_dto].apply(lambda x: x.get(v_code_dto))
 
-    columns_to_drop = [     
-                        v_course_dto
-                        
-                      ]
+        #DropColumnsObjects
 
-    df.drop(columns=columns_to_drop, inplace=True)
-
-    columns_to_rename = {   
-                            v_id_dto : v_id_best,
-                            v_name_dto : v_name_best, 
-                            v_code_dto : v_code_best,
-                            v_year_dto : v_year_best,
-                               
-                        }
-
-
-    df.rename(columns=columns_to_rename, inplace = True)
-    
-
-    if not flag_need_id:
-
-
-      order_columns_df = [ 
-                          v_name_best, 
-                          v_code_best,
-                          v_year_best,
-                          v_course_code_best
+        columns_to_drop = [     
+                            v_course_dto
+                            
                           ]
-      
+
+        df.drop(columns=columns_to_drop, inplace=True)
+
+        columns_to_rename = {   
+                                v_id_dto : v_id_best,
+                                v_name_dto : v_name_best, 
+                                v_code_dto : v_code_best,
+                                v_year_dto : v_year_best,
+                                  
+                            }
+
+
+        df.rename(columns=columns_to_rename, inplace = True)
+        
+
+        if not flag_need_id:
+
+
+          order_columns_df = [ 
+                              v_name_best, 
+                              v_code_best,
+                              v_year_best,
+                              v_course_code_best
+                              ]
+          
+        else:
+          
+          order_columns_df = [ 
+                              v_id_best,
+                              v_name_best, 
+                              v_code_best,
+                              v_year_best,
+                              v_course_code_best
+                              ]
+          
+
+
+
+        df = df [order_columns_df].copy()
+
     else:
        
-       order_columns_df = [ 
-                          v_id_best,
-                          v_name_best, 
-                          v_code_best,
-                          v_year_best,
-                          v_course_code_best
-                          ]
+      if not flag_need_id:
+
+
+          order_columns_df = [ 
+                              v_name_best, 
+                              v_code_best,
+                              v_year_best,
+                              v_course_code_best
+                              ]
+          
+      else:
+          
+          order_columns_df = [ 
+                              v_id_best,
+                              v_name_best, 
+                              v_code_best,
+                              v_year_best,
+                              v_course_code_best
+                              ]
        
-
-
-
-    df = df [order_columns_df].copy()
+      df = DataFrame(columns=order_columns_df)
 
 
     

@@ -216,7 +216,7 @@ def add_hours_credits_model (df_conector :DataFrame, df_model_credit_hours):
     df_conector.drop(columns=v_merge, inplace=True)
     df_conector_sin_modelo_cred.drop(columns=v_merge, inplace=True)
 
-    columns_present = [
+    columns_present = [ v_center_plan_dominant,
                         v_cod_act_fileconect,
                         v_cod_grupo_fileconect,
                         v_plan_fileconect,
@@ -241,5 +241,28 @@ def hours_weeks_section (df : DataFrame):
     df[v_hours_wload] = df[v_slot_number] // df[v_cred_weeks]
     df[v_slot_number_rest] = df[v_slot_number] % df[v_cred_weeks]
  
+    return(df)
+
+
+def manage_values_weeks(df : DataFrame):
+
+    df[v_weeks] = df[v_weeks].str.replace('.', ',')
+    df[v_weeks] = df[v_weeks].str.replace(', ', ',')
+    df[v_weeks] = df[v_weeks].str.replace(', ', ',')
+    df[v_weeks] = df[v_weeks].apply(lambda x: x.strip())
+
+
+
+    return(df)
+
+def replace_number_weeks_hoja_model_by_number_weeks_hoja_criterios_defecto(df : DataFrame):
+
+    df['TEMP_WEEKS'] = df[v_weeks].str.count(',') + 1
+    df[v_cred_weeks] = df['TEMP_WEEKS']
+
+    df.drop(columns='TEMP_WEEKS', inplace=True)
+
+
+
     return(df)
 
