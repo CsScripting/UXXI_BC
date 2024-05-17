@@ -158,6 +158,7 @@ v_center_plan_dominanted = 'CENTRO_PLAN_DOMINATED'
 #Columns Modelos-Asignaturas
 v_cred_mod_code = 'ASIGNATURA'
 v_cred_model ='MODELO'
+v_cred_compartida = 'COMPARTIDA'
 
 #Columns Modelos-Asignaturas
 v_cred_credits = 'CREDITOS'

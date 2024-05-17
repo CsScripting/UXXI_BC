@@ -131,7 +131,8 @@ def manage_hours (df: DataFrame):
 
 def filter_fiels_w_loads (df : DataFrame):
 
-    columns = [ v_file_conectores,
+    columns = [ v_center_plan_dominant, ## Apenas para atribuir session 2 Experimentales en metodo seguinte !!!
+                v_file_conectores,
                 v_plan_fileconect,
                 v_curso_fileconect,
                 v_mod_code,

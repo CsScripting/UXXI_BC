@@ -110,8 +110,14 @@ def group_mutual_modules_plannificacion(df : DataFrame):
                          where(df['PLAN_TYPE'] == 'M','3',
                          where(df['PLAN_TYPE'] == 'F','4','5'))))
     
-    df.sort_values(by=['PLAN_TYPE_ID', v_curso_fileconect, v_mod_code_fileconect], inplace=True) # ORDENADO PARA MANTER SEMPRE MESMO PLANO DOMINANTE
-    df.drop(columns=['PLAN_TYPE','PLAN_TYPE_ID'], inplace=True)
+
+    df['TYPE_COMPARTIDA'] = where(df[v_cred_compartida] == 'COMPARTIDA PRINCIPAL','1',
+                            where(df[v_cred_compartida] == 'COMPARTIDA NO PRINCIPAL ','2',
+                            where(df[v_cred_compartida] == 'NO COMPARTIDA','3','4')))
+                            
+    
+    df.sort_values(by=['TYPE_COMPARTIDA','PLAN_TYPE_ID', v_curso_fileconect, v_mod_code_fileconect], inplace=True) # ORDENADO PARA MANTER SEMPRE MESMO PLANO DOMINANTE
+    df.drop(columns=['PLAN_TYPE','PLAN_TYPE_ID','TYPE_COMPARTIDA'], inplace=True)
 
     df = manData.group_entities_to_list(df,series_to_group,sep=',')
 
@@ -860,6 +866,18 @@ def add_new_w_load_rest_hours (df : DataFrame):
 def create_conector_uxxi (df : DataFrame):
 
     df[v_file_conectores] = df[v_cod_act_fileconect] + '_' + df[v_cod_grupo_fileconect]
+
+    return(df)
+
+def add_session_two_facultad_expermimentales_eb (df : DataFrame):
+
+    df[v_session_wload] = where(((df[v_center_plan_dominant] == '2') & (df[v_mod_typologie] == 'EB') & (df[v_hours_wload] % 2 == 0)),
+                                2, df[v_session_wload] )
+    
+    df[v_hours_wload] = where(((df[v_center_plan_dominant] == '2') & (df[v_mod_typologie] == 'EB') & (df[v_hours_wload] % 2 == 0)),
+                                df[v_hours_wload]/2 , df[v_hours_wload] )
+
+    df.drop(columns=v_center_plan_dominant, inplace=True)
 
     return(df)
 

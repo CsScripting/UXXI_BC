@@ -14,7 +14,8 @@ def filter_columns_process (df: DataFrame, process : str):
                    v_cred_plan, 
                    v_cred_mod_code, 
                    v_cred_model,
-                   v_cred_credits]
+                   v_cred_credits,
+                   v_cred_compartida]
     
 
     elif process == v_sheet_credit_model:
@@ -93,10 +94,10 @@ def verify_duplicated_data_model_credits_general( df : DataFrame, process: str):
         values_to_check_duplicated = [v_cred_model, v_cred_credits,v_cred_actividad ]
 
 
-    df_duplicted = df[df.duplicated(subset=values_to_check_duplicated,keep=False)].copy()
+    df_duplicated = df[df.duplicated(subset=values_to_check_duplicated,keep=False)].copy()
     df = df[~df.duplicated(subset=values_to_check_duplicated,keep=False)].copy()
 
-    return(df, df_duplicted)
+    return(df, df_duplicated)
 
 def filter_model_criterion_by_semestre(df : DataFrame, semestre : str):
     

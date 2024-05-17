@@ -198,11 +198,12 @@ def iterate_df_modules_and_post (df : DataFrame):
 
 
             df_modules_imported.loc[len(df_modules_imported), df_modules_imported.columns] =    name_mod, \
-                                                                                                code_mod, \
-                                                                                                acron_mod, \
-                                                                                                priority_mod, \
-                                                                                                area_mod, \
-                                                                                                response_code, \
+                                                                                                   code_mod, \
+                                                                                                   acron_mod, \
+                                                                                                   priority_mod, \
+                                                                                                   area_mod, \
+                                                                                                   response_code, \
+                                                                                                   message_to_present
 
 
 
