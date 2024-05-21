@@ -657,18 +657,35 @@ def add_groups_bullet_and_number_students (df_conector : DataFrame):
     return(df_conector)
 
 
-def create_df_w_loads_to_file (df : DataFrame,  process_folder : str, process_code : str, sub_process : str):
+def create_df_w_loads_to_file (df : DataFrame,  process_folder : str, process_code : str, sub_process : str, type_file : str):
 
     if sub_process == v_process_update_data:
+        
+        if type_file == v_type_file_w_load:
+        
+            file_name = v_file_wloads
+            v_sheet = v_sheet_wloads
 
-        file_name = v_file_wloads
+        else: 
+
+            file_name =v_file_wloads_section_overlap
+            v_sheet = v_sheet_sectiones_overlap
+
         df[v_data_to_import_new] = 1
 
     else: ### NESTE CASO SERÁ O PROCESSO DE MANAGE DATA
 
-        file_name = v_file_wloads_info
+        if type_file == v_type_file_w_load:
+        
+            file_name = v_file_wloads
+            v_sheet = v_sheet_wloads
 
-    genFiles.create  (df, process_folder, process_code, file_name, v_sheet_wloads, sub_process)
+        else: 
+            
+            file_name =v_file_wloads_section_overlap
+            v_sheet = v_sheet_sectiones_overlap
+
+    genFiles.create  (df, process_folder, process_code, file_name, v_sheet, sub_process)
 
     return()
 
@@ -733,7 +750,7 @@ def verify_modeles_UXXI_conector(df : DataFrame):
     return(df, df_invalid_model)
 
 
-def add_new_w_load_rest_hours (df : DataFrame):
+def add_new_w_load_rest_hours (df : DataFrame): ### NESTE MOMENTO NÂO SE ESTA A APLICAR ESTE METODO ...
 
     df [v_slot_number_rest] = df[v_slot_number_rest].apply(lambda x: x[0])
      
@@ -881,6 +898,82 @@ def add_session_two_facultad_expermimentales_eb (df : DataFrame):
 
     return(df)
 
+
+def add_alternated_weeks_EPD (df: DataFrame, df_alternated_weeks : DataFrame):
+
+    values_weeks_par = '2,4,6,8,10,12,14'
+    values_weeks_impar = '1,3,5,7,9,11,13'
+
+    
+
+    #Convert Data Same Type ... String OR List
+
+    df_alternated_weeks.rename (columns={v_plan_fileconect : 'PLAN_CHECK',
+                                         v_year : 'CURSO_CHECK',
+                                         v_cred_cod_center : v_center_plan_dominant,
+                                         v_cred_mod_code : v_mod_code,
+                                         v_epd_alternatedd_linea : v_student_group
+                                         }, inplace=True)
+
+    df['CURSO_CHECK'] = df[v_year].str[0]
+    df['PLAN_CHECK'] = df[v_cred_plan].str[0]
+    df['TEMP_WEEKS_COUNT'] = df[v_weeks].str.count(',') + 1
+
+    columns_merge = ['PLAN_CHECK',
+                     'CURSO_CHECK',
+                     v_center_plan_dominant,
+                     v_mod_code,
+                     v_cred_model,
+                     v_student_group
+                     ]
+
+    df = merge (left=df, right=df_alternated_weeks, how = 'left', on = columns_merge, indicator=True)
+
+    
+
+    # REGRAS ASSOCIAR A EXCEPÇÂO DE PARES E IMPARES:
+    # HORAS SEMANAIS --> SE 14 SEMANAS então MUlTIPLICAR VALOR POR 2
+    df[v_hours_wload] = where(((df[v_merge] == 'both') & (df['TEMP_WEEKS_COUNT'] == 14) ) 
+                              , df[v_hours_wload] * 2, df[v_hours_wload] )
+    
+    #NOVAS SEMANAS
+    df[v_weeks] = where(((df[v_merge] == 'both') & (df[v_epd_alternatedd_weeks] == v_file_value_week_par)) ,values_weeks_par , df[v_weeks] )
+    df[v_weeks] = where(((df[v_merge] == 'both') & (df[v_epd_alternatedd_weeks] == v_file_value_week_impar)) ,values_weeks_impar , df[v_weeks] )
+    
+    #INSERIR INDENTIFICADOR DE CARGAS SEMANAL PARES E IMPARES
+    df[v_w_load_flag_alternated_week] = ''
+    #NOVAS SEMANAS
+    df[v_w_load_flag_alternated_week] = where(((df[v_merge] == 'both') & (df[v_epd_alternatedd_weeks] == v_file_value_week_par)) ,v_flag_week_par , df[v_w_load_flag_alternated_week] )
+    df[v_w_load_flag_alternated_week] = where(((df[v_merge] == 'both') & (df[v_epd_alternatedd_weeks] == v_file_value_week_impar)) ,v_flag_week_impar , df[v_w_load_flag_alternated_week] )
+
+
+
+    df.drop(columns=['PLAN_CHECK','CURSO_CHECK','TEMP_WEEKS_COUNT', v_epd_alternatedd_weeks,v_cred_model, v_merge], inplace=True)
+      
+
+    return(df)
+
+def manage_data_create_xml_file_solapadas_par_impar (df : DataFrame):
+
+    columns_present = [ v_plan_fileconect,
+                        v_curso_fileconect,
+                        v_mod_code_fileconect,
+                        v_plan_linea,
+                        v_grupo_fileconect,
+                        v_name_wload,
+                        v_section_name,
+                        v_weeks ]
+    
+    df = df[columns_present].copy()
+    
+    series_merge = [    v_plan_fileconect,
+                        v_curso_fileconect,
+                        v_mod_code_fileconect,
+                        v_plan_linea]
+
+    df = manData.group_entities(df, series_merge,sep=',')
+
+    return(df)
     
 
 

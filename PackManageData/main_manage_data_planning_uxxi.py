@@ -44,6 +44,14 @@ def manage_data_planning_uxxi_steps (name_file_inserted : str):
     df_model_credits_hours, df_model_module_credit_hours_invalid = dataCredUxxi.filter_null_values_credits(df_model_credits_hours, v_sheet_credit_model) ## ENVIAR FICHEIRO DE VALIDAÇÂO
     df_model_credits_hours, df_model_module_credit_hours_duplicated = dataCredUxxi.verify_duplicated_data_model_credits_general(df_model_credits_hours,v_sheet_credit_model) ## ENVIAR FICHEIRO DE VALIDAÇÂO
 
+    #SEMANAS ALTERNADAS
+
+    df_alternated_weeks = readFilter.read_data_file_xlsx(name_file_inserted, v_sheet_alternated_weeks)
+    df_alternated_weeks = dataCredUxxi.filter_columns_process(df_alternated_weeks, v_sheet_alternated_weeks)
+    df_alternated_weeks, df_alternated_weeks_invalid = dataCredUxxi.filter_null_values_credits(df_alternated_weeks, v_sheet_alternated_weeks) ## ENVIAR FICHEIRO DE VALIDAÇÂO
+    df_alternated_weeks, df_alternated_weeks_duplicated = dataCredUxxi.verify_duplicated_data_model_credits_general(df_alternated_weeks,v_sheet_alternated_weeks) ## ENVIAR FICHEIRO DE VALIDAÇÂO
+
+
     #VALIDAÇÂO DE MODELOS CREDITOS PARA FICHEIRO:
 
     dataUxxi.create_file_validation_module_credits (df_model_module_invalid,v_sheet_wrong_model_module, process_folder, process_code, v_process_manage_data)
@@ -115,16 +123,21 @@ def manage_data_planning_uxxi_steps (name_file_inserted : str):
   
     df_data_import = dataUxxi.create_conector_uxxi(df_data_import)
     df_data_import = rulesBest.filter_fiels_w_loads (df_data_import)
+    df_data_import = dataUxxi.add_alternated_weeks_EPD (df_data_import, df_alternated_weeks)
     df_data_import = dataUxxi.add_session_two_facultad_expermimentales_eb(df_data_import)
     df_data_import = rulesBest.insert_name_section(df_data_import)
-    df_data_import = rulesBest.insert_name_wload (df_data_import)
+    df_data_import, df_mod_linea_par_impar = rulesBest.insert_name_wload (df_data_import)
+    df_mod_linea_par_impar = dataUxxi.manage_data_create_xml_file_solapadas_par_impar(df_mod_linea_par_impar)
     df_data_import = rulesBest.agg_section_to_w_load(df_data_import)
     df_data_import = rulesBest.count_sectiones_number(df_data_import)
+
+    df_data_import = rulesBest.add_distinct_name_w_load_same_module_type(df_data_import)
 
     if manage_weekly_weekload:
     
         df_data_import = dataUxxi.add_new_w_load_rest_hours(df_data_import)
 
-    dataUxxi.create_df_w_loads_to_file (df_data_import, process_folder, process_code, v_process_manage_data)
+    dataUxxi.create_df_w_loads_to_file (df_data_import, process_folder, process_code, v_process_manage_data, v_type_file_w_load)
+    dataUxxi.create_df_w_loads_to_file (df_mod_linea_par_impar, process_folder, process_code, v_process_manage_data, v_type_file_section_overlap)
 
     return(df_data_import, df_relacion_plan_module)

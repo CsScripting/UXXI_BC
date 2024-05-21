@@ -1,6 +1,15 @@
 v_version = '0.0'
 
 
+## FIXED VALUES FILES
+
+v_file_value_week_par = 'PARES'
+v_file_value_week_impar = 'IMPARES'
+v_w_load_flag_alternated_week = 'ADD_WLOAD_NAME'
+v_flag_week_par = 'SP'
+v_flag_week_impar = 'SI'
+
+
 #ManageMainProcess:
 
 v_main_process_planning = 'Planificacion'
@@ -105,6 +114,7 @@ v_sheet_planning_data_uxxi = 'ConectorPlanificacion'
 v_sheet_credit_model = 'Modelos'
 v_sheet_model_module = 'Modelo-Asignatura'
 v_sheet_credit_model_criterion = 'Criterios-defecto'
+v_sheet_alternated_weeks = 'Semanas-Alternadas'
 v_sheet_schedules_data_uxxi = 'DatosUXXI'
 v_sheet_data_uxxi_dates = 'WeeksSchedules'
 
@@ -135,7 +145,14 @@ v_sheet_mutual_modules = 'MutualModules'
 v_file_wloads = 'WLOADS_INSERT'
 v_file_wloads_info = 'WLOADS_INFO'
 
+v_file_wloads_section_overlap = 'SECTION_OVERL_INSERT'
+v_file_wloads_section_overlap_info = 'SECTION_OVERLAP_INSERT'
+
+v_type_file_w_load = 'W_LOAD'
+v_type_file_section_overlap = 'SECTION_OVERLAP'
+
 v_sheet_wloads = 'Week_Loads'
+v_sheet_sectiones_overlap = 'Section_Overlap'
 
 # New Columns Mutual Modules
 
@@ -171,6 +188,12 @@ v_cred_period = 'PERIODO'
 v_cred_week_EB = 'SEMANAS_EB'
 v_cred_week_EPD = 'SEMANAS_EPD'
 v_cred_week_AD = 'SEMANAS_AD'
+
+#Columns Semanas-Alternadas
+
+v_epd_alternatedd_linea = 'EPD'
+v_epd_alternatedd_weeks = 'SEMANAS PARES/IMPARES'
+
 
 
 

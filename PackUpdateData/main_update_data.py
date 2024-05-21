@@ -71,7 +71,7 @@ def update_data_steps(main_process : str, df_weekload_insert : DataFrame, df_rel
 
     if main_process == 0:
 
-        dataUxxi.create_df_w_loads_to_file (df_weekload_insert, glVarPro.gl_process_folder,glVarPro.gl_process_code, v_process_update_data)
+        dataUxxi.create_df_w_loads_to_file (df_weekload_insert, glVarPro.gl_process_folder,glVarPro.gl_process_code, v_process_update_data, v_type_file_w_load)
 
     ## - Extract Data from DataBase (API) to Check Data - ##
 

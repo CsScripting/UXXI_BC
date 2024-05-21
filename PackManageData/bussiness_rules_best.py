@@ -131,12 +131,13 @@ def manage_hours (df: DataFrame):
 
 def filter_fiels_w_loads (df : DataFrame):
 
-    columns = [ v_center_plan_dominant, ## Apenas para atribuir session 2 Experimentales en metodo seguinte !!!
+    columns = [ v_center_plan_dominant, ## Apenas para atribuir session 2 Experimentales en metodo seguinte, Drop no Respectivo Metodo !!!
                 v_file_conectores,
                 v_plan_fileconect,
                 v_curso_fileconect,
                 v_mod_code,
                 v_student_group,
+                v_cred_model,  ## Apenas para atribuir Semanas Alternadas, Drop no respetivo Metodo !!!
                 v_mod_typologie,
                 v_weeks,
                 v_hours_wload,
@@ -165,14 +166,19 @@ def insert_name_wload (df : DataFrame):
     df[v_curso_fileconect] = df [v_curso_fileconect].apply(lambda x : x[0])
     df[v_plan_linea] = df [v_plan_linea].apply(lambda x : x[0])
 
-    df[v_name_wload] = df[v_plan_fileconect] + '_' + df[v_curso_fileconect] + '_' + prefix_w_load + df[v_plan_linea] + '_' +  df[v_mod_typologie]
+    # INSERIDA EXCEPÇÂO DE NOME DE W_LOAD DE ACORDO COM SEMANAS PARES E IMPARES
+    df[v_name_wload] = where (df[v_w_load_flag_alternated_week] != '', 
+                              df[v_plan_fileconect] + '_' + df[v_curso_fileconect] + '_' + prefix_w_load + df[v_plan_linea] + '_' +  df[v_mod_typologie] + '_' + df[v_w_load_flag_alternated_week],
+                              df[v_plan_fileconect] + '_' + df[v_curso_fileconect] + '_' + prefix_w_load + df[v_plan_linea] + '_' +  df[v_mod_typologie])
+    
+    df_mod_linea_par_impar = df[df[v_w_load_flag_alternated_week] != ''].copy()
 
     # df[v_name_wload] = where(df[v_week_load_type] == v_week_load_unique, df[v_plan_fileconect] + '_' + df[v_curso_fileconect] + '_' + prefix_w_load + df[v_plan_linea] + '_' +  df[v_mod_typologie] ,
     #                    where(df[v_week_load_type] == v_week_load_reference, df[v_plan_fileconect] + '_' + df[v_curso_fileconect] + '_' + prefix_w_load + df[v_plan_linea] + '_' +  df[v_mod_typologie]  + '_PR' ,
     #                          df[v_plan_fileconect] + '_' + df[v_curso_fileconect] + '_' + prefix_w_load + df[v_plan_linea] + '_' +  df[v_mod_typologie] + '_PS'))
-    df.drop(columns=[v_plan_fileconect, v_curso_fileconect], inplace = True)
+    df.drop(columns=[v_plan_fileconect, v_curso_fileconect,v_w_load_flag_alternated_week], inplace = True)
 
-    return (df)
+    return (df, df_mod_linea_par_impar)
 
 
 def agg_section_to_w_load (df : DataFrame):
@@ -200,3 +206,18 @@ def count_sectiones_number (df :DataFrame):
     df[v_section_number] = df[v_section_name].apply(lambda x: len(x))
 
     return (df)
+
+def add_distinct_name_w_load_same_module_type (df : DataFrame):
+
+    df['Counter'] =df.groupby([v_name_wload,v_mod_code,v_mod_typologie])[v_mod_typologie].cumcount()
+
+    df['Counter'] = df['Counter'] + 1
+    df ['Counter'] = df ['Counter'].astype(str)
+    df [v_name_wload] = where(df['Counter'] != '1',
+                              df[v_name_wload] + '_M' + df['Counter'],
+                              df [v_name_wload])
+    
+    df.drop(columns='Counter', inplace=True)
+
+    return(df)
+

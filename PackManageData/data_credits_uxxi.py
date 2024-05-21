@@ -37,6 +37,18 @@ def filter_columns_process (df: DataFrame, process : str):
                     v_cred_week_EB,
                     v_cred_week_EPD,
                     v_cred_week_AD]
+        
+    elif process == v_sheet_alternated_weeks:
+
+        columns= [  v_cred_cod_center,
+                    v_cred_plan,
+                    v_year,
+                    v_cred_mod_code,
+                    v_cred_model,
+                    v_epd_alternatedd_linea,
+                    v_epd_alternatedd_weeks]
+
+
 
     df = df[columns].copy()
 
@@ -70,6 +82,18 @@ def filter_null_values_credits (df : DataFrame, process: str):
                                     v_cred_plan,
                                     v_cred_model,
                                     v_cred_credits]
+        
+
+
+    elif process == v_sheet_alternated_weeks:
+
+        columns_not_null_models = [ v_cred_cod_center,
+                                    v_cred_plan,
+                                    v_year,
+                                    v_cred_mod_code,
+                                    v_cred_model,
+                                    v_epd_alternatedd_linea,
+                                    v_epd_alternatedd_weeks]
 
 
     df_null = df[df[columns_not_null_models].isnull().any (axis=1)].copy()
@@ -92,6 +116,11 @@ def verify_duplicated_data_model_credits_general( df : DataFrame, process: str):
     elif process == v_sheet_credit_model:
 
         values_to_check_duplicated = [v_cred_model, v_cred_credits,v_cred_actividad ]
+
+
+    elif process == v_sheet_alternated_weeks:
+
+        values_to_check_duplicated = [v_cred_cod_center, v_cred_plan,v_year, v_cred_mod_code,v_cred_model, v_epd_alternatedd_linea]
 
 
     df_duplicated = df[df.duplicated(subset=values_to_check_duplicated,keep=False)].copy()

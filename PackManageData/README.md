@@ -53,3 +53,5 @@
     [] - verificar mesmo grupo de actividad e nomenclautra diferente grupo (ex: 21, 11)
 
     [] - Verificar se Weekloads Mesma Disciplina/Tipo Ficam com Nomes Diferentes -- > Pode ter influencia em Processo de Import.
+
+    [] - Validações de Semanas Alternadas
