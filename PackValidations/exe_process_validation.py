@@ -94,8 +94,8 @@ def exe_process_steps (gl_check_main_process, gl_opcion_process_to_ejecute : int
 
         if gl_opcion_process_to_ejecute == 0:  #PROCESS PLANIFICACION ---> ChecK Data
 
-            df_w_loads_insert, df_relacion_plan_modules = managDataPlan.manage_data_planning_uxxi_steps(gl_name_file_uxxi)
-            updateData.update_data_steps(gl_check_main_process, df_w_loads_insert,df_relacion_plan_modules)
+            df_w_loads_insert, df_relacion_plan_modules, df_mod_linea_par_impar = managDataPlan.manage_data_planning_uxxi_steps(gl_name_file_uxxi)
+            updateData.update_data_steps(gl_check_main_process, df_w_loads_insert,df_relacion_plan_modules,df_mod_linea_par_impar)
 
         if gl_opcion_process_to_ejecute == 1:
 

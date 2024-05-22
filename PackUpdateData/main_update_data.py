@@ -26,8 +26,9 @@ from PackLibrary.librarys import (
 
 from mod_variables import *
 
-def update_data_steps(main_process : str, df_weekload_insert : DataFrame, df_relacion_plan_module : DataFrame,  first_week_schedules : str = '', last_week_schedules : str = '', df_info_events : DataFrame = [],
-                      df_events_to_import : DataFrame = []):
+def update_data_steps(  main_process : str, df_weekload_insert : DataFrame, df_relacion_plan_module : DataFrame,df_mod_linea_par_impar : DataFrame,
+                        first_week_schedules : str = '', last_week_schedules : str = '', df_info_events : DataFrame = [],
+                        df_events_to_import : DataFrame = []):
 
 
     # CRIAR PASTA DE UPDATE PARA PROCESSO DE HORARIOS OU PROCESSO DE PLANIFICAÇÃO
@@ -69,9 +70,10 @@ def update_data_steps(main_process : str, df_weekload_insert : DataFrame, df_rel
             
         genFiles.create(df_uxxi_to_insert_data,glVarPro.gl_process_folder,glVarPro.gl_process_code,v_file_horarios,v_sheet_schedules_data_uxxi,v_process_update_data, False)
 
-    if main_process == 0:
+    if main_process == 0: ### PROCESSO DE PLANIFICAÇÂO
 
         dataUxxi.create_df_w_loads_to_file (df_weekload_insert, glVarPro.gl_process_folder,glVarPro.gl_process_code, v_process_update_data, v_type_file_w_load)
+        dataUxxi.create_df_w_loads_to_file (df_mod_linea_par_impar, glVarPro.gl_process_folder,glVarPro.gl_process_code, v_process_update_data, v_type_file_section_overlap)
 
     ## - Extract Data from DataBase (API) to Check Data - ##
 

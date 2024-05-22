@@ -140,4 +140,4 @@ def manage_data_planning_uxxi_steps (name_file_inserted : str):
     dataUxxi.create_df_w_loads_to_file (df_data_import, process_folder, process_code, v_process_manage_data, v_type_file_w_load)
     dataUxxi.create_df_w_loads_to_file (df_mod_linea_par_impar, process_folder, process_code, v_process_manage_data, v_type_file_section_overlap)
 
-    return(df_data_import, df_relacion_plan_module)
+    return(df_data_import, df_relacion_plan_module, df_mod_linea_par_impar)

@@ -146,7 +146,7 @@ v_file_wloads = 'WLOADS_INSERT'
 v_file_wloads_info = 'WLOADS_INFO'
 
 v_file_wloads_section_overlap = 'SECTION_OVERL_INSERT'
-v_file_wloads_section_overlap_info = 'SECTION_OVERLAP_INSERT'
+v_file_wloads_section_overlap_info = 'SECTION_OVERLAP_INFO'
 
 v_type_file_w_load = 'W_LOAD'
 v_type_file_section_overlap = 'SECTION_OVERLAP'
@@ -692,6 +692,13 @@ v_xml_header_not_overlap = '<?xml version="1.0" encoding="iso-8859-15" standalon
 <ns1:ConstraintObjective xmlns:ns1="urn:spaceConstraintObjective">\n\
 <SeparatedEvents>\n'
 v_xml_footer_not_overlap = '</SeparatedEvents>\n\
+</ns1:ConstraintObjective>\n'
+
+
+v_xml_header_overlap = '<?xml version="1.0" encoding="iso-8859-15" standalone="yes"?>\n\
+<ns1:ConstraintObjective xmlns:ns1="urn:spaceConstraintObjective">\n\
+<OverlappedEvents>\n'
+v_xml_footer_overlap = '</OverlappedEvents>\n\
 </ns1:ConstraintObjective>\n'
 
 

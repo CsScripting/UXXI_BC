@@ -677,12 +677,12 @@ def create_df_w_loads_to_file (df : DataFrame,  process_folder : str, process_co
 
         if type_file == v_type_file_w_load:
         
-            file_name = v_file_wloads
+            file_name = v_file_wloads_info
             v_sheet = v_sheet_wloads
 
         else: 
             
-            file_name =v_file_wloads_section_overlap
+            file_name = v_file_wloads_section_overlap_info
             v_sheet = v_sheet_sectiones_overlap
 
     genFiles.create  (df, process_folder, process_code, file_name, v_sheet, sub_process)
@@ -971,7 +971,7 @@ def manage_data_create_xml_file_solapadas_par_impar (df : DataFrame):
                         v_mod_code_fileconect,
                         v_plan_linea]
 
-    df = manData.group_entities(df, series_merge,sep=',')
+    df = manData.group_entities_to_list(df, series_merge,sep=',')
 
     return(df)
     

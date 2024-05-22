@@ -193,12 +193,35 @@ def process_section_distinct_hour (df : DataFrame, main_folder : str, name_folde
     path_store_file = main_folder + '/' + name_folder_process + '/' + v_process_import_data + '/' 
 
     df [v_section_name] = df[v_section_name].apply(ast.literal_eval) ### PASSAR REPRESENTAÇÂO STRING/LISTA A LISTA
+    df['NumberElemenstsList'] =df[v_section_name].apply(lambda x: len(x))
+    df = df[df['NumberElemenstsList']!= 1]
     df = df[df[v_mod_typologie]!= 'EB']
     df = df [[v_mod_code_fileconect,
               v_name_wload,
               v_section_name]]
 
     iniciate_xml_not_overlap (df, path_store_file, code_process )
+
+
+    return()
+
+def process_section_overlap (df : DataFrame, main_folder : str, name_folder_process : str, v_process_import_data :str):
+
+    values_process_code = name_folder_process.split('_')
+
+    code_process = '_' + values_process_code[1] + '_' + values_process_code[2]
+    
+    path_store_file = main_folder + '/' + name_folder_process + '/' + v_process_import_data + '/' 
+
+    df [v_section_name] = df[v_section_name].apply(ast.literal_eval) ### PASSAR REPRESENTAÇÂO STRING/LISTA A LISTA
+    df[v_name_wload] = df[v_name_wload].apply(ast.literal_eval) ### PASSAR REPRESENTAÇÂO STRING/LISTA A LISTA
+    df['NumberElemenstsList'] =df[v_name_wload].apply(lambda x: len(x))
+    df = df[df['NumberElemenstsList']!= 1]
+    df = df [[v_mod_code_fileconect,
+              v_name_wload,
+              v_section_name]]
+
+    iniciate_xml_overlap (df, path_store_file, code_process )
 
 
     return()
@@ -210,6 +233,53 @@ def iniciate_xml_not_overlap (df : DataFrame, path_store_file : str, process_cod
     XML_NOT_OVERLAP = (v_xml_header_not_overlap + '\n'.join(df.apply(create_xml_not_overlap, axis=1)) + '\n' + v_xml_footer_not_overlap)
     with open('./' + path_file,'w') as f:
         f.write(XML_NOT_OVERLAP)
+
+def iniciate_xml_overlap (df : DataFrame, path_store_file : str, process_code : str):
+
+    file_name = 'SECTION_OVERLAP' + process_code + '.xml'
+    path_file = path_store_file + file_name
+    XML_NOT_OVERLAP = (v_xml_header_overlap + '\n'.join(df.apply(create_xml_overlap, axis=1)) + '\n' + v_xml_footer_overlap)
+    with open('./' + path_file,'w') as f:
+        f.write(XML_NOT_OVERLAP)
+
+
+def create_xml_overlap (df :DataFrame):
+
+    xml_storage = []
+
+    mod_code = df[v_mod_code_fileconect]
+    wload_name = df [v_name_wload]
+    section_list = df [v_section_name]
+    num_sectiones = len(section_list)
+    
+
+    for i in range(num_sectiones):
+
+        if i + 1 != num_sectiones:
+
+            counter_stop = i + 1
+            
+            while counter_stop < num_sectiones:
+
+                
+        
+                xml_storage.append('   <Constraint>')
+                xml_storage.append('      <WeekLoad1>')
+                xml_storage.append('         <ModuleCode>{0}</ModuleCode>'.format(mod_code))   
+                xml_storage.append('         <WeekLoadName>{0}</WeekLoadName>'.format(wload_name[i]))   
+                xml_storage.append('         <SectionName>{0}</SectionName>'.format(section_list[i]))
+                xml_storage.append('      </WeekLoad1>')
+                xml_storage.append('      <WeekLoad2>')
+                xml_storage.append('         <ModuleCode>{0}</ModuleCode>'.format(mod_code))   
+                xml_storage.append('         <WeekLoadName>{0}</WeekLoadName>'.format(wload_name[counter_stop]))   
+                xml_storage.append('         <SectionName>{0}</SectionName>'.format(section_list[counter_stop]))
+                xml_storage.append('      </WeekLoad2>')
+                xml_storage.append('   </Constraint>') 
+
+                counter_stop += 1 
+
+            
+    return '\n'.join(xml_storage)
 
 def create_xml_not_overlap (df :DataFrame):
 
