@@ -15,7 +15,9 @@ class ValidationFolderConfigApi(Exception):
 
 class NoAccessToUsers(Exception):
     pass
-    
+
+class ForbidenAccess(Exception):
+    pass
 
 # validation_config_exist_on_folder()
 class FileConfigNotInserted(Exception):

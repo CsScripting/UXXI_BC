@@ -26,7 +26,7 @@ from PackLibrary.librarys import (
 
 from mod_variables import *
 
-def update_data_steps(  main_process : str, df_weekload_insert : DataFrame, df_relacion_plan_module : DataFrame,df_mod_linea_par_impar : DataFrame,
+def update_data_steps(  main_process : str, df_weekload_insert : DataFrame = [], df_relacion_plan_module : DataFrame = [],df_mod_linea_par_impar : DataFrame = [],
                         first_week_schedules : str = '', last_week_schedules : str = '', df_info_events : DataFrame = [],
                         df_events_to_import : DataFrame = []):
 
@@ -200,8 +200,9 @@ def update_data_steps(  main_process : str, df_weekload_insert : DataFrame, df_r
         genFiles.create (df_classrooms_to_import, glVarPro.gl_process_folder,glVarPro.gl_process_code,
                             v_file_curriculum_to_import, v_sheet_classrooms,v_process_update_data, flag_file_to_import_created)
         
-    # Insert Relacion Plan Modules
-    genFiles.create (df_relacion_plan_module, glVarPro.gl_process_folder,glVarPro.gl_process_code,
-                    v_file_curriculum_to_import, v_sheet_planes_modules,v_process_update_data, flag_file_to_import_created)
+    if main_process == 0: # Relação de Discciplinas/Planos USADO APENAS PROCESSO PLANIFICAÇÂO   
+        # Insert Relacion Plan Modules
+        genFiles.create (df_relacion_plan_module, glVarPro.gl_process_folder,glVarPro.gl_process_code,
+                        v_file_curriculum_to_import, v_sheet_planes_modules,v_process_update_data, flag_file_to_import_created)
 
     return()

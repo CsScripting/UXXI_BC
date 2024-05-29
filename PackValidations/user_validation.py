@@ -75,6 +75,10 @@ def user_validation_steps ():
 
                 raise userValFunct.UserNotAdmin
             
+        elif status_call == 403:
+
+            raise userValFunct.ForbidenAccess
+            
         else:
            
            raise userValFunct.NoAccessToUsers
@@ -103,6 +107,14 @@ def user_validation_steps ():
 
         messagebox.showerror('Sign In', 'Process Rules:\n\n' + 'User Must be Admin !!')
         stateObj.closing_behavior_user_window()
+
+
+    except userValFunct.ForbidenAccess:
+
+        messagebox.showerror('Sign In', 'Forbidden Access:\n\n' + 'ERROR 403')
+        stateObj.closing_behavior_user_window()
+
+    
 
 
     #error headers config

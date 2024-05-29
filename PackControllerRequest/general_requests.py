@@ -172,12 +172,14 @@ def post_data_search_filter_user (url : str , header_request : str, controller :
     response = requests.post(url, headers = header_request, json = body_data)
     
 
-    dict_data_section = json.loads(response.content)
-
+    
 
     if response.status_code == 200:
 
+        dict_data_section = json.loads(response.content)
+
         is_admin = dict_data_section['data']['data'][0][v_is_admin_dto]
+
      
 
     return (response.status_code, is_admin)

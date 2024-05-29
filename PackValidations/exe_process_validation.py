@@ -42,7 +42,8 @@ def exe_process_steps (gl_check_main_process, gl_opcion_process_to_ejecute : int
             first_week_schedules, last_week_schedules, df_info_events, df_events_import  = managData.manage_data_uxxi_steps(gl_name_file_uxxi)
 
             #UPDATE DATA -- RELATIVO A ENTIDADES DE HORARIOS --> Importante Update de Dados e não de Horarios !!!
-            updateData.update_data_steps(gl_check_main_process, first_week_schedules, last_week_schedules, df_info_events,df_events_import)
+            updateData.update_data_steps(gl_check_main_process,first_week_schedules = first_week_schedules, last_week_schedules = last_week_schedules, 
+                                         df_info_events = df_info_events, df_events_to_import = df_events_import)
 
         if gl_opcion_process_to_ejecute == 1:
 
@@ -95,7 +96,8 @@ def exe_process_steps (gl_check_main_process, gl_opcion_process_to_ejecute : int
         if gl_opcion_process_to_ejecute == 0:  #PROCESS PLANIFICACION ---> ChecK Data
 
             df_w_loads_insert, df_relacion_plan_modules, df_mod_linea_par_impar = managDataPlan.manage_data_planning_uxxi_steps(gl_name_file_uxxi)
-            updateData.update_data_steps(gl_check_main_process, df_w_loads_insert,df_relacion_plan_modules,df_mod_linea_par_impar)
+            updateData.update_data_steps(gl_check_main_process, df_w_loads_insert = df_w_loads_insert,df_relacion_plan_module = df_relacion_plan_modules,
+                                         df_mod_linea_par_impar = df_mod_linea_par_impar)
 
         if gl_opcion_process_to_ejecute == 1:
 
