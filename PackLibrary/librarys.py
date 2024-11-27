@@ -11,6 +11,7 @@ import configparser as cp
 import requests
 import json
 from requests_oauthlib import OAuth2Session
+from oauthlib.oauth2.rfc6749.errors import UnauthorizedClientError
 from oauthlib.oauth2 import BackendApplicationClient
 from oauthlib.oauth2 import LegacyApplicationClient
 import oauthlib

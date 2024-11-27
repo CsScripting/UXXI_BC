@@ -246,7 +246,6 @@ def validation_settings_steps():
         messagebox.showerror('Acad. Term', 'Period ' + name_inserted_acad_term + ' don´t exist on BTT')
 
 
-
     except:
         
         messagebox.showerror('ERROR', 'If error persist please contact:\n\ninfo@bulletsolutions.com')

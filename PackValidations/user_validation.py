@@ -10,7 +10,8 @@ from PackLibrary.librarys import (
     messagebox,
     traceback,
     oauthlib, 
-    requests
+    requests,
+    UnauthorizedClientError
     )
 
 from mod_variables import *
@@ -112,6 +113,11 @@ def user_validation_steps ():
     except userValFunct.ForbidenAccess:
 
         messagebox.showerror('Sign In', 'Forbidden Access:\n\n' + 'ERROR 403')
+        stateObj.closing_behavior_user_window()
+
+    except UnauthorizedClientError as e:
+
+        messagebox.showerror('Sign In', 'This is an UNAUTHORIZED CLIENT !!\n\n' + 'Verify in IDENTITY if client have on SETTINGS: \n\n' + 'Allowed Grant Types: password | client_credentiales' )
         stateObj.closing_behavior_user_window()
 
     
