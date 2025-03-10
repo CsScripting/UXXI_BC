@@ -2,7 +2,8 @@ from mod_variables import *
 from PackLibrary.librarys import (	
   DataFrame,
   merge,
-  where
+  where,
+  concat
 )
 
 def filter_columns_process (df: DataFrame, process : str):
@@ -166,10 +167,25 @@ def add_model_module_section_conector (df_conector : DataFrame, df_model_mod : D
     return(df_conector)
 
 
-def add_model_module_credit_section_conector (df_conector : DataFrame, df_model_cred_mod : DataFrame):
+def add_model_module_credit_section_conector (df_conector : DataFrame, df_model_cred_mod : DataFrame, flag_second_semester : bool):
 
     df_model_cred_mod.rename(columns={v_cred_plan : v_plan_dominant,
                                       v_cred_cod_center : v_center_plan_dominant }, inplace=True)
+    
+    if flag_second_semester:
+
+        df_conector_without_week_criteria = df_conector[df_conector[v_center_plan_dominant].isin(v_center_without_default_week_criteria)]
+
+        df_conector = df_conector[df_conector[v_center_plan_dominant].isin(v_center_with_default_week_criteria)]
+
+        df_conector_without_week_criteria[v_cred_period] = v_period_default_week_criteria
+        df_conector_without_week_criteria[v_cred_week_EB] = v_weeks_by_type_default_week_criteria
+        df_conector_without_week_criteria[v_cred_week_EPD] = v_weeks_by_type_default_week_criteria
+        df_conector_without_week_criteria[v_cred_week_AD] = v_weeks_by_type_default_week_criteria
+
+
+
+
     df_conector = merge(left=df_conector, right=df_model_cred_mod, on = [v_center_plan_dominant,v_plan_dominant,v_cred_model,v_cred_credits], how='left', indicator=True)
 
     df_conector_sin_modelo_cred = df_conector[df_conector[v_merge] != 'both'].copy()
@@ -192,6 +208,10 @@ def add_model_module_credit_section_conector (df_conector : DataFrame, df_model_
                         ]
     
     df_conector_sin_modelo_cred = df_conector_sin_modelo_cred[columns_present]
+
+    if flag_second_semester:
+
+        df_conector = concat([df_conector, df_conector_without_week_criteria], ignore_index= True)
 
     return(df_conector, df_conector_sin_modelo_cred)
 

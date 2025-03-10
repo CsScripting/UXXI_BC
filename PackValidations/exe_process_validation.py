@@ -60,6 +60,7 @@ def exe_process_steps (gl_check_main_process, gl_opcion_process_to_ejecute : int
                 # Podem ter sido enviados eventos para UXXI, por CSV de processo abaixo, que agora tem novos ID's
                 
                 # Dois Tipos de Conector que Procura PROCESSO:
+                
                 # BWP_To_UXXI_Updated" ---> ESTADO "UXXI" 
                 # BWP_To_UXXI_Inserted" ---> ESTADO "UXXI" 
 
@@ -96,7 +97,7 @@ def exe_process_steps (gl_check_main_process, gl_opcion_process_to_ejecute : int
         if gl_opcion_process_to_ejecute == 0:  #PROCESS PLANIFICACION ---> ChecK Data
 
             df_w_loads_insert, df_relacion_plan_modules, df_mod_linea_par_impar = managDataPlan.manage_data_planning_uxxi_steps(gl_name_file_uxxi)
-            updateData.update_data_steps(gl_check_main_process, df_w_loads_insert = df_w_loads_insert,df_relacion_plan_module = df_relacion_plan_modules,
+            updateData.update_data_steps(gl_check_main_process, df_weekload_insert = df_w_loads_insert,df_relacion_plan_module = df_relacion_plan_modules,
                                          df_mod_linea_par_impar = df_mod_linea_par_impar)
 
         if gl_opcion_process_to_ejecute == 1:

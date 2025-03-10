@@ -32,4 +32,4 @@ def get_data_academic_year_search (url : str , header_request : str, controller 
         begin_date = ''
         end_date = ''
      
-    return(event_name_total_records, begin_date, end_date)
+    return( begin_date, end_date)

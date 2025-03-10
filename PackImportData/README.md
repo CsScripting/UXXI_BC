@@ -22,3 +22,5 @@
         A implementação será na tal como em match_id_entities_planning.py para as diferentes entidades !!!
         Pode-se testar alterando valores enquanto executa:
         df.loc[df[v_code_best] == 'G12341', v_code_best ] = 'AV' ##ONLY TO TEST
+
+[ ] Verificar como gerir o caso de fechar ficheiros que tem a informação de Eventos não Inseridos

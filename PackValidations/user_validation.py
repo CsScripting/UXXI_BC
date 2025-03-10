@@ -47,6 +47,7 @@ def user_validation_steps ():
         
 
         # colocar na validação se a chamada é a API ou ao IDentity......para mais tarde....A excepção será a mesma
+        # Verificar metodo abaixo neste momento não retorna nada ...Será para usar?
 
         check_conexion_type = 'API'
         genRequest.get_entity_data(url_api, header_request, v_acad_term_controller)

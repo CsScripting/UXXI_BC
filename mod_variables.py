@@ -1,6 +1,20 @@
 v_version = '0.0'
 
 
+## Excpetion Flags 2 Semester
+
+v_flag_second_semester = True
+v_flag_stop_week_1 = False
+v_flag_stop_week_2 = False
+
+v_center_without_default_week_criteria = ['2','3','6','7']
+v_center_with_default_week_criteria = ['1','5','8']
+
+## Columns to Add to DF where need to apply default Weeks
+
+v_period_default_week_criteria = '2S'
+v_weeks_by_type_default_week_criteria = '20,21,22,23,24,25,26,27,28,29,30,31,32,33'
+
 ## FIXED VALUES FILES
 
 v_file_value_week_par = 'PARES'

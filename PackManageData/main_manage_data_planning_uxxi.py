@@ -106,7 +106,7 @@ def manage_data_planning_uxxi_steps (name_file_inserted : str):
     dataCredUxxi.update_data_to_btt (df_planning_grouped_by_conector)
     
     ## ADD CREDIT MODEL Weeks
-    df_data_import, df_asignatura_sin_model_credit_weeks = dataCredUxxi.add_model_module_credit_section_conector(df_planning_grouped_by_conector, df_model_credits_weeks)
+    df_data_import, df_asignatura_sin_model_credit_weeks = dataCredUxxi.add_model_module_credit_section_conector(df_planning_grouped_by_conector, df_model_credits_weeks, v_flag_second_semester)
     dataUxxi.create_file_validation_module_credits (df_asignatura_sin_model_credit_weeks,v_sheet_section_sin_credit_weeks, process_folder, process_code, v_process_manage_data)
     df_data_import = dataCredUxxi.select_weeks_by_typologie(df_data_import)
     df_data_import, df_data_without_weeks = dataCredUxxi.check_week_typologie_not_null(df_data_import)

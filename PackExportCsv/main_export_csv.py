@@ -48,7 +48,7 @@ def export_csv_steps(academic_year : str, last_date_update : str, first_import):
   events_best = eventRequest.get_events_all(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_event_controller, first_week_schedules, last_week_schedules)
 
   # df_events_best = eventDf.events_df_from_json(events_best)
-  df_events_best = eventDf.parse_list_events_to_df (events_best, process_update=True)
+  df_events_best = eventDf.parse_list_events_to_df (events_best, process_update=True, process_csv=True)
 
   df_events_best = rulesExport.filter_by_acad_year(df_events_best, academic_year)
   df_events_best =  rulesExport.manage_conector_id_parse_to_dict (df_events_best)

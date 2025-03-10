@@ -41,7 +41,7 @@ def add_conector_steps (name_academic_year):
     events_best = eventRequest.get_events_all(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_event_controller, 
                                               glVarProcess.gl_begin_date_acad_year, glVarProcess.gl_end_date_acad_year)
     
-    df_events_best = eventDf.parse_list_events_to_df (events_best, process_update=True)
+    df_events_best = eventDf.parse_list_events_to_df (events_best, process_update=True, process_csv=True)
 
 
     #FILTRAR EVENTOS ADD CONECTOR:

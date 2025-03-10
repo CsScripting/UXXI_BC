@@ -145,7 +145,7 @@ def events_df_from_json(events : list):
     return(df)
 
 
-def parse_list_events_to_df (events : list, process_update = False):
+def parse_list_events_to_df (events : list, process_update = False, process_csv = False):
 
 
     df = DataFrame(events)
@@ -197,16 +197,28 @@ def parse_list_events_to_df (events : list, process_update = False):
     #Typologies
     df[v_mod_id_typologie] = df[v_typologies_event_dto].apply(lambda x: [d[v_id_dto]for d in x])
     df[v_mod_typologie] = df[v_typologies_event_dto].apply(lambda x: [d[v_name_dto] for d in x])
-    # df[v_mod_typologie] = df[v_mod_typologie].transform(lambda x: list(x))  ### NOME PODE TER , 
-    # df[v_mod_id_typologie] = df[v_mod_id_typologie].transform(lambda x: ','.join(map(str, x)))
+
+    if process_csv: ### NECESSARIO USAR PARA CRIAR CSV DE IMPORTAÇÃO  --> Não Pode ser uma lista
+        df[v_mod_typologie] = df[v_mod_typologie].transform(lambda x: list(x))  ### NOME PODE TER , 
+        df[v_mod_typologie] = df[v_mod_typologie].transform(lambda x: ','.join(map(str, x)))
+        # df[v_mod_id_typologie] = df[v_mod_id_typologie].transform(lambda x: ','.join(map(str, x)))
 
     #Classrooms
     df[v_classroom_name] = df[v_classrooms_event_dto].apply(lambda x: [d[v_name_dto] for d in x])
     df[v_classroom_code] = df[v_classrooms_event_dto].apply(lambda x: [d[v_code_dto] for d in x])
     df[v_id_classroom] = df[v_classrooms_event_dto].apply(lambda x: [d[v_id_dto] for d in x])
-    # df[v_classroom_name] = df[v_classroom_name].transform(lambda x: list(x)) ### NOME PODE TER , 
-    # df[v_classroom_code] = df[v_classroom_code].transform(lambda x: list(x)) ### NOME PODE TER , 
-    # df[v_id_classroom] = df[v_id_classroom].transform(lambda x: ','.join(map(str, x)))
+
+
+    
+
+    if process_csv:
+        df[v_classroom_code] = df[v_classroom_code].transform(lambda x: list(x)) ### NOME PODE TER , 
+        df[v_classroom_code] = df[v_classroom_code].transform(lambda x: ','.join(map(str, x)))
+        df[v_classroom_name] = df[v_classroom_name].transform(lambda x: list(x)) ### NOME PODE TER ,
+        df[v_classroom_name] = df[v_classroom_name].transform(lambda x: ','.join(map(str, x)))
+
+        df[v_id_classroom] = df[v_id_classroom].transform(lambda x: ','.join(map(str, x)))
+    
 
     #Student Groups
     df[v_student_group_name] = df[v_groups_event_dto].apply(lambda x: [d[v_name_dto] for d in x])
@@ -299,7 +311,7 @@ def parse_list_events_to_df_from_audit_log (events_dict : list):
 
         df =  rulesExport.manage_conector_id_parse_to_dict (df)
 
-        df = df[df[v_id_db_check_update_uxxi] != 'InvalidConector' ].copy()
+        df = df[df[v_id_uxxi] != 'InvalidConector' ].copy()
 
         df[v_id_db_check_update_uxxi] =  df[v_id_uxxi].apply(lambda x: x.get(v_id_conector_bwp) if x is not None else '')
         df [v_id_db_check_update_uxxi] =  df [v_id_db_check_update_uxxi].transform(lambda x: ','.join(map(str, x)))

@@ -163,8 +163,8 @@ def create_format_csv_uxxi (df : DataFrame, path_folder : str, path_type_folder 
     # End Process When Split Weeks
 
 
-    df[v_week_begin] = df[v_weeks].str.split(',').str[0]
-    df[v_week_end] = df[v_weeks].str.split(',').str[-1]
+    df[v_week_begin] = df[v_weeks].apply(lambda x: x[0])
+    df[v_week_end] = df[v_weeks].apply(lambda x: x[-1])
     df[v_week_begin] = to_datetime(df[v_week_begin], dayfirst = True)
     df[v_week_end] = to_datetime(df[v_week_end], dayfirst = True)
     df[v_week_end] = df[v_week_end] + timedelta(days=5)
