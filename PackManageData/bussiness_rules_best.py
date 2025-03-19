@@ -180,6 +180,24 @@ def insert_name_wload (df : DataFrame):
 
     return (df, df_mod_linea_par_impar)
 
+def insert_name_wload_segun (df : DataFrame):
+
+    prefix_w_load = 'L'
+
+    df_mod_linea_par_impar = DataFrame ()
+
+    df[v_plan_fileconect] = df [v_plan_fileconect].apply(lambda x : x[0])
+    df[v_curso_fileconect] = df [v_curso_fileconect].apply(lambda x : x[0])
+    df[v_plan_linea] = df [v_plan_linea].apply(lambda x : x[0])
+
+    # INSERIDA EXCEPÇÂO DE NOME DE W_LOAD DE ACORDO COM SEMANAS PARES E IMPARES
+    df[v_name_wload] = df[v_plan_fileconect] + '_' + df[v_curso_fileconect] + '_' + prefix_w_load + df[v_plan_linea] + '_' +  df[v_mod_typologie] 
+    
+
+    df.drop(columns=[v_plan_fileconect, v_curso_fileconect], inplace = True)
+
+    return (df, df_mod_linea_par_impar)
+
 
 def agg_section_to_w_load (df : DataFrame):
 

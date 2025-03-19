@@ -99,7 +99,7 @@ def check_planes_modules (df:DataFrame, process_folder : str, process_code : str
 
     return(df)
 
-def group_mutual_modules_plannificacion(df : DataFrame):
+def group_mutual_modules_plannificacion(df : DataFrame, primer_semestre : bool):
 
     series_to_group = [v_cod_act_fileconect,
                        v_cod_grupo_fileconect]
@@ -111,9 +111,17 @@ def group_mutual_modules_plannificacion(df : DataFrame):
                          where(df['PLAN_TYPE'] == 'F','4','5'))))
     
 
-    df['TYPE_COMPARTIDA'] = where(df[v_cred_compartida] == 'COMPARTIDA PRINCIPAL','1',
-                            where(df[v_cred_compartida] == 'COMPARTIDA NO PRINCIPAL ','2',
-                            where(df[v_cred_compartida] == 'NO COMPARTIDA','3','4')))
+    if primer_semestre:
+        df['TYPE_COMPARTIDA'] = where(df[v_cred_compartida] == 'COMPARTIDA PRINCIPAL','1',
+                                where(df[v_cred_compartida] == 'COMPARTIDA NO PRINCIPAL ','2',
+                                 where(df[v_cred_compartida] == 'NO COMPARTIDA','3','4')))
+        
+    
+    else:
+
+        df['TYPE_COMPARTIDA'] = where(df[v_cred_compartida] == 'S','1',
+                                where(df[v_cred_compartida] == 'N ','2',3))
+
                             
     
     df.sort_values(by=['TYPE_COMPARTIDA','PLAN_TYPE_ID', v_curso_fileconect, v_mod_code_fileconect], inplace=True) # ORDENADO PARA MANTER SEMPRE MESMO PLANO DOMINANTE
@@ -750,6 +758,51 @@ def verify_modeles_UXXI_conector(df : DataFrame):
     return(df, df_invalid_model)
 
 
+
+def verify_modeles_UXXI_conector_segun(df : DataFrame):
+
+    df[v_cred_model] = df[v_cred_model].apply (lambda x : set(x) )
+    df[v_cred_model] = df[v_cred_model].apply (lambda x : [value for value in x if value != 'SinModelo'] )
+
+    df[v_cred_credits] = df[v_cred_credits].apply (lambda x : set(x) )
+    df[v_cred_credits] = df[v_cred_credits].apply (lambda x : [value for value in x if value != 'SinModelo'] )
+
+    df['VALIDACION_MODELO'] = df[v_cred_model].apply (lambda x : len(x) )
+
+    df_sin_modelo = df[df['VALIDACION_MODELO'] == 0].copy()
+    df_doble_modelo = df[df['VALIDACION_MODELO'] > 1].copy()
+    df = df[df['VALIDACION_MODELO'] ==  1].copy()
+
+    df_invalid_model = concat([df_sin_modelo, df_doble_modelo], ignore_index= True)
+
+    df_doble_modelo[v_cred_model] = df_doble_modelo[v_cred_model].apply(lambda x: x[0])
+    df_doble_modelo[v_cred_credits] = df_doble_modelo[v_cred_credits].apply(lambda x: x[0])
+    df[v_cred_model] = df[v_cred_model].apply (lambda x : [value for value in x ] ).str.join(',')
+    df[v_cred_credits] = df[v_cred_credits].apply (lambda x : [value for value in x ] ).str.join(',')
+
+    df = concat([df, df_doble_modelo], ignore_index= True)
+
+    df.drop(columns='VALIDACION_MODELO', inplace=True)
+    df_invalid_model.drop(columns='VALIDACION_MODELO', inplace=True)
+
+
+    columns_present = [ v_cred_cod_center,
+                        v_cod_act_fileconect,
+                        v_cod_grupo_fileconect,
+                        v_plan_fileconect,
+                        v_curso_fileconect,
+                        v_mod_code_fileconect,
+                        v_mod_name_fileconect,
+                        v_mod_type_activity_fileconect,
+                        v_grupo_fileconect,
+                        v_cred_model
+                        ]
+
+    df_invalid_model = df_invalid_model[columns_present]
+
+    return(df, df_invalid_model)
+
+
 def add_new_w_load_rest_hours (df : DataFrame): ### NESTE MOMENTO NÂO SE ESTA A APLICAR ESTE METODO ...
 
     df [v_slot_number_rest] = df[v_slot_number_rest].apply(lambda x: x[0])
@@ -974,6 +1027,66 @@ def manage_data_create_xml_file_solapadas_par_impar (df : DataFrame):
     df = manData.group_entities_to_list(df, series_merge,sep=',')
 
     return(df)
+
+
+def filter_expermientales_to_add_w_loads_from_schedules (df : DataFrame):
+
+    df_center_2 = df[df[v_center_plan_dominant] == '2'].copy()
+    df_center_distinct_2 = df[df[v_center_plan_dominant] != '2'].copy()
+
+
+    return(df_center_2, df_center_distinct_2)
+
+
+def add_week_loads_center_2 (df_center_2 : DataFrame, df_w_loads : DataFrame):
+
+    df_w_loads['PLAN_TO_MAP'] = df_w_loads['TITULACION'].str.split(' ').str[0]
+    df_w_loads['DURACION_WL'] = (df_w_loads["DURACION_WL"].astype(float) * 60).astype(int)
+    df_w_loads['SLOTS_WL'] = df_w_loads['DURACION_WL'].apply(lambda x: x / 30)
+    df_w_loads['SLOTS_WL'] = (df_w_loads['SLOTS_WL'].astype(float)).astype(int)
+    df_w_loads['SLOTS_WL'] = df_w_loads['SLOTS_WL'].astype(str)
+
+    df_w_loads = df_w_loads[[v_mod_code,
+                            v_year,
+                            v_student_group,
+                            'PLAN_TO_MAP',
+                            'SLOTS_WL',
+                            'SESSIONES_WL',
+                            'SEMANA_UXXI_WL']].copy()
+    
+    df_w_loads.rename(columns={v_year : 'YEAR_TO_MAP'}, inplace=True)
+    
+    df_center_2['PLAN_TO_MAP'] = df_center_2[v_cred_plan].str[0]
+    df_center_2['YEAR_TO_MAP'] = df_center_2[v_year].str[0]
+
+    values_merge = [v_mod_code,
+                    'YEAR_TO_MAP',
+                    v_student_group,
+                    'PLAN_TO_MAP']
+
+    df_center_2 = merge(left=df_center_2, right = df_w_loads, on = values_merge, how='left', indicator=True)
+
+    df_center_2_valid = df_center_2[df_center_2['_merge'] == 'both'].copy()
+    df_center_2_invalid = df_center_2[df_center_2['_merge'] != 'both'].copy()
+
+
+    df_center_2_valid [v_weeks] = df_center_2_valid['SEMANA_UXXI_WL']
+    df_center_2_valid [v_hours_wload] = df_center_2_valid['SLOTS_WL']
+    df_center_2_valid [v_session_wload] = df_center_2_valid['SESSIONES_WL']
+    df_center_2_valid[v_slot_number_rest] = '0'
+
+    # VALOR DE HORAS ADICIONAIS QUE FALTAVA ATRIBUIR FICA A 0
+
+    df_center_2_valid.drop(columns=['PLAN_TO_MAP', 'YEAR_TO_MAP', 'SLOTS_WL','SESSIONES_WL','SEMANA_UXXI_WL', '_merge'], inplace=True)
+
+    return(df_center_2_valid, df_center_2_invalid)
+
+
+def concat_all_data_center(df_data_center_2 : DataFrame, df_data_center_distinct_2 : DataFrame):
+
+    df_all = concat([df_data_center_2, df_data_center_distinct_2], ignore_index= True)
+
+    return(df_all)
     
 
 

@@ -9,7 +9,7 @@ from mod_variables import *
 
 def planning_import_data_steps(name_folder_process):
 
-    
+    primer_semester = False
 
     #ACADEMIC TERM
     data_academic_term = gl_v_data.gl_data_academic_term
@@ -31,10 +31,12 @@ def planning_import_data_steps(name_folder_process):
     postPlan.iterate_df_plan_mod_and_post(df_relacion_plan_module_ids, id_acad_term)
 
     #READ FILE OVERLAP DISCIPLINAS DE SEMANAS PARES E IMPARES
-    df_modules_overlap = genFiles.read_data_files_import(v_main_folder_process,name_folder_process, v_process_update_data, 
-                                                         v_file_wloads_section_overlap,v_sheet_sectiones_overlap )
-    
-    plannImporFunct.process_section_overlap (df_modules_overlap, v_main_folder_process, name_folder_process ,v_process_import_data)
+
+    if primer_semester:
+        df_modules_overlap = genFiles.read_data_files_import(v_main_folder_process,name_folder_process, v_process_update_data, 
+                                                            v_file_wloads_section_overlap,v_sheet_sectiones_overlap )
+        
+        plannImporFunct.process_section_overlap (df_modules_overlap, v_main_folder_process, name_folder_process ,v_process_import_data)
 
     #WEEKLOADS
     df_wloads = genFiles.read_data_files_import(v_main_folder_process,name_folder_process, v_process_update_data, 
@@ -44,7 +46,7 @@ def planning_import_data_steps(name_folder_process):
     df_sectiones_distinct_hour = df_wloads.copy() ### CRIAR XML DE HORAS DISTINTAS
     plannImporFunct.process_section_distinct_hour(df_sectiones_distinct_hour, v_main_folder_process, name_folder_process ,v_process_import_data) 
 
-    df_wloads = plannImporFunct.add_id_week (df_wloads, int(id_first_week_acad_term))
+    df_wloads = plannImporFunct.add_id_week (df_wloads, int(id_first_week_acad_term), primer=False)
     df_wloads = plannImporFunct.select_w_load_sectiones_to_import(df_wloads)
     df_wloads = idEntiPlann.file_wloads_add_mod_id(df_wloads, df_modules)
     df_wloads = idEntiPlann.file_wloads_add_mod_type_id(df_wloads, df_type_mod)

@@ -91,13 +91,21 @@ def group_modules_plan (df : DataFrame):
 
     return(df_filter)
 
-def add_id_week (df : DataFrame, first_week_id : int):
+def add_id_week (df : DataFrame, first_week_id : int, primer : bool):
+
+    if primer:
+
+        first_value_week = 1
+
+    else:
+
+        first_value_week = 20
 
     df[v_weeks] = df[v_weeks].str.replace('.', ',')
     df[v_weeks] = df[v_weeks].str.replace(', ', ',')
     df[v_weeks] = df[v_weeks].str.replace(', ', ',')
     df[v_weeks] = df[v_weeks].apply(lambda x: x.strip())
-    df[v_weeks] = df [v_weeks].str.split(',').apply(lambda x: [(int(value) + first_week_id - 1 ) for value in x if value != '']) # if NO CASO DE  , NO FIM STRING
+    df[v_weeks] = df [v_weeks].str.split(',').apply(lambda x: [(int(value) + first_week_id - first_value_week ) for value in x if value != '']) # if NO CASO DE  , NO FIM STRING
     df[v_weeks] = df[v_weeks].agg(lambda x: ','.join(map(str, x)))
 
     return(df)

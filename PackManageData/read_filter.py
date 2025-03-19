@@ -121,3 +121,44 @@ def select_columns_to_process_planning( df : DataFrame):
                 v_cod_grupo_fileconect]].copy()
     
     return(df, semestre_planificacion)
+
+
+
+# SECOND_SEMESTER
+
+
+def read_data_file_model_segun_center_1_5_8_xlsx ():
+
+    # Manage values Blank
+    val_null = ['NULL', 'null', '']
+
+    path_file_name = './DataUXXI/2_SEM_CENTROS_1_5_8_CURSO_24_25.v1.xlsx' 
+
+    df = read_excel (path_file_name, 'NuevosCreditos', dtype = 'str', keep_default_na=False, na_values=val_null)
+
+    return(df)
+
+
+def read_data_file_model_segun_center_2_xlsx ():
+
+    # Manage values Blank
+    val_null = ['NULL', 'null', '']
+
+    path_file_name = './DataUXXI/WEEK_LOAD_DATA_EXP_2SEM.xlsx' 
+
+    df = read_excel (path_file_name, 'WLoad_Data', dtype = 'str', keep_default_na=False, na_values=val_null)
+
+    return(df)
+
+
+def read_data_file_model_segun_center_1_cred_3_xlsx ():
+
+    # Manage values Blank
+    val_null = ['NULL', 'null', '']
+
+    path_file_name = './DataUXXI/2_SEM_CENTROS_1_5_8_CURSO_24_25.v1.xlsx' 
+
+    df = read_excel (path_file_name, 'Centro_1_A1_B1_3', dtype = 'str', keep_default_na=False, na_values=val_null)
+
+    return(df)
+
