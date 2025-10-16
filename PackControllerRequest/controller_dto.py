@@ -159,7 +159,7 @@ def create_dto_event (event_data : Series):
         data = {
                 
                 v_name_dto : name_event,
-                v_code_dto : getattr (event_data,v_event_Id_BC),
+                v_name_dto : getattr (event_data,v_event_Id_BC),
                 v_start_time_event_dto : getattr (event_data,v_hourBegin),
                 v_end_time_event_dto :  getattr (event_data,v_hourEnd),
                 v_day_event_dto : getattr (event_data,v_day),
