@@ -102,14 +102,75 @@ def event_type (df_event : DataFrame, df_invalid_events_data : DataFrame):
 
     return (df_event_with_id, df_invalid )
 
+def all_module_id(df_event_with_id :DataFrame, df_horarios_invalid :DataFrame, df_modules_best :DataFrame):
+    
+    # Criar coluna para armazenar todos os IDs de módulos
+    df_event_with_id[v_mod_id_fileconect] = ''
+    df_event_to_iterate = df_event_with_id.copy()
+    
+    # Iterar sobre cada linha do DataFrame
+    for row in df_event_to_iterate.itertuples(index=False):
+        
+        modules_codes = getattr(row, v_mod_code_fileconect)
+        id_event_to_map = getattr(row, v_event_Id_BC)
+        
+        values_id_to_insert = []
+        
+        # Fazer split dos códigos de módulos por '#'
+        if modules_codes and not isnull(modules_codes):
+            module_codes_list = modules_codes.split('#')
+            
+            # Para cada código de módulo, buscar o ID correspondente
+            for module_code in module_codes_list:
+                module_code = module_code.strip()
+                
+                # Buscar o ID do módulo no DataFrame de módulos
+                value_id = df_modules_best.loc[df_modules_best[v_code_best] == module_code, [v_id_best]]
+                
+                if value_id.empty:
+                    # Se não encontrar o ID, adicionar mensagem de erro
+                    values_id_to_insert.append(v_error_id_mod + ' - ' + v_error_id)
+                else:
+                    # Se encontrar, adicionar o ID
+                    values_id_to_insert.append(value_id.iloc[0, 0])
+            
+            # Juntar todos os IDs com '#'
+            values_id_to_insert = [str(i) for i in values_id_to_insert]
+            values_id_to_insert_string = '#'.join(values_id_to_insert)
+            df_event_with_id.loc[df_event_with_id[v_event_Id_BC] == id_event_to_map, v_mod_id_fileconect] = values_id_to_insert_string
+    
+    # Separar registos válidos (todos os IDs encontrados) dos inválidos (algum ID não encontrado)
+    df_event_with_id[v_message_request] = where(df_event_with_id[v_mod_id_fileconect].str.contains(v_error_id_mod, na=False),
+                                                  v_error_id_mod + ' - ' + v_error_id, '1')
+    
+    df_event_valid = df_event_with_id[df_event_with_id[v_message_request] == '1'].copy()
+    df_event_invalid = df_event_with_id[df_event_with_id[v_message_request] == v_error_id_mod + ' - ' + v_error_id].copy()
+    
+    if not df_event_invalid.empty:
+        df_event_invalid[v_code_request] = '404'
+        
+        # Selecionar apenas as colunas necessárias para o DataFrame de inválidos
+        df_event_invalid = df_event_invalid[[v_event_Id_BC, v_mod_name, v_mod_code, v_mod_typologie, v_section_name, v_day,
+                                             v_hourBegin, v_hourEnd, v_duration, v_course_name, v_course_code,
+                                             v_year, v_student_group_name, v_students_number, v_classroom_name, v_id_uxxi, v_weeks, v_event_type,
+                                             v_code_request, v_message_request]].copy()
+        
+        df_horarios_invalid = concat([df_horarios_invalid, df_event_invalid], ignore_index=True)
+    
+    # Remover a coluna auxiliar de mensagem do DataFrame válido
+    df_event_valid.drop(columns=v_message_request, inplace=True)
+    
+    return (df_event_valid, df_horarios_invalid)
 
-
-def module (df_event : DataFrame, df_horarios_invalid : DataFrame):
+def module_dominant (df_event : DataFrame, df_horarios_invalid : DataFrame):
 
     modules_db = genRequest.get_entity_data(gl_v_request.gl_url_api,gl_v_request.gl_header_request, v_module_controller)
     
     flag_need_id = True
     df_modules_best = modDf.parse_list_mod_to_df(modules_db, flag_need_id)
+
+    # Criar cópia do DataFrame de módulos para usar na função all_module_id
+    df_modules_for_all_ids = df_modules_best.copy()
 
     #One event can have more than un one module (Dominant/Dominated)
     
@@ -134,9 +195,13 @@ def module (df_event : DataFrame, df_horarios_invalid : DataFrame):
     df_event_without_id_mod [v_message_request] = v_error_id_mod + ' - ' + v_error_id
     
 
-    df_invalid = concat([df_horarios_invalid, df_event_without_id_mod], ignore_index= True)
 
     df_event_with_id_mod.drop(columns=v_merge, inplace=True)
+
+    # Chamar all_module_id para mapear todos os códigos de módulos
+    df_event_with_id_mod, df_horarios_invalid = all_module_id(df_event_with_id_mod, df_horarios_invalid, df_modules_for_all_ids)
+
+    df_invalid = concat([df_horarios_invalid, df_event_without_id_mod], ignore_index= True)
 
     return (df_event_with_id_mod, df_invalid )
 
@@ -196,31 +261,32 @@ def student_group (df_event : DataFrame, df_horarios_invalid : DataFrame):
         groups_inserted = getattr(row, v_student_group_name)
         id_event_to_map = getattr(row, v_id_event)
 
-        values_id_to_insert = []
-
         groups_by_plan = groups_inserted.split('#')
+        
+        module_groups_ids = []
 
         for i in range(len(groups_by_plan)):
 
-
             name_groups  = groups_by_plan[i].split(',')
+            
+            group_ids_per_module = []
 
             for j in range (len(name_groups)):
-
 
                 value_id = df_st_group_best.loc[df_st_group_best[v_name_best]==name_groups[j], [v_id_best]]
 
                 if value_id.empty:
 
-                    values_id_to_insert.append(v_error_id_group + ' - ' + v_error_id)
+                    group_ids_per_module.append(v_error_id_group + ' - ' + v_error_id)
                 
                 else:
 
-                    values_id_to_insert.append(value_id.iloc[0,0])
+                    group_ids_per_module.append(str(value_id.iloc[0,0]))
 
+            group_ids_per_module_string = ','.join(group_ids_per_module)
+            module_groups_ids.append(group_ids_per_module_string)
 
-        values_id_to_insert = [str(i) for i in values_id_to_insert]
-        values_id_to_insert_string = ','.join(values_id_to_insert)
+        values_id_to_insert_string = '#'.join(module_groups_ids)
         df_event.loc[df_event[v_id_event] == id_event_to_map, v_student_group_id] = values_id_to_insert_string
 
     df_event[v_message_request] = where(df_event[v_student_group_id].str.contains (v_error_id_group, na = False), 

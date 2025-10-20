@@ -115,7 +115,7 @@ def import_data_steps(name_folder_process : str, main_process : str):
 
 
         ## - Modules - ##
-        df_horarios, df_horarios_invalid = idEntities.module (df_horarios, df_horarios_invalid)
+        df_horarios, df_horarios_invalid = idEntities.module_dominant (df_horarios, df_horarios_invalid)
 
         #### Efetuar analise ate ao Import Events
 

@@ -67,7 +67,7 @@ def iterate_df_events_and_put_collection_event (df : DataFrame):
     # POSSIBILIDADE DE TAL COMO EM METODO DE SINGLE EVENT ESCREVER OS EVENTOS QUE FORAM IMPORTADOS --- A DESENVOLVER
     # NO ENTANTO OS EVENTOS SERÃO SEMPRE INSERIDOS, SÓ se EXISTIR ERRO DE CONEXÂO
 
-    number_events_on_collection = 200
+    number_events_on_collection = 500
    
     df = df.applymap(str)
 

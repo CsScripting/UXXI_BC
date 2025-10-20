@@ -106,17 +106,48 @@ def create_dto_event (event_data : Series):
                                   })  
 
         #Manage students Groups
-        st_groups_event = getattr (event_data, v_student_group_id).split(',')
-        list_groups =[]
+        # st_groups_event = getattr (event_data, v_student_group_id).split(',')
+        # list_groups =[]
 
-        for j in range (len(st_groups_event)):
+        # for j in range (len(st_groups_event)):
 
-         list_groups.append(       { 
-                                        "model": {
-                                                "identifier": st_groups_event[j]
-                                                 },
-                                                 "status": 1
-                                  }) 
+        #  list_groups.append(       { 
+        #                                 "model": {
+        #                                         "identifier": st_groups_event[j]
+        #                                          },
+        #                                          "status": 1
+        #                           })
+
+        #Manage students Groups with Modules
+        st_groups_ids = getattr (event_data, v_student_group_id)
+        modules_ids = getattr (event_data, v_mod_id_fileconect)
+        id_uxxi = getattr(event_data, v_id_uxxi)
+        
+        list_groups_modules = []
+        inserted_groups = set()
+        
+        groups_by_module = st_groups_ids.split('#')
+        modules_list = modules_ids.split('#')
+        
+        for i in range(len(modules_list)):
+            module_id = modules_list[i]
+            
+            if i < len(groups_by_module):
+                groups_for_module = groups_by_module[i].split(',')
+                
+                for group_id in groups_for_module:
+                    if group_id:
+                        if group_id not in inserted_groups:
+                            list_groups_modules.append({
+                                "model": {
+                                    "studentGroupId": group_id,
+                                    "moduleId": module_id
+                                },
+                                "status": 1
+                            })
+                            inserted_groups.add(group_id)
+                        else:
+                            print(f"Evento {id_uxxi}: Turma {group_id} ja inserida - ignorando duplicacao com modulo {module_id}") 
 
          #Manage typologies
         typologie = getattr (event_data, v_mod_id_typologie).split(',')
@@ -171,7 +202,8 @@ def create_dto_event (event_data : Series):
                 v_students_number_dto : getattr (event_data,v_students_number),
                 v_event_user_role_dto : [],
                 v_weeks_event_dto: list_weeks,
-                v_groups_event_dto : list_groups,
+                # v_groups_event_dto : list_groups,
+                v_groups_modules_event_dto : list_groups_modules,
                 v_teachers_event_dto : list_teachers,
                 v_classrooms_event_dto : list_classrooms,
                 v_typologies_event_dto : list_typologies,

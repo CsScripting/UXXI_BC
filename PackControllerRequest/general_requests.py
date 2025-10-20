@@ -96,7 +96,7 @@ def put_data_to_entity_collection (url : str , header_request : str, controller 
 
         data_to_present = data_message
 
-        print('INSERTED 200 EVENTS')
+        print('INSERTED 500 EVENTS')
 
     else:
 
